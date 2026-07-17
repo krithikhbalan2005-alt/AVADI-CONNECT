@@ -15,6 +15,8 @@ import {
   MapPin,
   RefreshCw,
   Phone,
+  PhoneCall,
+  PhoneOff,
   Building,
   GraduationCap,
   Wrench,
@@ -39,23 +41,40 @@ export const SOSEmergencyScreen: React.FC = () => {
   const { theme, language } = useApp();
   const [countdown, setCountdown] = useState<number | null>(null);
   const [sent, setSent] = useState(false);
+  const [calling, setCalling] = useState(false);
+  const [callDuration, setCallDuration] = useState(0);
 
   useEffect(() => {
     if (countdown === null) return;
     if (countdown === 0) {
-      setSent(true);
-      const timer = setTimeout(() => {
-        setSent(false);
-        setCountdown(null);
-        navigate('/home');
-      }, 1500);
-      return () => clearTimeout(timer);
+      setCalling(true);
+      setCountdown(null);
+      return;
     }
     const timer = setTimeout(() => {
       setCountdown(countdown - 1);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [countdown, navigate]);
+  }, [countdown]);
+
+  // Call timer simulation
+  useEffect(() => {
+    let interval: any;
+    if (calling) {
+      interval = setInterval(() => {
+        setCallDuration(prev => prev + 1);
+      }, 1000);
+    } else {
+      setCallDuration(0);
+    }
+    return () => clearInterval(interval);
+  }, [calling]);
+
+  const formatDuration = (sec: number) => {
+    const mins = Math.floor(sec / 60);
+    const secs = sec % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleStartSOS = () => {
     setCountdown(3);
@@ -88,7 +107,46 @@ export const SOSEmergencyScreen: React.FC = () => {
       {/* Main SOS button circle area */}
       <div className="flex-1 flex flex-col items-center justify-center text-center py-6">
         
-        {countdown === null && !sent ? (
+        {calling ? (
+          <div className="flex flex-col items-center justify-center text-center animate-fade-in w-full max-w-xs space-y-6">
+            <div className="relative w-36 h-36 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping"></div>
+              <div className="absolute inset-3 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg text-white">
+                <PhoneCall size={48} className="animate-bounce" />
+              </div>
+            </div>
+            
+            <div className="space-y-1">
+              <h3 className="text-md font-black text-emerald-500 tracking-wider uppercase">
+                Calling Emergency Command Room
+              </h3>
+              <p className="text-xl font-bold font-mono tracking-widest text-slate-800 dark:text-white">
+                112 / +91 44 2637 1234
+              </p>
+              <p className="text-xs font-bold text-slate-400 dark:text-neutral-500 font-mono">
+                Duration: {formatDuration(callDuration)}
+              </p>
+            </div>
+
+            <p className="text-[10px] text-slate-450 dark:text-neutral-550 font-bold leading-normal">
+              Sharing live GPS location and medical profile with the nearest rescue dispatch team...
+            </p>
+
+            <button 
+              onClick={() => {
+                setCalling(false);
+                setSent(true);
+                setTimeout(() => {
+                  setSent(false);
+                  navigate('/home');
+                }, 2000);
+              }}
+              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 active:scale-95 transition text-white text-[11px] font-black tracking-widest rounded-full uppercase shadow-md flex items-center gap-2"
+            >
+              <PhoneOff size={14} /> End Call
+            </button>
+          </div>
+        ) : countdown === null && !sent ? (
           <>
             {/* Pulsing button mockup */}
             <div className="relative w-48 h-48 flex items-center justify-center mb-6">

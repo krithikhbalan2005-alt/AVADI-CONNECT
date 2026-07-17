@@ -1420,7 +1420,7 @@ export const ProfileOverviewScreen: React.FC = () => {
       {/* Header */}
       <div className="flex items-center gap-2">
         <button 
-          onClick={() => navigate('/home')}
+          onClick={() => navigate(-1)}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
