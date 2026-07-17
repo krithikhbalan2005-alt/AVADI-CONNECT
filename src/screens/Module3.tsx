@@ -1628,7 +1628,7 @@ export const SettingsScreen: React.FC = () => {
     <div className="flex-1 bg-slate-50 dark:bg-[#121212] p-4 space-y-4 select-none text-xs">
       <div className="flex items-center gap-2 mb-4">
         <button 
-          onClick={() => navigate('/profile')}
+          onClick={() => navigate(-1)}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />

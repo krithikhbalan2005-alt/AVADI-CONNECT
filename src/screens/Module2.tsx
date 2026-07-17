@@ -267,7 +267,7 @@ export const RecentAlertsScreen: React.FC = () => {
         <div className="flex justify-between items-center h-10">
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => navigate('/civic')}
+              onClick={() => navigate(-1)}
               className="p-1 rounded-full text-slate-400 hover:text-primary transition"
             >
               <ChevronLeft size={20} />
@@ -590,7 +590,7 @@ export const LiveUpdatesScreen: React.FC = () => {
         <div className="flex justify-between items-center h-10">
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => navigate('/home')}
+              onClick={() => navigate(-1)}
               className="p-1 rounded-full text-slate-400 hover:text-primary transition"
             >
               <ChevronLeft size={20} />
@@ -686,7 +686,7 @@ export const LanguageSelectionScreen: React.FC = () => {
       {/* Header */}
       <div className="h-10 flex items-center">
         <button 
-          onClick={() => navigate('/profile')}
+          onClick={() => navigate(-1)}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
@@ -803,7 +803,7 @@ export const MyReportedScreen: React.FC = () => {
         <div className="flex justify-between items-center h-10 relative">
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => navigate('/civic')}
+              onClick={() => navigate(-1)}
               className="p-1 rounded-full text-slate-400 hover:text-primary transition"
             >
               <ChevronLeft size={20} />
@@ -1652,7 +1652,7 @@ export const TransportHubScreen: React.FC = () => {
         <div className="flex justify-between items-center h-10">
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => navigate('/home')}
+              onClick={() => navigate(-1)}
               className="p-1 rounded-full text-slate-450 hover:text-primary transition"
             >
               <ChevronLeft size={20} />
