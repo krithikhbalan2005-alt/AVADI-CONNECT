@@ -72,7 +72,7 @@ export const SOSEmergencyScreen: React.FC = () => {
       {/* Header */}
       <div className="h-10 flex justify-between items-center">
         <button 
-          onClick={() => navigate('/home')}
+          onClick={() => navigate(-1)}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
@@ -225,7 +225,7 @@ export const RecentAlertsScreen: React.FC = () => {
             <button
               key={f}
               onClick={() => setActiveFilter(f as any)}
-              className={`px-3 py-1.5 rounded-full transition border uppercase tracking-wider ${
+              className={`px-3 py-1.5 rounded-full transition border uppercase tracking-wider cursor-pointer hover:opacity-90 active:scale-95 ${
                 activeFilter === f 
                   ? 'bg-primary text-white border-primary shadow-xs' 
                   : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-650 dark:text-neutral-300'
@@ -2038,7 +2038,7 @@ export const SearchScreen: React.FC = () => {
         <div className="flex justify-between items-center h-10">
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => navigate('/home')}
+              onClick={() => navigate(-1)}
               className="p-1 rounded-full text-slate-400 hover:text-primary transition"
             >
               <ChevronLeft size={20} />
@@ -2046,7 +2046,7 @@ export const SearchScreen: React.FC = () => {
             <h2 className="text-md font-black">Search</h2>
           </div>
           <button 
-            onClick={() => navigate('/home')}
+            onClick={() => navigate(-1)}
             className="text-xs text-primary font-bold hover:underline"
           >
             Cancel
