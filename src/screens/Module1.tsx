@@ -1288,13 +1288,6 @@ export const CommunityFeedScreen: React.FC = () => {
 
           <div className="flex items-center gap-1.5">
             <button 
-              onClick={() => navigate('/community-feed/create')}
-              title="Create Post"
-              className="px-2.5 py-1 text-white bg-primary hover:bg-primary-dark flex items-center justify-center gap-0.5 font-bold text-[9px] rounded-full shadow-md transition"
-            >
-              ➕ <span>Post</span>
-            </button>
-            <button 
               onClick={() => navigate('/community')}
               title="Community Hub"
               className="p-1.5 text-slate-400 hover:text-primary flex items-center justify-center gap-0.5 font-bold text-[9px] border border-slate-200 dark:border-neutral-800 rounded-full"
