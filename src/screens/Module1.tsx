@@ -278,7 +278,7 @@ export const WardSelectionScreen: React.FC = () => {
     { area: 'Avadi West', desc: 'HVF Estate, Military Area', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=120' },
     { area: 'Thirumullaivoyal', desc: 'Shanthi Nagar, Thirumullaivoyal', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=120' },
     { area: 'Mittanamalli', desc: 'Defense Enclave, Mittanamalli', img: 'https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Muthapudupet', desc: 'IAF Campus, Muthapudupet', img: 'https://images.unsplash.com/photo-1623945350405-c49b6b772c72?auto=format&fit=crop&q=80&w=120' },
+    { area: 'Muthapudupet', desc: 'IAF Campus, Muthapudupet', img: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=120' },
     { area: 'Sekkadu', desc: 'Sekkadu Main Road, Avadi', img: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=80&w=120' }
   ];
 
@@ -345,45 +345,48 @@ export const WardSelectionScreen: React.FC = () => {
 
         {/* Ward Cards List container */}
         <div className="space-y-2.5 mt-5 overflow-y-auto max-h-[420px] pr-1">
-          {filteredWards.map((w) => (
-            <button
-              key={w.name}
-              onClick={() => setSelectedWard(`${w.name} - ${w.sub}`)}
-              className={`w-full text-left p-3.5 rounded-card border transition flex items-center justify-between shadow-2xs hover:scale-[1.005] duration-150 ${
-                selectedWard.includes(w.name)
-                  ? 'bg-primary/5 border-primary shadow-xs'
-                  : 'bg-white dark:bg-neutral-900 border-slate-150 dark:border-neutral-800'
-              }`}
-            >
-              <div className="flex items-center gap-3.5">
-                {/* Ward Thumbnail from Sliced Design Board Assets */}
-                <div className={`w-11 h-11 rounded-xl overflow-hidden shadow-2xs border flex items-center justify-center bg-slate-100 dark:bg-neutral-900 ${
-                  selectedWard.includes(w.name) 
-                    ? 'border-primary/40' 
-                    : 'border-slate-100 dark:border-neutral-850'
-                }`}>
-                  <img src={w.img} alt={w.name} className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className={`text-xs font-bold ${
-                    selectedWard.includes(w.name) ? 'text-primary' : 'text-slate-800 dark:text-white'
+          {filteredWards.map((w) => {
+            const isSelected = selectedWard === `${w.name} - ${w.sub}`;
+            return (
+              <button
+                key={w.name}
+                onClick={() => setSelectedWard(`${w.name} - ${w.sub}`)}
+                className={`w-full text-left p-3.5 rounded-card border transition flex items-center justify-between shadow-2xs hover:scale-[1.005] duration-150 ${
+                  isSelected
+                    ? 'bg-primary/5 border-primary shadow-xs'
+                    : 'bg-white dark:bg-neutral-900 border-slate-150 dark:border-neutral-800'
+                }`}
+              >
+                <div className="flex items-center gap-3.5">
+                  {/* Ward Thumbnail from Sliced Design Board Assets */}
+                  <div className={`w-11 h-11 rounded-xl overflow-hidden shadow-2xs border flex items-center justify-center bg-slate-100 dark:bg-neutral-900 ${
+                    isSelected 
+                      ? 'border-primary/40' 
+                      : 'border-slate-100 dark:border-neutral-850'
                   }`}>
-                    {w.name}
-                  </h4>
-                  <p className="text-[10px] font-bold text-slate-400 dark:text-neutral-500 mt-0.5">{w.sub}</p>
+                    <img src={w.img} alt={w.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h4 className={`text-xs font-bold ${
+                      isSelected ? 'text-primary' : 'text-slate-800 dark:text-white'
+                    }`}>
+                      {w.name}
+                    </h4>
+                    <p className="text-[10px] font-bold text-slate-400 dark:text-neutral-500 mt-0.5">{w.sub}</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Radio Circle Selector indicator */}
-              <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                selectedWard.includes(w.name) 
-                  ? 'border-primary bg-primary text-white scale-110 shadow-xs' 
-                  : 'border-slate-355 dark:border-neutral-700 bg-white dark:bg-neutral-950'
-              } transition-transform duration-200`}>
-                {selectedWard.includes(w.name) && <Check size={12} strokeWidth={3.5} />}
-              </div>
-            </button>
-          ))}
+                {/* Radio Circle Selector indicator */}
+                <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                  isSelected 
+                    ? 'border-primary bg-primary text-white scale-110 shadow-xs' 
+                    : 'border-slate-355 dark:border-neutral-700 bg-white dark:bg-neutral-950'
+                } transition-transform duration-200`}>
+                  {isSelected && <Check size={12} strokeWidth={3.5} />}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -1231,13 +1234,9 @@ export const HomeDashboardScreen: React.FC = () => {
 // ==========================================
 export const CommunityFeedScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme } = useApp();
+  const { theme, communityPosts, profile } = useApp();
   const [activeTab, setActiveTab] = useState<'foryou' | 'following' | 'nearby'>('foryou');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const potholeSrc = theme === 'dark' 
-    ? "/assets/images/pothole-post-dark.png" 
-    : "/assets/images/pothole-post.png";
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
@@ -1245,7 +1244,7 @@ export const CommunityFeedScreen: React.FC = () => {
   };
 
   return (
-    <div className={`flex-1 flex flex-col justify-between relative select-none ${
+    <div className={`flex-grow flex flex-col justify-between relative select-none ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scroll Area */}
@@ -1287,7 +1286,14 @@ export const CommunityFeedScreen: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <button 
+              onClick={() => navigate('/community-feed/create')}
+              title="Create Post"
+              className="px-2.5 py-1 text-white bg-primary hover:bg-primary-dark flex items-center justify-center gap-0.5 font-bold text-[9px] rounded-full shadow-md transition"
+            >
+              ➕ <span>Post</span>
+            </button>
             <button 
               onClick={() => navigate('/community')}
               title="Community Hub"
@@ -1306,126 +1312,106 @@ export const CommunityFeedScreen: React.FC = () => {
 
         {/* Feed Posts list */}
         <div className="space-y-4">
-          
-          {/* Post 1 (With Image) */}
-          <div className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
-          }`}>
-            {/* Profile Info */}
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2.5">
-                <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=60" 
-                  alt="Ramesh Kumar Avatar" 
-                  className="w-9 h-9 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="text-xs font-bold">Ramesh Kumar</h4>
-                  <p className="text-[10px] text-slate-400 dark:text-neutral-500">Avadi North, P&T Colony</p>
-                </div>
-              </div>
-              <span className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">2h</span>
+          {/* "What's on your mind?" Create Post trigger card */}
+          <div 
+            onClick={() => navigate('/community-feed/create')}
+            className={`p-3 rounded-card border shadow-2xs flex items-center gap-3.5 cursor-pointer hover:scale-[1.005] duration-150 ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+            }`}
+          >
+            <img 
+              src={profile.avatar} 
+              alt="My Profile Avatar" 
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            <div className="flex-grow py-2 px-4 rounded-full bg-slate-100 dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 font-semibold text-[10px] border border-slate-200 dark:border-neutral-800/80">
+              Share something with Avadi residents...
             </div>
-
-            {/* Post Description */}
-            <p className="text-xs leading-relaxed font-semibold">
-              Pothole near 5th Avenue main road. Please take action.
-            </p>
-
-            {/* Post Media */}
-            <div className="rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-neutral-900 bg-slate-50 dark:bg-neutral-950">
-              <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=400" alt="Pothole on 5th Avenue" className="w-full h-full object-cover" />
-            </div>
-
-            {/* Actions Bar */}
-            <div className="flex justify-between items-center text-slate-400 dark:text-neutral-500 text-xs border-t border-slate-100 dark:border-neutral-900/60 pt-2">
-              <button 
-                onClick={() => triggerToast("Liked Post")}
-                className="flex items-center gap-1.5 hover:text-red-500 active:scale-95 transition"
-              >
-                <HeartIcon size={14} className="fill-red-500 text-red-500" />
-                <span className="font-extrabold text-[10px] text-red-500">23</span>
-              </button>
-              <button 
-                onClick={() => triggerToast("Comments Locked")}
-                className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
-              >
-                <MessageSquare size={14} />
-                <span className="font-bold text-[10px]">5</span>
-              </button>
-              <button 
-                onClick={() => triggerToast("Link Copied")}
-                className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
-              >
-                <Share2 size={14} />
-                <span className="font-bold text-[10px]">Share</span>
-              </button>
-              <button 
-                onClick={() => triggerToast("Saved to Bookmarks")}
-                className="p-1 hover:text-primary transition"
-              >
-                <Bookmark size={14} />
-              </button>
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <Plus size={16} strokeWidth={3} />
             </div>
           </div>
 
-          {/* Post 2 (Text Only) */}
-          <div className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
-          }`}>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2.5">
-                <img 
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=60" 
-                  alt="Priya Avatar" 
-                  className="w-9 h-9 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="text-xs font-bold">Priya S</h4>
-                  <p className="text-[10px] text-slate-400 dark:text-neutral-500">Avadi South</p>
+          {communityPosts.map((post) => (
+            <div 
+              key={post.id}
+              onClick={() => navigate(`/community-feed/post/${post.id}`)}
+              className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 cursor-pointer hover:scale-[1.005] duration-150 ${
+                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Profile Info */}
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2.5">
+                  <img 
+                    src={post.avatar} 
+                    alt={`${post.author} Avatar`} 
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 className="text-xs font-bold">{post.author}</h4>
+                    <p className="text-[10px] text-slate-400 dark:text-neutral-500">{post.category || 'General'}</p>
+                  </div>
                 </div>
+                <span className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">{post.time}</span>
               </div>
-              <span className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">4h</span>
+
+              {/* Post Description */}
+              <p className="text-xs leading-relaxed font-semibold">
+                {post.content}
+              </p>
+
+              {/* Post Media */}
+              {post.image && (
+                <div className="rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-neutral-900 bg-slate-50 dark:bg-neutral-950">
+                  <img src={post.image} alt="Post Attachment" className="w-full h-full object-cover" />
+                </div>
+              )}
+
+              {/* Actions Bar */}
+              <div className="flex justify-between items-center text-slate-400 dark:text-neutral-500 text-xs border-t border-slate-100 dark:border-neutral-900/60 pt-2" onClick={(e) => e.stopPropagation()}>
+                <button 
+                  onClick={() => triggerToast("Liked Post")}
+                  className="flex items-center gap-1.5 hover:text-red-500 active:scale-95 transition"
+                >
+                  <HeartIcon size={14} className={post.likes > 0 ? "fill-red-500 text-red-500" : ""} />
+                  <span className={`font-extrabold text-[10px] ${post.likes > 0 ? "text-red-500" : ""}`}>{post.likes}</span>
+                </button>
+                <button 
+                  onClick={() => navigate(`/community-feed/post/${post.id}`)}
+                  className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
+                >
+                  <MessageSquare size={14} />
+                  <span className="font-bold text-[10px]">{post.commentsCount}</span>
+                </button>
+                <button 
+                  onClick={() => triggerToast("Link Copied")}
+                  className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
+                >
+                  <Share2 size={14} />
+                  <span className="font-bold text-[10px]">Share</span>
+                </button>
+                <button 
+                  onClick={() => triggerToast("Saved to Bookmarks")}
+                  className="p-1 hover:text-primary transition"
+                >
+                  <Bookmark size={14} />
+                </button>
+              </div>
             </div>
-
-            <p className="text-xs leading-relaxed font-semibold">
-              Tree fallen near school area.
-            </p>
-
-            <div className="flex justify-between items-center text-slate-400 dark:text-neutral-500 text-xs border-t border-slate-100 dark:border-neutral-900/60 pt-2">
-              <button 
-                onClick={() => triggerToast("Liked Post")}
-                className="flex items-center gap-1.5 hover:text-red-500 active:scale-95 transition"
-              >
-                <HeartIcon size={14} />
-                <span className="font-bold text-[10px]">12</span>
-              </button>
-              <button 
-                onClick={() => triggerToast("Comments Locked")}
-                className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
-              >
-                <MessageSquare size={14} />
-                <span className="font-bold text-[10px]">2</span>
-              </button>
-              <button 
-                onClick={() => triggerToast("Link Copied")}
-                className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
-              >
-                <Share2 size={14} />
-                <span className="font-bold text-[10px]">Share</span>
-              </button>
-              <button 
-                onClick={() => triggerToast("Saved to Bookmarks")}
-                className="p-1 hover:text-primary transition"
-              >
-                <Bookmark size={14} />
-              </button>
-            </div>
-          </div>
-
+          ))}
         </div>
 
       </div>
+
+      {/* Floating Action Button (FAB) for writing a new post */}
+      <button
+        onClick={() => navigate('/community-feed/create')}
+        aria-label="Create new feed post"
+        className="absolute bottom-20 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-primary to-[#5b7eff] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition z-40"
+      >
+        <Plus size={22} strokeWidth={2.5} />
+      </button>
 
       {/* Sticky Bottom Navigation (MD3 style) */}
       <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${

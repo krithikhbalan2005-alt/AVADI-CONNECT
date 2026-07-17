@@ -2617,12 +2617,35 @@ export const CommunityPostCreateScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme, addCommunityPost } = useApp();
   const [content, setContent] = useState('');
+  const [category, setCategory] = useState('General');
+  const [imageUrl, setImageUrl] = useState('');
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
+
+  const presets = [
+    { label: '🕳️ Pothole', url: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400' },
+    { label: '🌳 Fallen Tree', url: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=400' },
+    { label: '🗑️ Garbage', url: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&q=80&w=400' },
+    { label: '💡 Street Light', url: 'https://images.unsplash.com/photo-1509024644558-2f56ce76c490?auto=format&fit=crop&q=80&w=400' },
+    { label: '🤝 Community', url: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400' }
+  ];
+
+  const categories = ['General', 'Road Infrastructure', 'Safety', 'Cleanliness', 'Water Supply', 'Community Event'];
 
   const handlePublish = (e: React.FormEvent) => {
     e.preventDefault();
     if (content.trim()) {
-      addCommunityPost(content, undefined, 'General');
+      addCommunityPost(content, imageUrl || undefined, category);
       navigate('/community-feed');
+    }
+  };
+
+  const handleSelectPreset = (url: string, label: string) => {
+    if (selectedPreset === label) {
+      setSelectedPreset(null);
+      setImageUrl('');
+    } else {
+      setSelectedPreset(label);
+      setImageUrl(url);
     }
   };
 
@@ -2642,22 +2665,100 @@ export const CommunityPostCreateScreen: React.FC = () => {
         </div>
 
         <form onSubmit={handlePublish} className="space-y-4">
+          {/* Post Description */}
           <div>
             <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase">Share with Ward Residents</label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="What is happening in your neighbourhood? Share events, issues or local news..."
-              className="w-full min-h-[140px] p-3.5 text-xs bg-white dark:bg-neutral-900 border border-slate-205 dark:border-neutral-805 rounded-2xl focus:outline-none focus:border-primary text-slate-800 dark:text-white resize-none font-medium leading-relaxed"
+              className="w-full min-h-[120px] p-3.5 text-xs bg-white dark:bg-neutral-900 border border-slate-205 dark:border-neutral-805 rounded-2xl focus:outline-none focus:border-primary text-slate-800 dark:text-white resize-none font-medium leading-relaxed"
               required
               autoFocus
             ></textarea>
           </div>
 
+          {/* Category selection */}
+          <div>
+            <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase">Post Category</label>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setCategory(cat)}
+                  className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all ${
+                    category === cat
+                      ? 'bg-primary border-primary text-white shadow-2xs'
+                      : 'bg-white dark:bg-neutral-900 border-slate-205 dark:border-neutral-805 text-slate-500'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Preset Images Attachment */}
+          <div>
+            <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase">Attach Neighborhood Image</label>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {presets.map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => handleSelectPreset(preset.url, preset.label)}
+                  className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all ${
+                    selectedPreset === preset.label
+                      ? 'bg-accent border-accent text-white shadow-2xs'
+                      : 'bg-white dark:bg-neutral-900 border-slate-205 dark:border-neutral-805 text-slate-500'
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Custom Image URL Option */}
+            <div className="space-y-1.5">
+              <span className="text-[9px] font-bold text-slate-400 block uppercase">Or paste Custom Image URL</span>
+              <input
+                type="url"
+                value={imageUrl}
+                onChange={(e) => {
+                  setImageUrl(e.target.value);
+                  setSelectedPreset(null);
+                }}
+                placeholder="https://example.com/image.jpg"
+                className="w-full p-3 bg-white dark:bg-neutral-900 border border-slate-205 dark:border-neutral-805 rounded-xl text-xs focus:outline-none focus:border-primary text-slate-800 dark:text-white font-medium"
+              />
+            </div>
+          </div>
+
+          {/* Image Preview */}
+          {imageUrl && (
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-bold text-slate-400 block uppercase">Image Preview</span>
+              <div className="rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-neutral-800 bg-slate-100 dark:bg-neutral-950 relative">
+                <img src={imageUrl} alt="Attached Preview" className="w-full h-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImageUrl('');
+                    setSelectedPreset(null);
+                  }}
+                  className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition font-bold"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          )}
+
           <button 
             type="submit"
             disabled={!content.trim()}
-            className="w-full py-4 bg-primary text-white font-bold rounded-btn shadow-md hover:bg-primary-dark transition active:scale-95 disabled:opacity-50 text-xs"
+            className="w-full py-4 bg-primary text-white font-bold rounded-btn shadow-md hover:bg-primary-dark transition active:scale-95 disabled:opacity-50 text-xs mt-2"
           >
             Publish Post
           </button>

@@ -426,7 +426,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [language, setLanguage] = useState<Language>('en');
-  const [selectedWard, setSelectedWard] = useState<string>('Ward 1 - Avadi North');
+  const [selectedWard, setSelectedWardState] = useState<string>('Ward 1 - Avadi North');
   const [sosActive, setSosActive] = useState<boolean>(false);
   const [reviewerMode, setReviewerMode] = useState<boolean>(true); // Enabled by default for easy review, but hidden inside settings
 
@@ -439,6 +439,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     address: "No. 15, 2nd Main Road, Avadi, Chennai - 600054",
     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200"
   });
+
+  const setSelectedWard = (ward: string) => {
+    setSelectedWardState(ward);
+    setProfile(prev => ({ ...prev, ward }));
+  };
 
   const updateProfile = (updated: Partial<typeof profile>) => {
     setProfile(prev => ({ ...prev, ...updated }));
