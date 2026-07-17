@@ -1584,7 +1584,10 @@ export const NoticesScreen: React.FC = () => {
           <span className="text-[9px] font-bold mt-1">Home</span>
         </button>
 
-        <button className="flex flex-col items-center justify-center flex-1 text-primary">
+        <button 
+          onClick={() => navigate('/civic')}
+          className="flex flex-col items-center justify-center flex-1 text-primary"
+        >
           <div className="px-5 py-1 bg-primary/10 rounded-full flex items-center justify-center">
             <span className="text-md">🏛️</span>
           </div>
@@ -1592,7 +1595,7 @@ export const NoticesScreen: React.FC = () => {
         </button>
 
         <button 
-          onClick={() => navigate('/services')} 
+          onClick={() => navigate('/explore')} 
           className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
         >
           <div className="px-5 py-1 rounded-full flex items-center justify-center">
@@ -1602,13 +1605,13 @@ export const NoticesScreen: React.FC = () => {
         </button>
 
         <button 
-          onClick={() => navigate('/community')}
+          onClick={() => navigate('/community-feed')}
           className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
         >
           <div className="px-5 py-1 rounded-full flex items-center justify-center">
             <span className="text-md text-slate-500">👥</span>
           </div>
-          <span className="text-[9px] font-bold mt-1">Community</span>
+          <span className="text-[9px] font-bold mt-1">Feed</span>
         </button>
       </div>
 

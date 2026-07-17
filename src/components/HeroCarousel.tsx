@@ -31,7 +31,7 @@ export const HeroCarousel: React.FC = () => {
       title: 'Report Civic Issues Quickly',
       sub: 'Resolve neighborhood problems in 3 simple steps',
       img: '/assets/images/banners/civic-report-banner.webp',
-      route: '/report-issue/step1',
+      route: '/complaints/camera',
       actionText: 'Report Now',
     },
     {
