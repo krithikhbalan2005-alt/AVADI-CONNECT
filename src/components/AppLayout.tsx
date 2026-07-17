@@ -163,7 +163,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           <div className="space-y-1">
             {allScreens.map(s => (
               <button
-                key={s.num}
+                key={`${s.num}-${s.name}`}
                 onClick={() => {
                   if ('forceTheme' in s && s.forceTheme) {
                     setTheme(s.forceTheme as 'light' | 'dark');
