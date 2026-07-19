@@ -49,7 +49,12 @@ import {
   HomeDashboardScreenVariant1,
   CommunityFeedScreenVariant2,
   LocalServicesScreenVariant3,
-  MerchantsPageScreen
+  MerchantsPageScreen,
+  SearchResultsScreen,
+  CategoryFilterScreen,
+  CityFilterScreen,
+  ListViewToggleScreen,
+  MapViewScreen
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -538,6 +543,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <MerchantsPageScreen />
+          </motion.div>
+        } />
+
+        <Route path="/search-results" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <SearchResultsScreen />
+          </motion.div>
+        } />
+
+        <Route path="/search/category" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CategoryFilterScreen />
+          </motion.div>
+        } />
+
+        <Route path="/search/city" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CityFilterScreen />
+          </motion.div>
+        } />
+
+        <Route path="/search/list-view" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ListViewToggleScreen />
+          </motion.div>
+        } />
+
+        <Route path="/search/map-view" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <MapViewScreen />
           </motion.div>
         } />
         

@@ -2584,3 +2584,517 @@ export const MerchantsPageScreen: React.FC = () => {
     </div>
   );
 };
+
+// ==========================================
+// 41. SEARCH RESULTS
+// ==========================================
+export const SearchResultsScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const places = [
+    {
+      name: 'Murugan Temple',
+      sub: 'Ward 2 • 2.3 km',
+      rating: '★ 4.6',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Avadi Market',
+      sub: 'Ward 1 • 1.2 km',
+      rating: '★ 4.2',
+      image: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400'
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <div className="flex-grow relative">
+            <input
+              type="text"
+              placeholder="Search places..."
+              className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              }`}
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+          </div>
+          <button className="p-1.5 border rounded-lg text-slate-450"><span className="text-xs">⊶</span></button>
+        </div>
+
+        {/* Tags */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['all', 'destination', 'shopping', 'parks'].map((tag, idx) => (
+            <button
+              key={idx}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                idx === 0
+                  ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Cards List */}
+        <div className="space-y-4">
+          {places.map((place, i) => (
+            <div
+              key={i}
+              className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Image banner */}
+              <div className="aspect-video w-full relative">
+                <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+                <button className="absolute top-3 right-3 text-white text-base">🤍</button>
+              </div>
+
+              {/* Body */}
+              <div className="p-4 space-y-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-xs font-extrabold">{place.name}</h4>
+                    <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 font-bold">{place.sub}</p>
+                  </div>
+                  <span className="text-[10px] font-black text-amber-500">{place.rating}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 42. CATEGORY FILTER
+// ==========================================
+export const CategoryFilterScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const places = [
+    {
+      name: 'Murugan Temple',
+      sub: 'Ward 2 • 2.3 km',
+      rating: '★ 4.6',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Avadi Market',
+      sub: 'Ward 1 • 1.2 km',
+      rating: '★ 4.2',
+      image: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400'
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <div className="flex-grow relative">
+            <input
+              type="text"
+              placeholder="Search places..."
+              className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              }`}
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+          </div>
+          <button className="p-1.5 border rounded-lg text-slate-450"><span className="text-xs">⊶</span></button>
+        </div>
+
+        {/* Tags */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['all', 'destination', 'shopping', 'parks'].map((tag, idx) => (
+            <button
+              key={idx}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                idx === 1
+                  ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Cards List */}
+        <div className="space-y-4">
+          {places.map((place, i) => (
+            <div
+              key={i}
+              className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Image banner */}
+              <div className="aspect-video w-full relative">
+                <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+                <button className="absolute top-3 right-3 text-white text-base">🤍</button>
+              </div>
+
+              {/* Body */}
+              <div className="p-4 space-y-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-xs font-extrabold">{place.name}</h4>
+                    <p className="text-[9px] text-slate-405 dark:text-neutral-505 mt-0.5 font-bold">{place.sub}</p>
+                  </div>
+                  <span className="text-[10px] font-black text-amber-500">{place.rating}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-405"><span className="text-md">🏠</span><span>Home</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 43. CITY FILTER
+// ==========================================
+export const CityFilterScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const places = [
+    {
+      name: 'Murugan Temple',
+      sub: 'Ward 2 • 2.3 km',
+      rating: '★ 4.6',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Avadi Market',
+      sub: 'Ward 1 • 1.2 km',
+      rating: '★ 4.2',
+      image: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400'
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <div className="flex-grow relative">
+            <input
+              type="text"
+              placeholder="Search places..."
+              className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              }`}
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+          </div>
+          <button className="p-1.5 border rounded-lg text-slate-450"><span className="text-xs">⊶</span></button>
+        </div>
+
+        {/* Dropdown Location Selector */}
+        <div className={`p-3.5 rounded-xl border flex justify-between items-center text-[10.5px] font-extrabold shadow-3xs cursor-pointer ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+        }`}>
+          <div className="flex items-center gap-2.5">
+            <span>📍</span>
+            <span>Avadi</span>
+          </div>
+          <span className="text-slate-400 text-xs">▼</span>
+        </div>
+
+        {/* Cards List */}
+        <div className="space-y-4">
+          {places.map((place, i) => (
+            <div
+              key={i}
+              className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Image banner */}
+              <div className="aspect-video w-full relative">
+                <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+                <button className="absolute top-3 right-3 text-white text-base">🤍</button>
+              </div>
+
+              {/* Body */}
+              <div className="p-4 space-y-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-xs font-extrabold">{place.name}</h4>
+                    <p className="text-[9px] text-slate-405 dark:text-neutral-505 mt-0.5 font-bold">{place.sub}</p>
+                  </div>
+                  <span className="text-[10px] font-black text-amber-500">{place.rating}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450"><span className="text-md">🏠</span><span>Home</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 44. LIST VIEW TOGGLE
+// ==========================================
+export const ListViewToggleScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const listItems = [
+    { name: 'Murugan Temple', sub: 'Ward 2 • 2.3 km', rating: '★ 4.6' },
+    { name: 'Avadi Market', sub: 'Ward 1 • 1.2 km', rating: '★ 4.2' },
+    { name: 'Pattabiram Lake', sub: 'Ward 5 • 3.1 km', rating: '★ 4.4' },
+    { name: 'Avadi Bus Stand', sub: 'Ward 1 • 1.8 km', rating: '★ 4.0' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <div className="flex-grow relative">
+            <input
+              type="text"
+              placeholder="Search places..."
+              className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              }`}
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+          </div>
+          <button className="p-1.5 border rounded-lg text-slate-450"><span className="text-xs">⊶</span></button>
+        </div>
+
+        {/* Tags */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['all', 'destination', 'shopping', 'parks'].map((tag, idx) => (
+            <button
+              key={idx}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                idx === 0
+                  ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Toggle Row */}
+        <div className="flex justify-end items-center gap-2">
+          <button className="p-1.5 rounded border text-slate-400">▦</button>
+          <button className="p-1.5 rounded border bg-[#4A3AFF] text-white">▤</button>
+        </div>
+
+        {/* List of items */}
+        <div className="space-y-3">
+          {listItems.map((item, i) => (
+            <div
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center gap-3.5 ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex gap-3 items-center">
+                {/* Thumbnail */}
+                <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=150" alt="Thumb" className="w-full h-full object-cover" />
+                </div>
+                {/* Info */}
+                <div className="space-y-0.5 leading-tight text-left">
+                  <h4 className="text-[11px] font-extrabold">{item.name}</h4>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-505 font-semibold">{item.sub}</p>
+                  <p className="text-[9px] font-black text-amber-500 mt-0.5">{item.rating}</p>
+                </div>
+              </div>
+
+              {/* Heart outline icon */}
+              <button className="text-slate-400 text-base">🤍</button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450"><span className="text-md">🏠</span><span>Home</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 45. MAP VIEW SCREEN
+// ==========================================
+export const MapViewScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area / Map Container */}
+      <div className="flex-grow overflow-hidden flex flex-col relative pb-20">
+        
+        {/* Header Search overlay */}
+        <div className="absolute top-5 left-0 w-full px-5 z-20 space-y-4">
+          <div className="flex items-center gap-2">
+            <div className="flex-grow relative">
+              <input
+                type="text"
+                placeholder="Search places..."
+                className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border shadow-md focus:outline-none ${
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              />
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+            </div>
+            <button className="p-1.5 border rounded-lg bg-white dark:bg-neutral-900 shadow-md text-slate-450"><span className="text-xs">⊶</span></button>
+          </div>
+
+          {/* Tags */}
+          <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+            {['all', 'destination', 'shopping', 'parks'].map((tag, idx) => (
+              <button
+                key={idx}
+                className={`px-3.5 py-1.5 rounded-full border shadow-md uppercase tracking-wider shrink-0 transition ${
+                  idx === 0
+                    ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white'
+                    : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150'
+                }`}
+              >
+                {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Map Background grid mock */}
+        <div className={`w-full h-full relative ${
+          theme === 'dark' ? 'bg-neutral-950' : 'bg-[#E5E9F0]'
+        }`}>
+          {/* Mock Street Grid illustration lines */}
+          <div className="absolute inset-0 opacity-20 border-[8px] border-dashed border-slate-400/40 grid grid-cols-4 grid-rows-6" />
+
+          {/* Marker 1: Avadi New Bus Stand */}
+          <div className="absolute top-[30%] left-[20%] flex flex-col items-center">
+            <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-lg text-sm border-2 border-white">🚌</div>
+            <div className="px-2 py-0.5 bg-white dark:bg-neutral-900 text-[7.5px] font-black rounded border mt-1 shadow-md">
+              <p className="leading-none text-slate-700 dark:text-white">Avadi</p>
+              <p className="leading-none text-slate-400 mt-0.5 font-bold">New Bus Stand</p>
+            </div>
+          </div>
+
+          {/* Marker 2: Murugan Temple */}
+          <div className="absolute top-[40%] right-[25%] flex flex-col items-center">
+            <div className="w-8 h-8 rounded-full bg-red-650 text-white flex items-center justify-center shadow-lg text-sm border-2 border-white">🏠</div>
+            <div className="px-2 py-0.5 bg-white dark:bg-neutral-900 text-[7.5px] font-black rounded border mt-1 shadow-md text-slate-700 dark:text-white">
+              Murugan Temple
+            </div>
+          </div>
+
+          {/* Marker 3: Avadi Market */}
+          <div className="absolute bottom-[40%] left-[30%] flex flex-col items-center">
+            <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg text-sm border-2 border-white">🛒</div>
+            <div className="px-2 py-0.5 bg-white dark:bg-neutral-900 text-[7.5px] font-black rounded border mt-1 shadow-md">
+              <p className="leading-none text-slate-700 dark:text-white">Avadi</p>
+              <p className="leading-none text-slate-400 mt-0.5 font-bold">Market</p>
+            </div>
+          </div>
+
+          {/* Marker 4: Pattabiram Lake */}
+          <div className="absolute bottom-[30%] right-[30%] flex flex-col items-center">
+            <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center shadow-lg text-sm border-2 border-white">🌳</div>
+            <div className="px-2 py-0.5 bg-white dark:bg-neutral-900 text-[7.5px] font-black rounded border mt-1 shadow-md">
+              <p className="leading-none text-slate-700 dark:text-white">Pattabiram</p>
+              <p className="leading-none text-slate-400 mt-0.5 font-bold">Lake</p>
+            </div>
+          </div>
+
+          {/* Floating location targets button */}
+          <button className="absolute bottom-24 right-5 w-10 h-10 rounded-full bg-white dark:bg-neutral-900 flex items-center justify-center shadow-lg text-slate-650 z-20 border border-slate-100">
+            🎯
+          </button>
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450"><span className="text-md">🏠</span><span>Home</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};

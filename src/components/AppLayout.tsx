@@ -67,7 +67,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { num: 37, name: "37. Home Dashboard (v2)", path: "/home-variant-1" },
     { num: 38, name: "38. Community Feed (v3)", path: "/feed-variant-2" },
     { num: 39, name: "39. Local Services (v3)", path: "/services-variant-3" },
-    { num: 40, name: "40. Merchants Page", path: "/merchants" }
+    { num: 40, name: "40. Merchants Page", path: "/merchants" },
+    { num: 41, name: "41. Search Results", path: "/search-results" },
+    { num: 42, name: "42. Category Filter", path: "/search/category" },
+    { num: 43, name: "43. City Filter", path: "/search/city" },
+    { num: 44, name: "44. List View Toggle", path: "/search/list-view" },
+    { num: 45, name: "45. Map View", path: "/search/map-view" }
   ];
 
   // Check if we are on a smaller screen to toggle the frame mockup
