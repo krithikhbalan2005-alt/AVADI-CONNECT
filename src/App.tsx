@@ -34,7 +34,12 @@ import {
   JobsDetailScreen,
   DrawerScreen,
   ThemeToggleScreen,
-  LanguageSelectionScreen
+  LanguageSelectionScreen,
+  EmergencySOSScreenVariant3,
+  ExploreFoodScreen,
+  LocalServicesScreenVariant,
+  RentalsJobsHomeScreenVariant,
+  RentalsPageScreenVariant
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -343,6 +348,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <LanguageSelectionScreen />
+          </motion.div>
+        } />
+
+        <Route path="/sos-variant-3" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <EmergencySOSScreenVariant3 />
+          </motion.div>
+        } />
+
+        <Route path="/explore-food" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ExploreFoodScreen />
+          </motion.div>
+        } />
+
+        <Route path="/services-alt" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <LocalServicesScreenVariant />
+          </motion.div>
+        } />
+
+        <Route path="/jobs-rentals-alt" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <RentalsJobsHomeScreenVariant />
+          </motion.div>
+        } />
+
+        <Route path="/rentals-alt" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <RentalsPageScreenVariant />
           </motion.div>
         } />
         

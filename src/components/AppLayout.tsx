@@ -45,14 +45,19 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { num: 15, name: "15. Emergency SOS (v1)", path: "/sos" },
     { num: 16, name: "16. My Complaints (v2)", path: "/complaints-alt" },
     { num: 17, name: "17. Emergency SOS (v2)", path: "/sos-alt" },
-    { num: 18, name: "18. Local Services", path: "/services" },
-    { num: 19, name: "19. Rentals & Jobs (Home)", path: "/jobs-rentals" },
-    { num: 20, name: "20. Rentals Page", path: "/rentals" },
+    { num: 18, name: "18. Local Services (v1)", path: "/services" },
+    { num: 19, name: "19. Rentals & Jobs (Home v1)", path: "/jobs-rentals" },
+    { num: 20, name: "20. Rentals Page (v1)", path: "/rentals" },
     { num: 21, name: "21. Jobs Page", path: "/jobs" },
     { num: 22, name: "22. Jobs Page (Detail)", path: "/jobs/detail" },
     { num: 23, name: "23. Navigation (Drawer)", path: "/drawer" },
     { num: 24, name: "24. Theme Toggle", path: "/theme" },
-    { num: 25, name: "25. Choose Language", path: "/language" }
+    { num: 25, name: "25. Choose Language", path: "/language" },
+    { num: 26, name: "26. Emergency SOS (v3)", path: "/sos-variant-3" },
+    { num: 27, name: "27. Explore Food", path: "/explore-food" },
+    { num: 28, name: "28. Local Services (v2)", path: "/services-alt" },
+    { num: 29, name: "29. Rentals & Jobs (Home v2)", path: "/jobs-rentals-alt" },
+    { num: 30, name: "30. Rentals Page (v2)", path: "/rentals-alt" }
   ];
 
   // Check if we are on a smaller screen to toggle the frame mockup

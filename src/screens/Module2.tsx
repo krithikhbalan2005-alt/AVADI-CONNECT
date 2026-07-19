@@ -1332,3 +1332,418 @@ export const LanguageSelectionScreen: React.FC = () => {
     </div>
   );
 };
+
+// ==========================================
+// 26. EMERGENCY SOS (VARIANT 3)
+// ==========================================
+export const EmergencySOSScreenVariant3: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const contacts = [
+    { name: 'Police', number: '100', icon: '⭐' },
+    { name: 'Ambulance', number: '108', icon: '🚑' },
+    { name: 'Fire & Rescue', number: '101', icon: '🚨' },
+    { name: 'Municipality Help Desk', number: '1800 425 6112', icon: '🏢' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-6 pb-20 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+        </div>
+
+        {/* SOS Tap Graphic */}
+        <div className="flex flex-col items-center justify-center my-3">
+          <button className="w-32 h-32 rounded-full bg-red-500 border-[8px] border-red-100 dark:border-red-950 flex flex-col items-center justify-center text-white active:scale-95 transition shadow-lg">
+            <span className="text-xl font-black tracking-wider">SOS</span>
+            <span className="text-[7.5px] font-bold mt-1 text-white/90">Tap to Alert</span>
+          </button>
+        </div>
+
+        {/* List Grid */}
+        <div className="space-y-2">
+          {contacts.map((contact, i) => (
+            <div 
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-sm">{contact.icon}</span>
+                <span className="text-[10px] font-extrabold">{contact.name}</span>
+              </div>
+              <span className="text-[10px] font-black text-slate-700 dark:text-neutral-400">{contact.number}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Blood donation Red Button */}
+      <div className="absolute bottom-4 left-0 w-full p-4 z-20 bg-transparent">
+        <button
+          onClick={() => {}}
+          className="w-full py-3.5 bg-[#FF3B30] hover:bg-[#e03126] text-white font-bold rounded-btn shadow-md text-xs text-center uppercase tracking-wider"
+        >
+          Request Blood Donation
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 27. EXPLORE FOOD SCREEN
+// ==========================================
+export const ExploreFoodScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeTag, setActiveTag] = useState<string>('all');
+
+  const foods = [
+    {
+      name: 'Hotel Saravana',
+      sub: 'Pure Veg • 500m',
+      time: 'Open • 7:00 AM - 10:00 PM',
+      rating: '★ 4.5',
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Sri Krishna Vilas',
+      sub: 'Veg • 1.2 km',
+      time: 'Open • 6:30 AM - 10:30 PM',
+      rating: '★ 4.3',
+      image: 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Lake View Biryani',
+      sub: 'Non-Veg • 1.5 km',
+      time: 'Open • 11:00 AM - 11:00 PM',
+      rating: '★ 4.6',
+      image: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Amma Mess',
+      sub: 'Veg • 800m',
+      time: 'Open • 7:30 AM - 9:00 PM',
+      rating: '★ 4.2',
+      image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&q=80&w=400'
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <div className="flex-grow text-center font-black text-xs pr-4">Explore Food</div>
+        </div>
+
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search food..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+        </div>
+
+        {/* Tags */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['all', 'nearby', 'veg', 'non-veg', 'top-rated'].map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={`px-3 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                activeTag === tag
+                  ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tag === 'all' ? 'All' : tag === 'top-rated' ? 'Top Rated' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Grid List */}
+        <div className="space-y-4">
+          {foods.map((food, i) => (
+            <div
+              key={i}
+              className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Image banner */}
+              <div className="aspect-video w-full relative">
+                <img src={food.image} alt={food.name} className="w-full h-full object-cover" />
+              </div>
+
+              {/* Body */}
+              <div className="p-4 space-y-1.5">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-xs font-extrabold">{food.name}</h4>
+                    <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 font-bold">{food.sub}</p>
+                    <p className="text-[8.5px] text-emerald-600 font-bold mt-1">{food.time}</p>
+                  </div>
+                  <span className="text-[10px] font-black text-amber-500">{food.rating}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 28. LOCAL SERVICES SCREEN (VARIANT)
+// ==========================================
+export const LocalServicesScreenVariant: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const services = [
+    { name: 'R. Electrician', role: 'Electrician', rating: '★ 4.6' },
+    { name: 'M. Prakash', role: 'Plumber', rating: '★ 4.7' },
+    { name: 'G. Carpenter', role: 'Carpenter', rating: '★ 4.5' },
+    { name: 'S. Medi', role: 'Contractor', rating: '★ 4.3' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Container */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search bar */}
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <div className="flex-grow text-center font-black text-xs pr-4">Local Services</div>
+        </div>
+
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search services..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+        </div>
+
+        {/* List of service providers */}
+        <div className="space-y-3.5 pt-2">
+          {services.map((serv, i) => (
+            <div
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex gap-3.5 items-center">
+                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-[#4A3AFF] text-xs shrink-0">W</div>
+                <div className="space-y-0.5 leading-tight">
+                  <h4 className="text-[11px] font-extrabold">{serv.name}</h4>
+                  <p className="text-[8.5px] text-slate-400 font-semibold">{serv.role}</p>
+                  <p className="text-[9px] font-black text-amber-500">{serv.rating}</p>
+                </div>
+              </div>
+
+              {/* Green call button */}
+              <button className="w-8 h-8 rounded-full bg-[#4CD964] text-white flex items-center justify-center shadow-xs active:scale-90 transition">
+                📞
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 29. RENTALS & JOBS (HOME VARIANT)
+// ==========================================
+export const RentalsJobsHomeScreenVariant: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-6 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+        </div>
+
+        {/* Title */}
+        <div className="text-center space-y-1">
+          <h2 className="text-md font-black text-slate-805 dark:text-white">Rentals & Jobs</h2>
+          <p className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">Find what you need</p>
+        </div>
+
+        {/* 2 Big Cards side-by-side */}
+        <div className="grid grid-cols-2 gap-4 pt-4">
+          {/* Rentals */}
+          <button
+            onClick={() => navigate('/rentals-alt')}
+            className="rounded-2xl bg-indigo-500 hover:bg-indigo-600 text-white p-5 flex flex-col justify-between items-center text-center aspect-[4/5] shadow-md hover:scale-[1.01] active:scale-[0.98] transition-all"
+          >
+            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg mt-2">🏠</div>
+            <div className="mb-2">
+              <h4 className="text-xs font-black">Rentals</h4>
+              <p className="text-[7.5px] text-white/80 leading-snug mt-1 font-semibold">Find Houses, Shops, PGs & more</p>
+            </div>
+          </button>
+
+          {/* Jobs */}
+          <button
+            onClick={() => {}}
+            className="rounded-2xl bg-purple-500 hover:bg-purple-600 text-white p-5 flex flex-col justify-between items-center text-center aspect-[4/5] shadow-md hover:scale-[1.01] active:scale-[0.98] transition-all"
+          >
+            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg mt-2">💼</div>
+            <div className="mb-2">
+              <h4 className="text-xs font-black">Jobs</h4>
+              <p className="text-[7.5px] text-white/80 leading-snug mt-1 font-semibold">Find Jobs & Internships</p>
+            </div>
+          </button>
+        </div>
+
+        {/* Link at bottom */}
+        <div className="text-center pt-8">
+          <button onClick={() => navigate('/home')} className="text-xs font-black text-[#4A3AFF] underline">View All</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 30. RENTALS PAGE (VARIANT)
+// ==========================================
+export const RentalsPageScreenVariant: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const listings = [
+    {
+      title: 'Shop for Rent',
+      location: 'Market Road',
+      details: '500 sq ft',
+      price: '₹15,000 / mo',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=300'
+    },
+    {
+      title: 'House for Rent',
+      location: 'Water Tank Road',
+      details: '2BHK',
+      price: '₹8,500 / mo',
+      image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=300'
+    },
+    {
+      title: 'PG for Boys',
+      location: 'Near Bus Stand',
+      details: '1 Room (Shared)',
+      price: '₹3,000 / mo',
+      image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=300'
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/jobs-rentals-alt')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <div className="flex-grow text-center font-black text-xs pr-4">Rentals</div>
+        </div>
+        <p className="text-[10px] text-slate-400 font-semibold text-center mt-0.5">Find your perfect space</p>
+
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            placeholder="Search rentals..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['all', 'house', 'shop', 'pg', 'land'].map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveCategory(tag)}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                activeCategory === tag
+                  ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-2xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tag === 'all' ? 'All' : tag === 'pg' ? 'PG' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Listings List */}
+        <div className="space-y-3.5">
+          {listings.map((list, i) => (
+            <div
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex gap-3 items-center">
+                {/* Thumbnail */}
+                <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-100">
+                  <img src={list.image} alt={list.title} className="w-full h-full object-cover" />
+                </div>
+                {/* Text Details */}
+                <div className="space-y-0.5 leading-tight">
+                  <h4 className="text-[11px] font-extrabold">{list.title}</h4>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.location}</p>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.details}</p>
+                  <p className="text-[9.5px] font-black text-[#4A3AFF] mt-1">{list.price}</p>
+                </div>
+              </div>
+
+              {/* Call Owner Button */}
+              <button
+                type="button"
+                className="px-3 py-1.5 bg-[#4CD964] hover:bg-[#3ec455] text-white text-[9px] font-black rounded-lg transition"
+              >
+                Call Owner
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
