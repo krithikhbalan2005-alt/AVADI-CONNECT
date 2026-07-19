@@ -304,3 +304,188 @@ export const CivicHubScreen: React.FC = () => {
     </div>
   );
 };
+
+
+// SCREEN 14
+export const MyReportedScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeTab, setActiveTab] = useState<'my' | 'public'>('my');
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scrollable Container */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <button 
+            onClick={() => navigate('/civic')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">My Complaints</span>
+          <div className="w-6 h-6" /> {/* spacer */}
+        </div>
+
+        {/* Tab Selector */}
+        <div className="flex gap-2 text-[10px] font-bold border-b border-slate-100 dark:border-neutral-900 pb-2">
+          <button 
+            onClick={() => setActiveTab('my')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'my'
+                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            My Complaints
+          </button>
+          <button 
+            onClick={() => setActiveTab('public')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'public'
+                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            Public Complaints
+          </button>
+        </div>
+
+        {/* Card */}
+        <div className={`p-4 rounded-card border shadow-2xs space-y-3.5 ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+        }`}>
+          {/* Card Header ID & Badge */}
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] font-black text-slate-800 dark:text-white">AVD12-2025-0012</span>
+            <span className="px-2 py-0.5 text-[8px] font-black text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
+              In Progress
+            </span>
+          </div>
+
+          <div className="space-y-0.5 leading-tight">
+            <h5 className="text-[11px] font-extrabold text-slate-805 dark:text-white">Street Light</h5>
+            <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">Near Avadi School</p>
+          </div>
+
+          {/* Timeline points */}
+          <div className="relative border-l-2 border-slate-100 dark:border-neutral-800 pl-4.5 py-1 space-y-3.5 text-[9px] font-semibold text-slate-500 dark:text-neutral-400">
+            {/* May 20 */}
+            <div className="relative">
+              <span className="absolute -left-[23px] top-0.5 w-2 h-2 rounded-full bg-slate-300 border-2 border-white dark:border-neutral-900" />
+              <div className="flex items-center gap-1.5">
+                <span>📅</span>
+                <span>May 20, 2025</span>
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="relative">
+              <span className="absolute -left-[23px] top-0.5 w-2 h-2 rounded-full bg-slate-300 border-2 border-white dark:border-neutral-900" />
+              <div className="flex items-center gap-1.5">
+                <span>📍</span>
+                <span>Sector 7, Ward 12, Avadi</span>
+              </div>
+            </div>
+
+            {/* Under Review */}
+            <div className="relative">
+              <span className="absolute -left-[23px] top-0.5 w-2.5 h-2.5 rounded-full bg-[#4A3AFF] border-2 border-white dark:border-neutral-900" />
+              <div className="flex items-center gap-1.5 text-slate-705 dark:text-white">
+                <span>🔍</span>
+                <span>Under Review</span>
+              </div>
+              <span className="text-[7.5px] text-slate-400 dark:text-neutral-500 block mt-0.5 ml-5">May 20, 2025, 11:00 AM</span>
+            </div>
+
+            {/* In Progress */}
+            <div className="relative">
+              <span className="absolute -left-[23px] top-0.5 w-2.5 h-2.5 rounded-full bg-[#4A3AFF] border-2 border-white dark:border-neutral-900" />
+              <div className="flex items-center gap-1.5 text-slate-705 dark:text-white">
+                <span>🔔</span>
+                <span>In Progress</span>
+              </div>
+              <span className="text-[7.5px] text-slate-400 dark:text-neutral-500 block mt-0.5 ml-5">May 21, 2025, 02:15 PM</span>
+            </div>
+          </div>
+
+          {/* View Details Button */}
+          <button className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-205 dark:border-neutral-800 text-slate-600 hover:bg-slate-50 transition text-center">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// SCREEN 15
+export const EmergencySOSScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const contacts = [
+    { name: 'Police', number: '100', icon: '⭐' },
+    { name: 'Ambulance', number: '108', icon: '🚑' },
+    { name: 'Fire & Rescue', number: '101', icon: '🚨' },
+    { name: 'Municipality Help Desk', number: '1800 425 5444', icon: '🏢' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      {/* Scrollable Area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-6 pb-20 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center">
+          <button 
+            onClick={() => navigate('/home')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+        </div>
+
+        {/* SOS Tap Graphic */}
+        <div className="flex flex-col items-center justify-center my-3">
+          <button className="w-32 h-32 rounded-full bg-red-500 border-[8px] border-red-100 dark:border-red-950 flex flex-col items-center justify-center text-white active:scale-95 transition shadow-lg">
+            <span className="text-xl font-black tracking-wider">SOS</span>
+            <span className="text-[7.5px] font-bold mt-1 text-white/90">Tap for SOS</span>
+          </button>
+        </div>
+
+        {/* List Grid */}
+        <div className="space-y-2">
+          {contacts.map((contact, i) => (
+            <div 
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-sm">{contact.icon}</span>
+                <span className="text-[10px] font-extrabold">{contact.name}</span>
+              </div>
+              <span className="text-[10px] font-black text-slate-700 dark:text-neutral-400">{contact.number}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Blood donation Red Button */}
+      <div className="absolute bottom-4 left-0 w-full p-4 z-20 bg-transparent">
+        <button
+          onClick={() => {}}
+          className="w-full py-3.5 bg-[#FF3B30] hover:bg-[#e03126] text-white font-bold rounded-btn shadow-md text-xs text-center uppercase tracking-wider"
+        >
+          Request Blood Donation
+        </button>
+      </div>
+    </div>
+  );
+};

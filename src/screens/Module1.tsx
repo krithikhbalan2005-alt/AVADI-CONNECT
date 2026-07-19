@@ -963,3 +963,224 @@ export const CommunityFeedScreen: React.FC = () => {
     </div>
   );
 };
+
+
+export const ReportIssueStep1Screen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const categories = [
+    { id: 'light', name: 'Street Light', icon: '💡' },
+    { id: 'water', name: 'Water Issue', icon: '💧' },
+    { id: 'garbage', name: 'Garbage', icon: '🗑️', color: 'text-emerald-500' },
+    { id: 'drain', name: 'Drainage', icon: '📅' },
+    { id: 'road', name: 'Road Damage', icon: '🅰️' },
+    { id: 'other', name: 'Others', icon: '💬' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Header */}
+      <div className="h-8 flex items-center gap-2 text-left">
+        <button 
+          onClick={() => navigate('/civic')}
+          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <span className="text-xs font-black text-slate-855 dark:text-white">Report Complaint</span>
+      </div>
+
+      {/* Title */}
+      <div className="text-left mt-2">
+        <span className="text-[9px] font-bold text-slate-400 block">Step 1 of 2</span>
+        <h3 className="text-xs font-black text-slate-800 dark:text-white mt-1">Select Issue Category</h3>
+      </div>
+
+      {/* Grid Categories */}
+      <div className="flex-1 flex flex-col justify-center my-4">
+        <div className="grid grid-cols-2 gap-3">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`p-4.5 rounded-card border shadow-3xs flex flex-col items-center justify-center gap-2.5 h-24 active:scale-95 transition ${
+                selectedCategory === cat.id
+                  ? 'border-[#4A3AFF] bg-[#4A3AFF]/5'
+                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <span className={`text-xl ${cat.color || ''}`}>{cat.icon}</span>
+              <span className="text-[9.5px] font-extrabold">{cat.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Next Button */}
+      <div className="mb-2">
+        <button
+          onClick={() => navigate('/complaints/category-details')}
+          disabled={!selectedCategory}
+          className={`w-full py-3.5 font-bold rounded-btn text-xs uppercase tracking-wider text-center ${
+            selectedCategory
+              ? 'bg-[#4A3AFF] text-white hover:bg-[#3b2ecc] shadow-md'
+              : 'bg-slate-350 dark:bg-neutral-800 text-white/50 cursor-not-allowed shadow-none'
+          }`}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const ReportIssueStep2Screen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [description, setDescription] = useState('');
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Header */}
+      <div className="h-8 flex items-center gap-2 text-left">
+        <button 
+          onClick={() => navigate('/complaints/camera')}
+          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <span className="text-xs font-black text-slate-855 dark:text-white">Report Complaint</span>
+      </div>
+
+      {/* Title */}
+      <div className="text-left mt-2">
+        <span className="text-[9px] font-bold text-slate-400 block">Step 2 of 2</span>
+        <h3 className="text-xs font-black text-slate-800 dark:text-white mt-1">Describe the Issue</h3>
+      </div>
+
+      {/* Form Content */}
+      <div className="flex-1 flex flex-col justify-center space-y-4 my-4 text-left">
+        {/* Description */}
+        <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Description *</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe the problem in detail..."
+            rows={3.5}
+            className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] resize-none ${
+              theme === 'dark' 
+                ? 'bg-neutral-900 border-neutral-805 text-white' 
+                : 'bg-white border-slate-200 text-slate-800'
+            }`}
+            required
+          />
+        </div>
+
+        {/* Upload Photos */}
+        <div className="space-y-1.5">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Upload Photos (Max 3)</label>
+          <div className="flex gap-2.5">
+            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-955">
+              <span className="text-sm">📷</span>
+            </button>
+            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-955">
+              <span className="text-sm">📷</span>
+            </button>
+            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-955">
+              <span className="text-sm">📷</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Area/Tag */}
+        <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Area/ Tag</label>
+          <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-405'
+          }`}>
+            <span>Select Tag</span>
+            <span className="text-[10px] opacity-70">▼</span>
+          </div>
+        </div>
+
+        {/* Ward */}
+        <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Ward</label>
+          <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
+          }`}>
+            <span>Ward 12</span>
+            <span className="text-[10px] opacity-70">▼</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Submit button */}
+      <div className="mb-2">
+        <button
+          onClick={() => navigate('/complaints/submitted')}
+          className="w-full py-3.5 bg-[#FF3B30] hover:bg-[#e03126] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
+        >
+          Submit Report
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const IssueSubmittedScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Spacer */}
+      <div className="h-8" />
+
+      {/* Content Center */}
+      <div className="flex-1 flex flex-col items-center justify-center space-y-4">
+        {/* Green check icon */}
+        <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/40 flex items-center justify-center text-emerald-600">
+          <span className="text-3xl">✔</span>
+        </div>
+        
+        <h2 className="text-md font-black text-center text-slate-800 dark:text-white px-2">
+          Complaint Submitted Successfully!
+        </h2>
+        
+        <p className="text-[10px] text-slate-450 dark:text-neutral-500 font-semibold text-center max-w-[240px] leading-relaxed">
+          Your issue has been recorded successfully.
+        </p>
+
+        {/* Complaint ID */}
+        <div className="py-2.5 px-6 border border-slate-100 dark:border-neutral-800 rounded-xl bg-slate-50 dark:bg-neutral-900 text-center">
+          <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wide">Complaint ID</span>
+          <span className="text-xs font-black text-slate-805 dark:text-white mt-1 block">AVD12-2025-0192</span>
+        </div>
+
+        <p className="text-[9px] text-slate-400 dark:text-neutral-500 font-medium text-center">
+          We will notify you about the updates.
+        </p>
+      </div>
+
+      {/* Go to complaints */}
+      <div className="mb-2">
+        <button
+          onClick={() => navigate('/complaints')}
+          className="w-full py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
+        >
+          Go to My Complaints
+        </button>
+      </div>
+    </div>
+  );
+};

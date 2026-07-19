@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AppProvider } from './context/AppContext';
 import { AppLayout } from './components/AppLayout';
 
-// Module 1 Screens (Active 1 to 8)
+// Module 1 Screens (Active 1 to 8, 11 to 13)
 import {
   SplashScreen,
   WelcomeScreen,
@@ -13,13 +13,18 @@ import {
   AddressWardScreen,
   OTPScreen,
   HomeDashboardScreen,
-  CommunityFeedScreen
+  CommunityFeedScreen,
+  ReportIssueStep1Screen,
+  ReportIssueStep2Screen,
+  IssueSubmittedScreen
 } from './screens/Module1';
 
-// Module 2 Screens (Active 9 & 10)
+// Module 2 Screens (Active 9 & 10, 14 & 15)
 import {
   CommunityPostCreateScreen,
-  CivicHubScreen
+  CivicHubScreen,
+  MyReportedScreen,
+  EmergencySOSScreen
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -148,6 +153,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <CivicHubScreen />
+          </motion.div>
+        } />
+
+        <Route path="/complaints/camera" element={
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ReportIssueStep1Screen />
+          </motion.div>
+        } />
+
+        <Route path="/complaints/category-details" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ReportIssueStep2Screen />
+          </motion.div>
+        } />
+
+        <Route path="/complaints/submitted" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <IssueSubmittedScreen />
+          </motion.div>
+        } />
+
+        <Route path="/complaints" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <MyReportedScreen />
+          </motion.div>
+        } />
+
+        <Route path="/sos" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <EmergencySOSScreen />
           </motion.div>
         } />
         
