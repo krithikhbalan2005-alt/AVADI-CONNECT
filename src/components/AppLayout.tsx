@@ -178,13 +178,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         </div>
       )}
 
-      {/* Main Mockup Container (Strict Viewport: 390 x 844 on desktop, auto-fits mobile viewport) */}
+      {/* Main Mockup Container (Strict Viewport: 340 x 700 on desktop, auto-fits mobile viewport) */}
       <div className={`relative w-full h-full md:rounded-[48px] overflow-hidden flex flex-col transition-all duration-300 md:border-[12px] md:shadow-2xl ${
         theme === 'dark' 
           ? 'bg-[#121212] border-neutral-900 shadow-black/80 text-white' 
           : 'bg-[#FAFAFA] border-white shadow-slate-200 text-slate-800'
       }`}
-      style={isMobile ? { width: '100%', height: '100dvh' } : { width: '390px', height: '844px' }}>
+      style={isMobile ? { width: '100%', height: '100dvh' } : { width: '340px', height: '700px' }}>
         
         {/* Android Status Bar */}
         <div className={`h-10 px-6 flex items-center justify-between text-xs z-30 font-medium ${
