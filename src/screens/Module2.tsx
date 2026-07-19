@@ -2082,3 +2082,505 @@ export const EmergencyContactsScreenVariant2: React.FC = () => {
     </div>
   );
 };
+
+// ==========================================
+// 36. COMMUNITY FEED (VARIANT 1)
+// ==========================================
+export const CommunityFeedScreenVariant1: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <span className="text-xs font-black text-slate-850 dark:text-white">Community Feed</span>
+          <span className="text-slate-400">🔍</span>
+        </div>
+
+        {/* Tab Selector */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['My Feed', 'All Areas', 'Complaints'].map((tag, idx) => (
+            <button
+              key={idx}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                idx === 0
+                  ? 'bg-emerald-600 text-white border-emerald-650'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500 border-slate-150'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        {/* Card List */}
+        <div className="space-y-4">
+          {/* Card 1 */}
+          <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-2.5 items-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">RK</div>
+              <div className="leading-none">
+                <h4 className="text-[10px] font-black">Ramesh Kumar</h4>
+                <p className="text-[7.5px] text-slate-400 font-semibold mt-1">2 hours ago</p>
+              </div>
+            </div>
+            <div className="aspect-[2/1] rounded-xl overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" />
+            </div>
+            <p className="text-[9.5px] font-semibold text-slate-700 leading-normal">
+              Street light not working near Avadi Park. Please fix.
+            </p>
+            <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400">
+              <span>❤️ 12</span>
+              <span>💬 3</span>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-2.5 items-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">R</div>
+              <div className="leading-none">
+                <h4 className="text-[10px] font-black">Revothi</h4>
+                <p className="text-[7.5px] text-slate-400 font-semibold mt-1">5 hours ago</p>
+              </div>
+            </div>
+            <div className="aspect-[2/1] rounded-xl overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Action Button */}
+      <button 
+        onClick={() => navigate('/community-feed/create')}
+        className="absolute bottom-20 right-5 w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-650 to-indigo-500 text-white flex items-center justify-center text-xl shadow-lg active:scale-95 transition-all z-20"
+      >
+        +
+      </button>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 37. HOME DASHBOARD (VARIANT 1)
+// ==========================================
+export const HomeDashboardScreenVariant1: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20 text-left">
+        {/* Header profile container */}
+        <div className="flex justify-between items-center h-8">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-105 border">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h4 className="text-[11px] font-black">Hello, Karthik 👋</h4>
+              <p className="text-[8px] text-slate-400 font-semibold mt-0.5">Ward 14, Avadi</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <span className="text-slate-400 cursor-pointer">🔔</span>
+            <div className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="space-y-2">
+          <h5 className="text-[9.5px] font-black uppercase text-slate-400 tracking-wider">Quick Actions</h5>
+          <div className="grid grid-cols-4 gap-2 text-center text-[8px] font-bold">
+            <button onClick={() => navigate('/civic')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-blue-500">📋</span>
+              <span className="text-slate-700 dark:text-neutral-300">Complaints</span>
+            </button>
+            <button onClick={() => navigate('/sos')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-red-500">🚨</span>
+              <span className="text-slate-700 dark:text-neutral-300">Emergency SOS</span>
+            </button>
+            <button onClick={() => navigate('/community-feed')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-purple-500">👥</span>
+              <span className="text-slate-700 dark:text-neutral-300">Community Feed</span>
+            </button>
+            <button onClick={() => navigate('/services')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-indigo-500">🤝</span>
+              <span className="text-slate-700 dark:text-neutral-300">Local Services</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Travel Information */}
+        <div className="space-y-2">
+          <h5 className="text-[9.5px] font-black uppercase text-slate-400 tracking-wider">Travel Information</h5>
+          <div className="grid grid-cols-2 gap-3.5">
+            <div className="p-3.5 bg-white dark:bg-neutral-900 border rounded-xl shadow-3xs text-[9.5px]">
+              <p className="font-extrabold text-slate-700 dark:text-white">Avadi Railway Station</p>
+              <div className="flex items-center gap-1.5 mt-2">
+                <span className="text-md">☀️</span>
+                <span className="font-black text-slate-800 dark:text-white">28°C</span>
+              </div>
+            </div>
+            <div className="p-3.5 bg-white dark:bg-neutral-900 border rounded-xl shadow-3xs text-[9.5px]">
+              <p className="font-extrabold text-slate-700 dark:text-white">Traffic</p>
+              <div className="flex items-center gap-1.5 mt-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="font-black text-slate-800 dark:text-white">Moderate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Explore Avadi Horizontal scrolling */}
+        <div className="space-y-2.5">
+          <div className="flex justify-between items-center">
+            <h5 className="text-[9.5px] font-black uppercase text-slate-400 tracking-wider">Explore Avadi</h5>
+            <button onClick={() => navigate('/services')} className="text-[9px] font-black text-[#4A3AFF]">View all &gt;</button>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {[1, 2, 3].map((num) => (
+              <div key={num} className="w-40 rounded-xl overflow-hidden border shadow-3xs bg-white shrink-0">
+                <div className="h-20 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=200" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 38. COMMUNITY FEED (VARIANT 2)
+// ==========================================
+export const CommunityFeedScreenVariant2: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <span className="text-xs font-black text-slate-850 dark:text-white">Community Feed</span>
+          <span className="text-slate-400">🔍</span>
+        </div>
+
+        {/* Tab Selector */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['My Feed', 'All Areas', 'Complaints'].map((tag, idx) => (
+            <button
+              key={idx}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                idx === 0
+                  ? 'bg-emerald-600 text-white border-emerald-650'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        {/* Card List */}
+        <div className="space-y-4">
+          {/* Card 1 */}
+          <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-2.5 items-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">SB</div>
+              <div className="leading-none">
+                <h4 className="text-[10px] font-black">Suresh Babu</h4>
+                <p className="text-[7.5px] text-slate-400 font-semibold mt-1">1 day ago</p>
+              </div>
+            </div>
+            <div className="aspect-[2/1] rounded-xl overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" />
+            </div>
+            <p className="text-[9.5px] font-semibold text-slate-700 leading-normal">
+              Drainage issue near Murugan Temple. Water not draining.
+            </p>
+            <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400">
+              <span>❤️ 8</span>
+              <span>💬 2</span>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-2.5 items-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">A</div>
+              <div className="leading-none">
+                <h4 className="text-[10px] font-black">Anand</h4>
+                <p className="text-[7.5px] text-slate-400 font-semibold mt-1">2 days ago</p>
+              </div>
+            </div>
+            <div className="aspect-[2/1] rounded-xl overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400">
+              <span>❤️ 6</span>
+              <span>💬 1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Action Button */}
+      <button 
+        onClick={() => navigate('/community-feed/create')}
+        className="absolute bottom-20 right-5 w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-650 to-indigo-500 text-white flex items-center justify-center text-xl shadow-lg active:scale-95 transition-all z-20"
+      >
+        +
+      </button>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 39. LOCAL SERVICES SCREEN (VARIANT 3)
+// ==========================================
+export const LocalServicesScreenVariant3: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const services = [
+    { name: 'R. Electrician', role: 'Electrician', rating: '★ 4.6' },
+    { name: 'M. Prakash', role: 'Plumber', rating: '★ 4.7' },
+    { name: 'K. Carpenter', role: 'Carpenter', rating: '★ 4.8' },
+    { name: 'S. Medi', role: 'Contractor', rating: '★ 4.5' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Container */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search bar */}
+        <div className="flex items-center justify-between h-8">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Local Services</span>
+          <span className="text-slate-400">🔍</span>
+        </div>
+
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search services..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+        </div>
+
+        {/* List */}
+        <div className="space-y-3.5 pt-2">
+          {services.map((serv, i) => (
+            <div
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex gap-3.5 items-center">
+                <div className="w-10 h-10 rounded-full bg-slate-105 flex items-center justify-center font-black text-[#4A3AFF] text-xs shrink-0">W</div>
+                <div className="space-y-0.5 leading-tight">
+                  <h4 className="text-[11px] font-extrabold">{serv.name}</h4>
+                  <p className="text-[8.5px] text-slate-400 font-semibold">{serv.role}</p>
+                  <p className="text-[9px] font-black text-amber-500">{serv.rating}</p>
+                </div>
+              </div>
+
+              {/* Green call button */}
+              <button className="w-8 h-8 rounded-full bg-[#4CD964] text-white flex items-center justify-center shadow-xs active:scale-90 transition">
+                📞
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 40. MERCHANTS PAGE SCREEN
+// ==========================================
+export const MerchantsPageScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeTag, setActiveTag] = useState<string>('all');
+
+  const merchants = [
+    {
+      name: 'Murugan Temple Market',
+      sub: 'Market • 2.3 km',
+      rating: '★ 4.6',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Avadi Market',
+      sub: 'Supermarket • 1.1 km',
+      rating: '★ 4.2',
+      image: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400'
+    },
+    {
+      name: 'Swarna Stores',
+      sub: 'Electronics • 1.8 km',
+      rating: '★ 4.8',
+      image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=400'
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center justify-between h-8">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Merchants</span>
+          <span className="text-slate-400">🔍</span>
+        </div>
+
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search merchants..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['all', 'groceries', 'shopping', 'parks'].map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                activeTag === tag
+                  ? 'bg-emerald-600 text-white border-emerald-650'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Merchants List */}
+        <div className="space-y-4">
+          {merchants.map((merch, i) => (
+            <div
+              key={i}
+              className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Image banner */}
+              <div className="aspect-video w-full relative">
+                <img src={merch.image} alt={merch.name} className="w-full h-full object-cover" />
+              </div>
+
+              {/* Body */}
+              <div className="p-4 space-y-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-xs font-extrabold">{merch.name}</h4>
+                    <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 font-bold">{merch.sub}</p>
+                  </div>
+                  <span className="text-[10px] font-black text-amber-500">{merch.rating}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-405 font-bold"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};

@@ -44,7 +44,12 @@ import {
   NotificationsScreen,
   MyReportsScreen,
   ReportDetailsScreen,
-  EmergencyContactsScreenVariant2
+  EmergencyContactsScreenVariant2,
+  CommunityFeedScreenVariant1,
+  HomeDashboardScreenVariant1,
+  CommunityFeedScreenVariant2,
+  LocalServicesScreenVariant3,
+  MerchantsPageScreen
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -192,8 +197,8 @@ const AnimatedRoutes: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -55 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
             className="w-full h-full flex flex-col flex-1"
           >
             <ReportIssueStep2Screen />
@@ -473,6 +478,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <EmergencyContactsScreenVariant2 />
+          </motion.div>
+        } />
+
+        <Route path="/feed-variant-1" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CommunityFeedScreenVariant1 />
+          </motion.div>
+        } />
+
+        <Route path="/home-variant-1" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <HomeDashboardScreenVariant1 />
+          </motion.div>
+        } />
+
+        <Route path="/feed-variant-2" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CommunityFeedScreenVariant2 />
+          </motion.div>
+        } />
+
+        <Route path="/services-variant-3" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <LocalServicesScreenVariant3 />
+          </motion.div>
+        } />
+
+        <Route path="/merchants" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <MerchantsPageScreen />
           </motion.div>
         } />
         
