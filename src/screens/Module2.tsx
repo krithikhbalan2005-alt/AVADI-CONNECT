@@ -1747,3 +1747,338 @@ export const RentalsPageScreenVariant: React.FC = () => {
     </div>
   );
 };
+
+// ==========================================
+// 31. SETTINGS SCREEN
+// ==========================================
+export const SettingsScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const settingsList = [
+    { name: 'Profile Settings', icon: '👤', path: '/home' },
+    { name: 'Notification Settings', icon: '🔔', path: '/notifications' },
+    { name: 'Language', extra: 'English', icon: '🌐', path: '/language' },
+    { name: 'Theme', extra: theme === 'dark' ? 'Dark Mode' : 'Light Mode', icon: '☀️', path: '/theme' },
+    { name: 'Privacy Policy', icon: '🛡️', path: '/home' },
+    { name: 'Terms & Conditions', icon: '📄', path: '/home' },
+    { name: 'Logout', icon: '🚪', path: '/welcome' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center gap-2">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Settings</span>
+        </div>
+
+        {/* Menu list */}
+        <div className="space-y-2 pt-2">
+          {settingsList.map((item, idx) => (
+            <div
+              key={idx}
+              onClick={() => navigate(item.path)}
+              className={`p-3.5 rounded-card border flex justify-between items-center cursor-pointer active:bg-slate-50 dark:active:bg-neutral-800 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-100'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-sm">{item.icon}</span>
+                <span className="text-[10px] font-extrabold">{item.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {item.extra && <span className="text-[9px] text-slate-400 font-semibold">{item.extra}</span>}
+                <span className="text-slate-400 text-xs">❯</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 32. NOTIFICATIONS SCREEN
+// ==========================================
+export const NotificationsScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const notifications = [
+    { type: 'Complaint Update', time: '2m ago', desc: 'Your complaint has been in progress.', icon: '📅' },
+    { type: 'Community Alert', time: '1h ago', desc: 'Water supply issue in your area.', icon: '📢' },
+    { type: 'Event Update', time: '3h ago', desc: 'Community meeting today, 5 PM.', icon: '📅' },
+    { type: 'Emergency Alert', time: '5h ago', desc: 'Heavy rain warning issued.', icon: '⚠️' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center gap-2">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Notifications</span>
+        </div>
+
+        {/* List */}
+        <div className="space-y-3 pt-2">
+          {notifications.map((notif, i) => (
+            <div
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-start gap-3.5 ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex gap-3 items-start">
+                <span className="text-sm mt-0.5">{notif.icon}</span>
+                <div className="space-y-0.5 leading-tight">
+                  <h4 className="text-[11px] font-extrabold">{notif.type}</h4>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{notif.desc}</p>
+                </div>
+              </div>
+              <span className="text-[8px] text-slate-400 font-bold shrink-0">{notif.time}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* View All link */}
+        <div className="text-center pt-8">
+          <button onClick={() => navigate('/home')} className="text-xs font-black text-[#4A3AFF] underline">View All</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 33. MY REPORTS SCREEN (VARIANT)
+// ==========================================
+export const MyReportsScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeTab, setActiveTab] = useState<'public' | 'private'>('public');
+
+  const reports = [
+    { title: 'Street Light Issue', id: '#AVD-2025-00012', date: 'May 12, 2025', status: 'In Progress', statusColor: 'bg-emerald-50 text-emerald-600' },
+    { title: 'Garbage Issue', id: '#AVD-2025-00011', date: 'May 10, 2025', status: 'Under Review', statusColor: 'bg-amber-55/10 text-amber-500' },
+    { title: 'Water Issue', id: '#AVD-2025-00010', date: 'May 8, 2025', status: 'Resolved', statusColor: 'bg-emerald-50 text-emerald-600' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">My Reports</span>
+          <div className="w-6 h-6" />
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 text-[10px] font-bold border-b border-slate-100 dark:border-neutral-900 pb-2">
+          <button 
+            onClick={() => setActiveTab('public')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'public'
+                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            Public Reports
+          </button>
+          <button 
+            onClick={() => setActiveTab('private')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'private'
+                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            Private Reports
+          </button>
+        </div>
+
+        {/* List */}
+        <div className="space-y-3.5 pt-2">
+          {reports.map((rep, i) => (
+            <div
+              key={i}
+              onClick={() => navigate('/complaints/details')}
+              className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between cursor-pointer ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex gap-3 items-center">
+                {/* Thumbnail */}
+                <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=300" alt="Thumbnail" className="w-full h-full object-cover" />
+                </div>
+                {/* Details */}
+                <div className="space-y-0.5 leading-tight">
+                  <h4 className="text-[11px] font-extrabold">{rep.title}</h4>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-bold">{rep.id}</p>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{rep.date}</p>
+                </div>
+              </div>
+              <span className={`px-2 py-0.5 text-[8px] font-black rounded-full ${rep.statusColor}`}>{rep.status}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* View All link */}
+        <div className="text-center pt-8">
+          <button onClick={() => navigate('/home')} className="text-xs font-black text-[#4A3AFF] underline">View All</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 34. REPORT DETAILS SCREEN
+// ==========================================
+export const ReportDetailsScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <button onClick={() => navigate('/my-reports')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Street Light Issue</span>
+          <div className="w-6 h-6" />
+        </div>
+
+        {/* Main Card */}
+        <div className={`p-4.5 rounded-card border shadow-3xs space-y-4 ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+        }`}>
+          {/* Header ID and Badge */}
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] font-black text-slate-400">#AVD-2025-00012</span>
+            <span className="px-2 py-0.5 text-[8px] font-black text-emerald-600 bg-emerald-50 rounded-full">In Progress</span>
+          </div>
+
+          <div className="space-y-0.5 leading-tight">
+            <h4 className="text-[11.5px] font-extrabold text-slate-850 dark:text-white">Street Light Issue</h4>
+            <p className="text-[8.5px] text-slate-400 font-semibold">Ward 12B, 7th Street, Avadi</p>
+            <p className="text-[8.5px] text-slate-400 font-semibold">May 12, 2025</p>
+          </div>
+
+          {/* Description */}
+          <div className="space-y-1 pt-1.5 border-t border-slate-100 dark:border-neutral-800/60">
+            <h5 className="text-[9.5px] font-black uppercase text-slate-400">Description</h5>
+            <p className="text-[9.5px] text-slate-650 leading-relaxed font-semibold">
+              Street light not working near community center.
+            </p>
+          </div>
+
+          {/* Uploaded Photos */}
+          <div className="space-y-1.5">
+            <h5 className="text-[9.5px] font-black uppercase text-slate-400">Uploaded Photos (3)</h5>
+            <div className="flex gap-2">
+              {[1, 2, 3].map((num) => (
+                <div key={num} className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 border shrink-0">
+                  <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=150" alt="Attached" className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Timeline Updates */}
+          <div className="space-y-3 pt-2.5 border-t border-slate-100 dark:border-neutral-800/60">
+            <h5 className="text-[9.5px] font-black uppercase text-slate-400">Updates</h5>
+            
+            <div className="space-y-3 text-[9px] font-semibold">
+              {/* point 1 */}
+              <div className="flex items-start gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1 shrink-0" />
+                <div>
+                  <p className="text-slate-400 font-bold">May 13, 2025, 10:30 AM</p>
+                  <p className="text-slate-700 font-black mt-0.5">Assigned to Maintenance Team</p>
+                </div>
+              </div>
+
+              {/* point 2 */}
+              <div className="flex items-start gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-blue-500 mt-1 shrink-0" />
+                <div>
+                  <p className="text-slate-400 font-bold">May 12, 2025, 02:15 PM</p>
+                  <p className="text-slate-700 font-black mt-0.5">Complaint Registered</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 35. EMERGENCY CONTACTS (VARIANT 2)
+// ==========================================
+export const EmergencyContactsScreenVariant2: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const contacts = [
+    { name: 'Police', number: '100', icon: '⭐' },
+    { name: 'Ambulance', number: '108', icon: '🚑' },
+    { name: 'Fire & Rescue', number: '101', icon: '🚨' },
+    { name: 'Municipality Help Desk', number: '1800 425 1144', icon: '🏢' },
+    { name: 'Disaster Management', number: '1077', icon: '⚠️' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center gap-2">
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Emergency Contacts</span>
+        </div>
+
+        {/* List */}
+        <div className="space-y-2 pt-2">
+          {contacts.map((contact, i) => (
+            <div 
+              key={i}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-sm">{contact.icon}</span>
+                <span className="text-[10px] font-extrabold">{contact.name}</span>
+              </div>
+              <span className="text-[10px] font-black text-slate-700 dark:text-neutral-400">{contact.number}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

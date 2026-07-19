@@ -57,7 +57,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { num: 27, name: "27. Explore Food", path: "/explore-food" },
     { num: 28, name: "28. Local Services (v2)", path: "/services-alt" },
     { num: 29, name: "29. Rentals & Jobs (Home v2)", path: "/jobs-rentals-alt" },
-    { num: 30, name: "30. Rentals Page (v2)", path: "/rentals-alt" }
+    { num: 30, name: "30. Rentals Page (v2)", path: "/rentals-alt" },
+    { num: 31, name: "31. Settings", path: "/settings" },
+    { num: 32, name: "32. Notifications", path: "/notifications" },
+    { num: 33, name: "33. My Reports", path: "/my-reports" },
+    { num: 34, name: "34. Report Details", path: "/complaints/details" },
+    { num: 35, name: "35. Emergency Contacts (v2)", path: "/emergency-contacts" }
   ];
 
   // Check if we are on a smaller screen to toggle the frame mockup

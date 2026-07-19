@@ -39,7 +39,12 @@ import {
   ExploreFoodScreen,
   LocalServicesScreenVariant,
   RentalsJobsHomeScreenVariant,
-  RentalsPageScreenVariant
+  RentalsPageScreenVariant,
+  SettingsScreen,
+  NotificationsScreen,
+  MyReportsScreen,
+  ReportDetailsScreen,
+  EmergencyContactsScreenVariant2
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -187,8 +192,8 @@ const AnimatedRoutes: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            exit={{ opacity: 0, x: -55 }}
+            transition={{ duration: 0.4 }}
             className="w-full h-full flex flex-col flex-1"
           >
             <ReportIssueStep2Screen />
@@ -408,6 +413,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <RentalsPageScreenVariant />
+          </motion.div>
+        } />
+
+        <Route path="/settings" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <SettingsScreen />
+          </motion.div>
+        } />
+
+        <Route path="/notifications" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <NotificationsScreen />
+          </motion.div>
+        } />
+
+        <Route path="/my-reports" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <MyReportsScreen />
+          </motion.div>
+        } />
+
+        <Route path="/complaints/details" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ReportDetailsScreen />
+          </motion.div>
+        } />
+
+        <Route path="/emergency-contacts" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <EmergencyContactsScreenVariant2 />
           </motion.div>
         } />
         
