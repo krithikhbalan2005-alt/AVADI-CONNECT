@@ -4,30 +4,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AppProvider } from './context/AppContext';
 import { AppLayout } from './components/AppLayout';
 
-// Module 1 Screens (Active)
+// Module 1 Screens (Active 1 to 5)
 import {
   SplashScreen,
   WelcomeScreen,
   RegistrationScreen,
   ContactInfoScreen,
-  AddressWardScreen,
-  OTPScreen,
-  HomeDashboardScreen,
-  CommunityFeedScreen,
-  ReportIssueStep1Screen,
-  ReportIssueStep2Screen,
-  IssueSubmittedScreen,
-  DrawerScreen
+  AddressWardScreen
 } from './screens/Module1';
-
-// Module 2 Screens (Active)
-import {
-  CivicHubScreen,
-  MyReportedScreen,
-  CommunityPostCreateScreen,
-  EmergencyContactsScreen,
-  AboutAppScreen
-} from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
@@ -95,150 +79,6 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <AddressWardScreen />
-          </motion.div>
-        } />
-
-        <Route path="/otp" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <OTPScreen />
-          </motion.div>
-        } />
-
-        <Route path="/home" element={
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <HomeDashboardScreen />
-          </motion.div>
-        } />
-
-        <Route path="/drawer" element={
-          <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <DrawerScreen />
-          </motion.div>
-        } />
-
-        <Route path="/community-feed" element={
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <CommunityFeedScreen />
-          </motion.div>
-        } />
-
-        <Route path="/community-feed/create" element={
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <CommunityPostCreateScreen />
-          </motion.div>
-        } />
-
-        <Route path="/civic" element={
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <CivicHubScreen />
-          </motion.div>
-        } />
-
-        <Route path="/complaints/camera" element={
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <ReportIssueStep1Screen />
-          </motion.div>
-        } />
-
-        <Route path="/complaints/category-details" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <ReportIssueStep2Screen />
-          </motion.div>
-        } />
-
-        <Route path="/complaints/submitted" element={
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <IssueSubmittedScreen />
-          </motion.div>
-        } />
-
-        <Route path="/complaints" element={
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <MyReportedScreen />
-          </motion.div>
-        } />
-
-        <Route path="/emergency-contacts" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <EmergencyContactsScreen />
-          </motion.div>
-        } />
-
-        <Route path="/about" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <AboutAppScreen />
           </motion.div>
         } />
         
