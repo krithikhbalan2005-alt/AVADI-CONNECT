@@ -1835,15 +1835,15 @@ export const NoticesScreen: React.FC = () => {
 export const ReportIssueStep1Screen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>('Pothole');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('Street Light');
 
   const categories = [
-    { name: 'Pothole', icon: '🕳️' },
     { name: 'Street Light', icon: '💡' },
     { name: 'Water Issue', icon: '💧' },
     { name: 'Garbage', icon: '🗑️' },
     { name: 'Drainage', icon: '🚰' },
-    { name: 'Others', icon: '🌐' }
+    { name: 'Road Damage', icon: '🚧' },
+    { name: 'Others', icon: '💬' }
   ];
 
   return (
@@ -1851,34 +1851,36 @@ export const ReportIssueStep1Screen: React.FC = () => {
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Header back */}
-      <div className="h-8 flex items-center">
+      <div className="h-8 flex items-center justify-between">
         <button 
           onClick={() => navigate('/civic')}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
         </button>
+        <span className="text-xs font-black text-slate-800 dark:text-white mr-6">Report Complaint</span>
+        <div></div>
       </div>
 
       {/* Form content */}
-      <div className="flex-grow flex flex-col justify-center">
-        <h2 className="text-xl font-black">Report an Issue</h2>
-        <p className="text-xs text-slate-450 dark:text-neutral-500 mt-1 font-semibold">What's the problem?</p>
+      <div className="flex-grow flex flex-col justify-center mt-4">
+        <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Step 1 of 2</span>
+        <h2 className="text-lg font-black mt-1 text-slate-800 dark:text-white">Select Issue Category</h2>
 
         {/* 6 Category Selection grid */}
-        <div className="grid grid-cols-2 gap-3 mt-6">
+        <div className="grid grid-cols-2 gap-3.5 mt-6">
           {categories.map(c => (
             <button
               key={c.name}
               onClick={() => setSelectedCategory(c.name)}
-              className={`p-4 rounded-[20px] text-center border flex flex-col items-center gap-2.5 transition shadow-2xs hover:scale-101 active:scale-95 duration-150 ${
+              className={`p-4 rounded-[20px] text-center border flex flex-col items-center justify-center gap-3 transition shadow-3xs hover:scale-101 active:scale-95 duration-150 h-24 ${
                 selectedCategory === c.name
                   ? 'bg-primary/5 border-primary shadow-xs ring-1 ring-primary/10'
                   : 'bg-white dark:bg-neutral-900 border-slate-150 dark:border-neutral-800'
               }`}
             >
               <span className="text-2xl">{c.icon}</span>
-              <span className={`text-[10px] font-black uppercase tracking-wider ${
+              <span className={`text-[10px] font-bold ${
                 selectedCategory === c.name ? 'text-primary' : 'text-slate-650 dark:text-neutral-300'
               }`}>{c.name}</span>
             </button>
@@ -1891,7 +1893,7 @@ export const ReportIssueStep1Screen: React.FC = () => {
         <button
           onClick={() => navigate('/complaints/category-details')}
           disabled={!selectedCategory}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm disabled:bg-slate-300 dark:disabled:bg-neutral-800 disabled:text-white/40 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full py-3.5 bg-primary text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-xs uppercase tracking-wider disabled:bg-slate-300 dark:disabled:bg-neutral-800 disabled:text-white/40 disabled:cursor-not-allowed cursor-pointer"
         >
           Next
         </button>
@@ -1906,38 +1908,39 @@ export const ReportIssueStep1Screen: React.FC = () => {
 export const ReportIssueStep2Screen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
-  const [desc, setDesc] = useState("Large pothole on the road near 5th Avenue causing traffic problems.");
-  
-  const potholeSrc = theme === 'dark' 
-    ? "/assets/images/pothole-post-dark.png" 
-    : "/assets/images/pothole-post.png";
+  const [desc, setDesc] = useState("Street light not working near ABC Nagar 2nd Street.");
+  const [selectedWard, setSelectedWard] = useState("Ward 12");
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Header back */}
-      <div className="h-8 flex items-center">
+      <div className="h-8 flex items-center justify-between">
         <button 
           onClick={() => navigate('/complaints/camera')}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          className="p-1 rounded-full text-slate-405 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
         </button>
+        <span className="text-xs font-black text-slate-800 dark:text-white mr-6">Report Complaint</span>
+        <div></div>
       </div>
 
       {/* Describe Form */}
-      <div className="flex-1 flex flex-col justify-center space-y-4 my-2">
+      <div className="flex-1 flex flex-col justify-center space-y-4 my-2 mt-4">
         <div>
-          <h2 className="text-xl font-black">Describe the Issue</h2>
-          <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 font-semibold">Provide more details</p>
+          <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Step 2 of 2</span>
+          <h2 className="text-lg font-black mt-1 text-slate-800 dark:text-white">Describe the Issue</h2>
         </div>
 
         {/* Text description */}
-        <div className="space-y-1.5">
+        <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Description</label>
           <textarea
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
+            placeholder="Please provide more details about the issue."
             rows={3.5}
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary resize-none ${
               theme === 'dark' 
@@ -1948,55 +1951,59 @@ export const ReportIssueStep2Screen: React.FC = () => {
         </div>
 
         {/* Photo uploads list */}
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Add Photos</label>
-          <div className="flex gap-2">
-            
+        <div className="space-y-1.5">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Upload Photos (Max 3)</label>
+          <div className="flex gap-2.5">
             {/* Thumbnail 1 */}
-            <div className="w-16 h-16 rounded-xl border border-slate-200/50 dark:border-neutral-800 overflow-hidden relative shadow-3xs flex items-center justify-center bg-slate-100">
-              <img src={potholeSrc} alt="Pothole input" className="w-full h-full object-cover" />
+            <div className="w-16 h-16 rounded-xl border border-slate-200 dark:border-neutral-800 overflow-hidden relative shadow-3xs flex items-center justify-center bg-slate-100 dark:bg-neutral-900">
+              <span className="text-xl">💡</span>
               <button className="absolute top-1 right-1 w-4 h-4 bg-black/60 rounded-full text-white flex items-center justify-center text-[8px] font-extrabold hover:bg-black">✕</button>
             </div>
 
-            {/* Thumbnail 2 */}
-            <div className="w-16 h-16 rounded-xl border border-slate-200/50 dark:border-neutral-800 overflow-hidden relative shadow-3xs flex items-center justify-center bg-slate-100">
-              <img src={potholeSrc} alt="Pothole input zoomed" className="w-full h-full object-cover" />
-              <button className="absolute top-1 right-1 w-4 h-4 bg-black/60 rounded-full text-white flex items-center justify-center text-[8px] font-extrabold hover:bg-black">✕</button>
-            </div>
-
-            {/* Upload Plus button placeholder */}
-            <button className={`w-16 h-16 rounded-xl border-2 border-dashed flex flex-col items-center justify-center text-slate-350 hover:border-primary transition ${
+            {/* Upload Slot 2 */}
+            <button className={`w-16 h-16 rounded-xl border border-dashed flex flex-col items-center justify-center text-slate-350 hover:border-primary transition ${
               theme === 'dark' ? 'border-neutral-800 bg-neutral-950/20' : 'border-slate-200 bg-slate-50'
             }`}>
               <Plus size={16} />
-              <span className="text-[8px] font-bold mt-1">Upload</span>
+            </button>
+
+            {/* Upload Slot 3 */}
+            <button className={`w-16 h-16 rounded-xl border border-dashed flex flex-col items-center justify-center text-slate-350 hover:border-primary transition ${
+              theme === 'dark' ? 'border-neutral-800 bg-neutral-950/20' : 'border-slate-200 bg-slate-50'
+            }`}>
+              <Plus size={16} />
             </button>
           </div>
         </div>
 
-        {/* Location select input block */}
-        <div className="space-y-1.5">
-          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Add Location</label>
-          <div className="relative">
-            <input
-              type="text"
-              defaultValue="5th Avenue, Avadi North"
-              className={`w-full p-3.5 pr-10 text-xs font-semibold rounded-btn border ${
-                theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-800 text-white' 
-                  : 'bg-white border-slate-200 text-slate-800'
-              }`}
-            />
-            <MapPin size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        {/* Add Tags */}
+        <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Add Tags</label>
+          <div className={`p-3 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-200 text-slate-400'
+          }`}>
+            <span>Select tags</span>
+            <span className="text-[10px] opacity-70">▼</span>
+          </div>
+        </div>
+
+        {/* Ward select block */}
+        <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Ward</label>
+          <div className={`p-3 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+          }`}>
+            <span>{selectedWard}</span>
+            <span className="text-[10px] opacity-70">▼</span>
           </div>
         </div>
       </div>
 
-      {/* Submit Report action */}
+      {/* Submit Action */}
       <div className="mt-4 mb-2">
         <button
           onClick={() => navigate('/complaints/submitted')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
+          className="w-full py-3.5 bg-[#FF4B2B] hover:bg-[#e03d1e] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-xs uppercase tracking-wider text-center"
         >
           Submit Report
         </button>
@@ -2010,13 +2017,7 @@ export const ReportIssueStep2Screen: React.FC = () => {
 // ==========================================
 export const IssueSubmittedScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, language } = useApp();
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const handleTrackStatus = () => {
-    setToastMessage("Tracking details are locked under Phase 4 instructions.");
-    setTimeout(() => setToastMessage(null), 2500);
-  };
+  const { theme } = useApp();
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
@@ -2028,47 +2029,36 @@ export const IssueSubmittedScreen: React.FC = () => {
       {/* Centered Success contents */}
       <div className="flex-1 flex flex-col items-center justify-center text-center">
         {/* Pulsing check circle */}
-        <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-300 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-6 animate-pulse">
-          <Check size={42} strokeWidth={3.5} />
+        <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-300 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-6 animate-pulse">
+          <Check size={36} strokeWidth={3.5} />
         </div>
 
-        <h3 className="text-lg font-black leading-snug">Issue Submitted<br />Successfully!</h3>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2 max-w-xs font-semibold leading-relaxed">
+        <h3 className="text-lg font-black leading-snug text-slate-800 dark:text-white">Complaint Submitted Successfully!</h3>
+        <p className="text-[11px] text-slate-400 dark:text-neutral-500 mt-2 max-w-xs font-semibold leading-relaxed">
           Your issue has been submitted and will be updated soon.
         </p>
 
         {/* Issue ID panel */}
-        <div className={`mt-8 p-4 rounded-card border w-64 shadow-2xs ${
+        <div className={`mt-6 p-4 rounded-card border w-64 shadow-2xs ${
           theme === 'dark' ? 'bg-neutral-900/60 border-neutral-800' : 'bg-white border-slate-150'
         }`}>
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-450 dark:text-neutral-500">Issue ID</span>
-          <h4 className="text-sm font-extrabold text-primary dark:text-white mt-1">AVDI2505120001</h4>
+          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-450 dark:text-neutral-500">Complaint ID</span>
+          <h4 className="text-xs font-black text-primary dark:text-white mt-1">AVD12-240501-0012</h4>
         </div>
+
+        <p className="text-[11px] text-slate-405 dark:text-neutral-500 mt-6 font-semibold">
+          We will notify you about the updates.
+        </p>
       </div>
 
       {/* Actions */}
-      <div className="space-y-3.5 mb-2 relative">
+      <div className="mt-4 mb-2">
         <button
           onClick={() => navigate('/complaints')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
+          className="w-full py-3.5 bg-primary text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-xs uppercase tracking-wider text-center"
         >
-          Track Status
+          Go to My Complaints
         </button>
-
-        <button
-          onClick={() => navigate('/home')}
-          className={`w-full py-4 font-bold rounded-btn text-sm hover:underline active:scale-95 transition ${
-            theme === 'dark' ? 'text-white' : 'text-slate-650'
-          }`}
-        >
-          Back to Home
-        </button>
-
-        {toastMessage && (
-          <div className="absolute -top-16 left-1/2 -translate-x-1/2 bg-black/85 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-2.5 rounded-full text-[10px] font-bold shadow-xl text-center w-64 leading-normal z-50">
-            {toastMessage}
-          </div>
-        )}
       </div>
     </div>
   );

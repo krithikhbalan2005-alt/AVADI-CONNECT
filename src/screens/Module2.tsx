@@ -773,114 +773,115 @@ export const LanguageSelectionScreen: React.FC = () => {
 // ==========================================
 export const MyReportedScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, language } = useApp();
-  const [activeSort, setActiveSort] = useState<'All' | 'Pending' | 'Progress' | 'Resolved'>('All');
-  const [showSortDropdown, setShowSortDropdown] = useState(false);
-
-  const reports = [
-    { id: 1, title: 'Pothole on 5th Avenue', status: 'In Progress', code: 'Pending', icon: '📍', color: 'bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-450' },
-    { id: 2, title: 'Street Light Not Working', status: 'Resolved', code: 'Resolved', icon: '💡', color: 'bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400' },
-    { id: 3, title: 'Garbage Not Collected', status: 'Pending', code: 'Pending', icon: '🗑️', color: 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-450' },
-    { id: 4, title: 'Water Leakage', status: 'In Progress', code: 'Pending', icon: '💧', color: 'bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400' }
-  ];
-
-  const filteredReports = reports.filter(r => {
-    if (activeSort === 'All') return true;
-    if (activeSort === 'Pending') return r.status === 'Pending';
-    if (activeSort === 'Progress') return r.status === 'In Progress';
-    if (activeSort === 'Resolved') return r.status === 'Resolved';
-    return true;
-  });
+  const { theme } = useApp();
+  const [activeTab, setActiveTab] = useState<'my' | 'public'>('my');
 
   return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none relative transition-colors duration-300 ${
+    <div className={`flex-grow flex flex-col justify-between select-none relative h-full ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scrollable list */}
-      <div className="flex-grow overflow-y-auto space-y-4 pb-14">
+      <div className="flex-1 overflow-y-auto p-5 space-y-5 pb-20">
         
         {/* Header */}
-        <div className="flex justify-between items-center h-10 relative">
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => navigate(-1)}
-              className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <h2 className="text-md font-black">My Reported</h2>
-          </div>
-
-          {/* Sort selection dropdown */}
-          <div className="relative">
-            <button 
-              onClick={() => setShowSortDropdown(!showSortDropdown)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-extrabold tracking-wide uppercase transition-all ${
-                theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-800 text-white' 
-                  : 'bg-white border-slate-200 text-slate-700'
-              }`}
-            >
-              <span>Sort by: {activeSort}</span>
-              <span className="text-[9px] opacity-70">▼</span>
-            </button>
-            
-            {showSortDropdown && (
-              <div className={`absolute top-10 right-0 w-36 rounded-2xl shadow-xl border p-2 z-50 ${
-                theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-800 text-white' 
-                  : 'bg-white border-slate-150 text-slate-700'
-              }`}>
-                {(['All', 'Pending', 'Progress', 'Resolved'] as const).map(s => (
-                  <button
-                    key={s}
-                    onClick={() => {
-                      setActiveSort(s);
-                      setShowSortDropdown(false);
-                    }}
-                    className={`w-full text-left text-xs p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-neutral-800 transition font-semibold ${
-                      activeSort === s ? 'text-primary font-bold' : ''
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+        <div className="flex items-center gap-2 h-8">
+          <button 
+            onClick={() => navigate('/civic')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <h2 className="text-md font-black">My Complaints</h2>
         </div>
 
-        <div className="space-y-3 mt-2">
-          {filteredReports.map(r => (
-            <div
-              key={r.id}
-              onClick={() => navigate(`/complaints/${r.id}`)}
-              className={`p-3.5 rounded-card border flex items-center justify-between shadow-2xs cursor-pointer hover:shadow-xs active:scale-99 transition ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-800/80' : 'bg-white border-slate-150'
-              }`}
-            >
-              <div className="flex items-center gap-3.5">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-3xs ${r.color}`}>
-                  <span className="text-lg">{r.icon}</span>
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-white leading-tight">{r.title}</h4>
-                  <p className="text-[10px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">
-                    Status: <span className={`${
-                      r.status === 'Resolved' 
-                        ? 'text-emerald-500' 
-                        : r.status === 'Pending' 
-                        ? 'text-slate-500' 
-                        : 'text-amber-500'
-                    }`}>{r.status}</span>
-                  </p>
-                </div>
+        {/* Tabs selector */}
+        <div className="flex gap-2">
+          <button 
+            onClick={() => setActiveTab('my')}
+            className={`flex-1 py-2 text-[10px] uppercase tracking-wider font-extrabold rounded-full border transition ${
+              activeTab === 'my'
+                ? 'bg-primary text-white border-primary shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-455 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            My Complaints
+          </button>
+          <button 
+            onClick={() => setActiveTab('public')}
+            className={`flex-1 py-2 text-[10px] uppercase tracking-wider font-extrabold rounded-full border transition ${
+              activeTab === 'public'
+                ? 'bg-primary text-white border-primary shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-455 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            Public Complaints
+          </button>
+        </div>
+
+        {/* Main tracking card */}
+        <div className={`p-4.5 rounded-[20px] border shadow-2xs space-y-4 ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+        }`}>
+          {/* Card Header ID & status */}
+          <div className="flex justify-between items-center pb-2.5 border-b border-slate-100 dark:border-neutral-800/60">
+            <span className="text-[10px] font-black tracking-wide text-primary">AVD12-240501-0012</span>
+            <span className="px-2 py-0.5 border border-emerald-500/50 bg-emerald-500/5 text-emerald-500 rounded-full text-[8px] font-extrabold uppercase">
+              In Progress
+            </span>
+          </div>
+
+          {/* Issue category & address */}
+          <div>
+            <h4 className="text-xs font-black text-slate-800 dark:text-white">Street Light</h4>
+            <p className="text-[10px] text-slate-405 dark:text-neutral-550 mt-0.5 font-semibold">ABC Nagar 2nd Street</p>
+          </div>
+
+          {/* Progress vertical path timeline */}
+          <div className="relative pl-6 space-y-4 py-1.5">
+            {/* Connecting line */}
+            <div className="absolute left-[5px] top-2.5 bottom-2.5 w-0.5 bg-slate-200 dark:bg-neutral-800"></div>
+
+            {/* Step 1: Submitted */}
+            <div className="relative">
+              <div className="absolute -left-[24.5px] top-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900 shadow-3xs"></div>
+              <div>
+                <h5 className="text-[10px] font-black text-slate-850 dark:text-neutral-200">Submitted</h5>
+                <p className="text-[8px] text-slate-400 mt-0.5">01 May 2024, 10:30 AM</p>
               </div>
-              <span className="text-slate-350 text-xs">▶</span>
             </div>
-          ))}
-        </div>
 
+            {/* Step 2: Under Review */}
+            <div className="relative">
+              <div className="absolute -left-[24.5px] top-1 w-2.5 h-2.5 rounded-full bg-amber-500 border-2 border-white dark:border-neutral-900 shadow-3xs"></div>
+              <div>
+                <h5 className="text-[10px] font-black text-slate-850 dark:text-neutral-200">Under Review</h5>
+                <p className="text-[8px] text-slate-400 mt-0.5">01 May 2024, 11:00 AM</p>
+              </div>
+            </div>
+
+            {/* Step 3: Action Taken */}
+            <div className="relative">
+              <div className="absolute -left-[24.5px] top-1 w-2.5 h-2.5 rounded-full bg-primary border-2 border-white dark:border-neutral-900 shadow-3xs animate-pulse"></div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <h5 className="text-[10px] font-black text-slate-850 dark:text-neutral-200">Action Taken</h5>
+                  <span className="text-[7px] font-extrabold uppercase bg-primary/10 text-primary px-1 rounded-sm">In Progress</span>
+                </div>
+                <p className="text-[8px] text-slate-400 mt-0.5">01 May 2024, 02:15 PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Action Button View Details */}
+      <div className="absolute bottom-16 left-0 w-full p-4 z-20 bg-transparent">
+        <button 
+          onClick={() => navigate('/complaints/comp_1')}
+          className="w-full py-3.5 bg-primary hover:bg-primary-dark text-white font-bold rounded-btn shadow-md hover:scale-[1.01] active:scale-[0.98] transition text-xs text-center uppercase tracking-wider"
+        >
+          View Details
+        </button>
       </div>
 
       {/* Sticky Bottom Navigation (MD3 style) */}
@@ -893,39 +894,28 @@ export const MyReportedScreen: React.FC = () => {
           onClick={() => navigate('/home')}
           className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
         >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🏠</span>
-          </div>
+          <span className="text-md">🏠</span>
           <span className="text-[9px] font-bold mt-1">Home</span>
         </button>
-
         <button 
           onClick={() => navigate('/civic')}
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
+          className="flex flex-col items-center justify-center flex-1 text-primary"
         >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🏛️</span>
-          </div>
+          <span className="text-md bg-primary/10 px-4 py-0.5 rounded-full">🏛️</span>
           <span className="text-[9px] font-bold mt-1">Civic</span>
         </button>
-
         <button 
           onClick={() => navigate('/explore')} 
           className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
         >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🧭</span>
-          </div>
+          <span className="text-md">🧭</span>
           <span className="text-[9px] font-bold mt-1">Explore</span>
         </button>
-
         <button 
           onClick={() => navigate('/community-feed')}
           className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
         >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">👥</span>
-          </div>
+          <span className="text-md">👥</span>
           <span className="text-[9px] font-bold mt-1">Feed</span>
         </button>
       </div>
@@ -1894,117 +1884,126 @@ export const TransportTimetableScreen: React.FC = () => {
 
 export const CivicHubScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, complaints } = useApp();
+  const { theme } = useApp();
 
   return (
-    <div className={`flex-1 flex flex-col justify-between relative select-none ${
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
-      <div className="flex-grow overflow-y-auto p-4 space-y-4 pb-20">
+      {/* Scrollable Container */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-5 pb-20">
         {/* Header */}
-        <div className="flex justify-between items-center h-10">
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => navigate('/home')}
-              className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <h2 className="text-md font-black">Civic Hub</h2>
+        <div className="flex items-center gap-2 h-8">
+          <button 
+            onClick={() => navigate('/home')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <h2 className="text-md font-black">Complaints</h2>
+        </div>
+
+        {/* How it Works progress row */}
+        <div className={`p-3.5 rounded-card border ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-100 shadow-3xs'
+        }`}>
+          <span className="text-[8px] font-black tracking-wider uppercase text-slate-400 dark:text-neutral-500">How it works</span>
+          <div className="flex justify-between items-center mt-2.5 text-[9px] font-bold text-slate-500 dark:text-neutral-400">
+            <span>Report</span>
+            <span className="text-slate-300">❯</span>
+            <span>Review</span>
+            <span className="text-slate-300">❯</span>
+            <span>Action</span>
+            <span className="text-slate-300">❯</span>
+            <span className="text-primary">Resolve</span>
           </div>
-          <button className="p-2 rounded-full border border-slate-200/20" onClick={() => navigate('/notifications')}>
-            <Bell size={15} className="text-slate-500" />
+        </div>
+
+        {/* Services Grid */}
+        <div className="grid grid-cols-2 gap-3">
+          <button 
+            onClick={() => navigate('/complaints')}
+            className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition active:scale-95 duration-200 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}
+          >
+            <span className="text-xl">📊</span>
+            <div>
+              <h5 className="text-[11px] font-extrabold">My Reports</h5>
+              <p className="text-[8px] text-slate-405 dark:text-neutral-500 leading-normal mt-0.5">Track your reports</p>
+            </div>
+          </button>
+
+          <button 
+            onClick={() => navigate('/complaints')}
+            className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition active:scale-95 duration-200 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}
+          >
+            <span className="text-xl">📋</span>
+            <div>
+              <h5 className="text-[11px] font-extrabold">My Complaints</h5>
+              <p className="text-[8px] text-slate-405 dark:text-neutral-500 leading-normal mt-0.5">View your complaints</p>
+            </div>
+          </button>
+
+          <button 
+            onClick={() => navigate('/alerts')}
+            className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition active:scale-95 duration-200 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}
+          >
+            <span className="text-xl">🚨</span>
+            <div>
+              <h5 className="text-[11px] font-extrabold">Local Alerts</h5>
+              <p className="text-[8px] text-slate-405 dark:text-neutral-500 leading-normal mt-0.5">Important alerts & updates</p>
+            </div>
+          </button>
+
+          <button 
+            onClick={() => navigate('/services?category=government')}
+            className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition active:scale-95 duration-200 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}
+          >
+            <span className="text-xl">🏛️</span>
+            <div>
+              <h5 className="text-[11px] font-extrabold">Govt Services</h5>
+              <p className="text-[8px] text-slate-405 dark:text-neutral-500 leading-normal mt-0.5">Access government services</p>
+            </div>
           </button>
         </div>
 
-        <div className="rounded-card overflow-hidden border aspect-[16/7] relative shadow-soft">
-          <img 
-            src="/assets/images/banners/civic-report-banner.webp" 
-            alt="Avadi Civic Assistance" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-4 flex flex-col justify-end">
-            <h3 className="text-white font-extrabold text-sm leading-tight">Your Voice Matters.</h3>
-            <p className="text-white/80 text-[10px] mt-1 font-bold">Report local issues and track resolutions</p>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-450 dark:text-neutral-500 pb-2">Civic Services</h4>
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              onClick={() => navigate('/complaints')}
-              className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-              }`}
-            >
-              <span className="text-2xl">📋</span>
-              <div>
-                <h5 className="text-[11px] font-extrabold">My Complaints</h5>
-                <p className="text-[8px] text-slate-400">{complaints.length} filed issues</p>
-              </div>
-            </button>
-            <button 
-              onClick={() => navigate('/complaints/camera')}
-              className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-              }`}
-            >
-              <span className="text-2xl">📸</span>
-              <div>
-                <h5 className="text-[11px] font-extrabold">Report Complaint</h5>
-                <p className="text-[8px] text-slate-400">File a civic grievance</p>
-              </div>
-            </button>
-            <button 
-              onClick={() => navigate('/alerts')}
-              className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-              }`}
-            >
-              <span className="text-2xl">⚠️</span>
-              <div>
-                <h5 className="text-[11px] font-extrabold">Local Alerts</h5>
-                <p className="text-[8px] text-slate-400">View warnings</p>
-              </div>
-            </button>
-            <button 
-              onClick={() => navigate('/services?category=government')}
-              className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-              }`}
-            >
-              <span className="text-2xl">🏛️</span>
-              <div>
-                <h5 className="text-[11px] font-extrabold">Govt Services</h5>
-                <p className="text-[8px] text-slate-400">Explore civic portals</p>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <div className={`p-4 rounded-card border shadow-2xs ${
+        {/* Ward Administration */}
+        <div className={`p-4.5 rounded-card border shadow-2xs ${
           theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
         }`}>
-          <div className="flex justify-between items-center cursor-pointer" onClick={() => navigate('/notifications')}>
-            <div>
-              <h5 className="text-xs font-bold">Notices & Circulars</h5>
-              <p className="text-[9px] text-slate-400 mt-0.5">Read corporation updates & announcements</p>
+          <h4 className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Ward Administration</h4>
+          <div className="flex items-center gap-3.5 mt-3">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs shrink-0">
+              MM
             </div>
-            <span className="text-xs text-slate-350 font-bold">▶</span>
-          </div>
-        </div>
-
-        <div className={`p-4 rounded-card border shadow-2xs ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-        }`}>
-          <div>
-            <h5 className="text-xs font-bold">Ward 3 Administration</h5>
-            <p className="text-[9px] text-slate-400 mt-0.5">Representative: M. Saravanan • Phone: +91 94440 12345</p>
+            <div className="space-y-0.5">
+              <h5 className="text-[11px] font-extrabold">M. S. Mohan</h5>
+              <p className="text-[9px] text-slate-405 dark:text-neutral-500 font-semibold">Ward Officer - Ward 12</p>
+              <p className="text-[9px] text-slate-500 dark:text-neutral-450 font-bold mt-1">📞 +91 98765 43210</p>
+              <p className="text-[9px] text-slate-505 dark:text-neutral-450 font-bold">✉ ward12@avadi.gov.in</p>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Floating Sticky Bottom Primary Action */}
+      <div className="absolute bottom-16 left-0 w-full p-4 z-20 bg-transparent">
+        <button 
+          onClick={() => navigate('/complaints/camera')}
+          className="w-full py-3.5 bg-[#FF4B2B] hover:bg-[#e03d1e] text-white font-bold rounded-btn shadow-md hover:scale-[1.01] active:scale-[0.98] transition text-xs text-center"
+        >
+          Report a Complaint
+        </button>
+      </div>
+
+      {/* Sticky Bottom Navigation */}
       <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
         theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white' : 'bg-white/95 border-slate-150 text-slate-700'
       }`}>
