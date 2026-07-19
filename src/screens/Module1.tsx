@@ -30,9 +30,9 @@ import {
   LogOut
 } from 'lucide-react';
 
-// ==========================================
-// 1. SPLASH SCREEN (Strict specifications)
-// ==========================================
+
+
+// SPLASH SCREEN
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
 
@@ -52,11 +52,9 @@ export const SplashScreen: React.FC = () => {
       />
     </div>
   );
-};
+}
 
-// ==========================================
-// 2. WELCOME SCREEN
-// ==========================================
+// WELCOME SCREEN
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -135,295 +133,9 @@ export const WelcomeScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 3. ONBOARDING CIVIC
-// ==========================================
-export const OnboardingCivicScreen: React.FC = () => {
-  const navigate = useNavigate();
-  const { theme } = useApp();
-
-  const civicSrc = theme === 'dark' 
-    ? "/assets/images/onboarding-civic-dark.png" 
-    : "/assets/images/onboarding-civic.png";
-
-  return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
-      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
-    }`}>
-      {/* Header Skip */}
-      <div className="flex justify-between items-center h-8">
-        <button 
-          onClick={() => navigate('/welcome')}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <button 
-          onClick={() => navigate('/ward-selection')}
-          className="text-xs font-bold text-slate-400 hover:text-primary transition uppercase tracking-wider"
-        >
-          Skip
-        </button>
-      </div>
-
-      {/* Illustration & text */}
-      <div className="flex-1 flex flex-col justify-center items-center text-center">
-        <div className={`w-52 h-52 rounded-full overflow-hidden flex items-center justify-center mb-8 relative border shadow-soft ${
-          theme === 'dark' ? 'bg-neutral-900/60 border-neutral-800' : 'bg-slate-50 border-slate-100'
-        }`}>
-          <img 
-            src={civicSrc} 
-            alt="Civic Hub Illustration" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <h3 className="text-lg font-black text-slate-800 dark:text-white">Your Civic Hub</h3>
-        <p className="text-xs text-primary font-bold mt-1.5 uppercase tracking-wider">Everything Avadi, One Place.</p>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2 max-w-xs leading-relaxed font-medium">
-          Access local services, updates and community features easily.
-        </p>
-      </div>
-
-      {/* Navigation footer */}
-      <div className="flex flex-col items-center gap-6 mb-2">
-        {/* Dots */}
-        <div className="flex gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
-          <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-neutral-800"></span>
-          <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-neutral-800"></span>
-          <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-neutral-800"></span>
-        </div>
-
-        <button 
-          onClick={() => navigate('/onboarding/safety')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn flex items-center justify-center gap-2 hover:scale-101 active:scale-95 transition-all duration-200 text-sm shadow-md"
-        >
-          <span>Next</span>
-          <ArrowRight size={16} />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 4. ONBOARDING SAFETY
-// ==========================================
-export const OnboardingSafetyScreen: React.FC = () => {
-  const navigate = useNavigate();
-  const { theme } = useApp();
-
-  const safetySrc = theme === 'dark' 
-    ? "/assets/images/onboarding-safety-dark.png" 
-    : "/assets/images/onboarding-safety.png";
-
-  return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
-      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
-    }`}>
-      {/* Header Navigation */}
-      <div className="flex justify-between items-center h-8">
-        <button 
-          onClick={() => navigate('/onboarding/civic')}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <button 
-          onClick={() => navigate('/ward-selection')}
-          className="text-xs font-bold text-slate-400 hover:text-primary transition uppercase tracking-wider"
-        >
-          Skip
-        </button>
-      </div>
-
-      {/* Illustration & text */}
-      <div className="flex-1 flex flex-col justify-center items-center text-center">
-        <div className={`w-52 h-52 rounded-full overflow-hidden flex items-center justify-center mb-8 relative border shadow-soft ${
-          theme === 'dark' ? 'bg-neutral-900/60 border-neutral-800' : 'bg-slate-50 border-slate-100'
-        }`}>
-          <img 
-            src={safetySrc} 
-            alt="Safety Hub Illustration" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <h3 className="text-lg font-black text-slate-800 dark:text-white">Stay Safe, Stay Connected</h3>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2.5 max-w-xs leading-relaxed font-medium">
-          Instant alerts, SOS, and safety tools for you and your family.
-        </p>
-      </div>
-
-      {/* Navigation footer */}
-      <div className="flex flex-col items-center gap-6 mb-2">
-        {/* Dots */}
-        <div className="flex gap-2">
-          <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-neutral-800"></span>
-          <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
-          <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-neutral-800"></span>
-          <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-neutral-800"></span>
-        </div>
-
-        <button 
-          onClick={() => navigate('/ward-selection')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn flex items-center justify-center gap-2 hover:scale-101 active:scale-95 transition-all duration-200 text-sm shadow-md"
-        >
-          <span>Next</span>
-          <ArrowRight size={16} />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 5. WARD SELECTION
-// ==========================================
-export const WardSelectionScreen: React.FC = () => {
-  const navigate = useNavigate();
-  const { selectedWard, setSelectedWard, theme } = useApp();
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const neighborhoods = [
-    { area: 'Avadi North', desc: 'Gandhi Nagar, Kovilpathu', img: 'https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Avadi South', desc: 'Kamaraj Nagar, Paruthipattu', img: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Avadi East', desc: 'TNHB Colony, Pattabiram', img: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Avadi West', desc: 'HVF Estate, Military Area', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Thirumullaivoyal', desc: 'Shanthi Nagar, Thirumullaivoyal', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Mittanamalli', desc: 'Defense Enclave, Mittanamalli', img: 'https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Muthapudupet', desc: 'IAF Campus, Muthapudupet', img: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=120' },
-    { area: 'Sekkadu', desc: 'Sekkadu Main Road, Avadi', img: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=80&w=120' }
-  ];
-
-  const wards = Array.from({ length: 48 }, (_, i) => {
-    const wardNum = i + 1;
-    const neigh = neighborhoods[i % neighborhoods.length];
-    return {
-      name: `Ward ${wardNum}`,
-      sub: neigh.area,
-      img: neigh.img,
-      desc: neigh.desc
-    };
-  });
-
-  const filteredWards = wards.filter(w => 
-    w.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    w.sub.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    w.desc.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
-      theme === 'dark' ? 'bg-[#121212]' : 'bg-slate-50'
-    }`}>
-      {/* Header Back & Search toggle */}
-      <div className="flex justify-between items-center h-8 relative">
-        <button 
-          onClick={() => navigate('/onboarding/safety')}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        
-        {searchOpen ? (
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search ward..."
-            className="absolute left-10 right-10 py-1 px-3 bg-slate-100 dark:bg-neutral-800 text-xs rounded-full border border-slate-200 dark:border-neutral-700 focus:outline-none focus:border-primary text-slate-800 dark:text-white"
-            autoFocus
-          />
-        ) : (
-          <span className="text-xs font-bold text-slate-400 dark:text-neutral-500 uppercase tracking-widest">Select Ward</span>
-        )}
-
-        <button 
-          onClick={() => {
-            setSearchOpen(!searchOpen);
-            if (searchOpen) setSearchQuery('');
-          }}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-        >
-          <Search size={18} />
-        </button>
-      </div>
-
-      {/* Main Ward Select contents */}
-      <div className="flex-1 flex flex-col justify-center mt-4">
-        <h2 className="text-xl font-black text-slate-800 dark:text-white">Select Your Ward</h2>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 leading-normal font-semibold">
-          Choose your ward to personalize your experience.
-        </p>
-
-        {/* Ward Cards List container */}
-        <div className="space-y-2.5 mt-5 overflow-y-auto max-h-[420px] pr-1">
-          {filteredWards.map((w) => {
-            const isSelected = selectedWard === `${w.name} - ${w.sub}`;
-            return (
-              <button
-                key={w.name}
-                onClick={() => setSelectedWard(`${w.name} - ${w.sub}`)}
-                className={`w-full text-left p-3.5 rounded-card border transition flex items-center justify-between shadow-2xs hover:scale-[1.005] duration-150 ${
-                  isSelected
-                    ? 'bg-primary/5 border-primary shadow-xs'
-                    : 'bg-white dark:bg-neutral-900 border-slate-150 dark:border-neutral-800'
-                }`}
-              >
-                <div className="flex items-center gap-3.5">
-                  {/* Ward Thumbnail from Sliced Design Board Assets */}
-                  <div className={`w-11 h-11 rounded-xl overflow-hidden shadow-2xs border flex items-center justify-center bg-slate-100 dark:bg-neutral-900 ${
-                    isSelected 
-                      ? 'border-primary/40' 
-                      : 'border-slate-100 dark:border-neutral-850'
-                  }`}>
-                    <img src={w.img} alt={w.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h4 className={`text-xs font-bold ${
-                      isSelected ? 'text-primary' : 'text-slate-800 dark:text-white'
-                    }`}>
-                      {w.name}
-                    </h4>
-                    <p className="text-[10px] font-bold text-slate-400 dark:text-neutral-500 mt-0.5">{w.sub}</p>
-                  </div>
-                </div>
-
-                {/* Radio Circle Selector indicator */}
-                <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                  isSelected 
-                    ? 'border-primary bg-primary text-white scale-110 shadow-xs' 
-                    : 'border-slate-355 dark:border-neutral-700 bg-white dark:bg-neutral-950'
-                } transition-transform duration-200`}>
-                  {isSelected && <Check size={12} strokeWidth={3.5} />}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Action Footer Continue */}
-      <div className="mt-6 mb-2">
-        <button
-          onClick={() => navigate('/registration')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
-        >
-          Continue
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 6. REGISTRATION - STEP 1: BASIC INFO
-// ==========================================
+// REGISTRATION
 export const RegistrationScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -554,11 +266,9 @@ export const RegistrationScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 6A. REGISTRATION - STEP 2: CONTACT INFO
-// ==========================================
+// CONTACT INFO
 export const ContactInfoScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -638,11 +348,9 @@ export const ContactInfoScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 6B. REGISTRATION - STEP 3: ADDRESS & WARD
-// ==========================================
+// ADDRESS WARD
 export const AddressWardScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme, selectedWard, setSelectedWard } = useApp();
@@ -760,11 +468,9 @@ export const AddressWardScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 7. OTP VERIFICATION SCREEN
-// ==========================================
+// OTP
 export const OTPScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme, language } = useApp();
@@ -953,225 +659,9 @@ export const OTPScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-export const LocationPermissionScreen: React.FC = () => {
-  const navigate = useNavigate();
-  const { theme } = useApp();
-
-  const mapSrc = theme === 'dark' 
-    ? "/assets/images/location-permission-dark.png" 
-    : "/assets/images/location-permission.png";
-
-  const handleAllowLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        () => navigate('/choose-appearance'),
-        () => navigate('/choose-appearance'),
-        { timeout: 2000 }
-      );
-    } else {
-      navigate('/choose-appearance');
-    }
-  };
-
-  return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
-      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
-    }`}>
-      {/* Header Nav */}
-      <div className="h-8 flex items-center">
-        <button 
-          onClick={() => navigate('/otp')}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-        >
-          <ChevronLeft size={20} />
-        </button>
-      </div>
-
-      {/* Isometric Map Artwork */}
-      <div className="flex justify-center my-2">
-        <img 
-          src={mapSrc} 
-          alt="Isometric Map Navigation Pointer" 
-          className="w-40 h-32 object-contain"
-        />
-      </div>
-
-      {/* Heading Text */}
-      <div className="text-center mt-2">
-        <h2 className="text-lg font-black text-slate-800 dark:text-white">Allow Location Access</h2>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2 max-w-xs mx-auto leading-relaxed font-semibold">
-          To provide better local services and updates
-        </p>
-      </div>
-
-      {/* Permission Features bullets */}
-      <div className="flex-1 flex flex-col justify-center max-w-xs mx-auto space-y-4 my-4 font-semibold text-xs text-slate-500 dark:text-neutral-400">
-        <div className="flex items-center gap-3">
-          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs">🔔</div>
-          <span>Get nearby alerts</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs">🎯</div>
-          <span>Report accurate location</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs">🗺️</div>
-          <span>Find nearby places</span>
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="space-y-3.5 mb-2">
-        <button 
-          onClick={handleAllowLocation}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
-        >
-          Allow Location
-        </button>
-
-        <button 
-          onClick={() => navigate('/choose-appearance')}
-          className={`w-full py-4 font-bold rounded-btn text-sm hover:underline active:scale-95 transition ${
-            theme === 'dark' ? 'text-white' : 'text-slate-600'
-          }`}
-        >
-          Not Now
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// CHOOSE APPEARANCE SCREEN
-// ==========================================
-export const ChooseAppearanceScreen: React.FC = () => {
-  const navigate = useNavigate();
-  const { theme, setTheme, language } = useApp();
-  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>(theme);
-
-  const handleSelect = (mode: 'light' | 'dark') => {
-    setSelectedTheme(mode);
-    setTheme(mode); 
-  };
-
-  return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none transition-colors duration-300 ${
-      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
-    }`}>
-      <div className="h-8 flex items-center">
-        <button 
-          onClick={() => navigate('/location-permission')}
-          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-        >
-          <ChevronLeft size={20} />
-        </button>
-      </div>
-
-      <div className="mt-2">
-        <h2 className="text-xl font-black">
-          {language === 'en' ? "Choose Your Appearance" : "உங்கள் தோற்றத்தைத் தேர்ந்தெடுக்கவும்"}
-        </h2>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2 font-semibold leading-relaxed">
-          {language === 'en' 
-            ? "Select how Avadi Connect should look. You can change this later in Settings." 
-            : "Avadi Connect எப்படி தோன்ற வேண்டும் என்பதைத் தேர்வு செய்யுங்கள். இதை Settings-ல் பின்னர் மாற்றலாம்."}
-        </p>
-      </div>
-
-      <div className="flex-1 flex flex-col justify-center space-y-4 my-6">
-        
-        {/* Light Card */}
-        <button
-          onClick={() => handleSelect('light')}
-          className={`w-full p-4 rounded-[20px] text-left border flex items-center justify-between transition-all duration-200 ${
-            selectedTheme === 'light'
-              ? 'border-primary bg-white shadow-soft ring-1 ring-primary/10'
-              : 'border-slate-200 bg-white/60 dark:bg-neutral-900/30 dark:border-neutral-850'
-          }`}
-        >
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-              selectedTheme === 'light' ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 text-slate-400'
-            }`}>
-              <Sun size={24} />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">Light Mode</h4>
-              <div className="flex gap-1.5 mt-2">
-                <div className="w-8 h-4 rounded-xs bg-slate-100 border border-slate-200 flex flex-col justify-between p-0.5">
-                  <div className="h-1 w-full bg-primary/20 rounded-3xs"></div>
-                  <div className="flex gap-0.5">
-                    <div className="h-1.5 w-1.5 rounded-full bg-slate-300"></div>
-                    <div className="h-1.5 w-1.5 rounded-full bg-slate-300"></div>
-                  </div>
-                </div>
-                <span className="text-[9px] text-slate-400 dark:text-neutral-500 font-semibold">Bright & soft</span>
-              </div>
-            </div>
-          </div>
-          <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-            selectedTheme === 'light' ? 'border-primary bg-primary text-white' : 'border-slate-300'
-          }`}>
-            {selectedTheme === 'light' && <Check size={12} strokeWidth={4} />}
-          </div>
-        </button>
-
-        {/* Dark Card */}
-        <button
-          onClick={() => handleSelect('dark')}
-          className={`w-full p-4 rounded-[20px] text-left border flex items-center justify-between transition-all duration-200 ${
-            selectedTheme === 'dark'
-              ? 'border-primary bg-neutral-900 shadow-soft ring-1 ring-primary/20'
-              : 'border-slate-200 bg-white/60 dark:bg-neutral-900/30 dark:border-neutral-850'
-          }`}
-        >
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-              selectedTheme === 'dark' ? 'bg-indigo-950 text-indigo-400' : 'bg-slate-100 text-slate-400 dark:bg-neutral-800 dark:text-neutral-500'
-            }`}>
-              <Moon size={22} />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">Dark Mode</h4>
-              <div className="flex gap-1.5 mt-2">
-                <div className="w-8 h-4 rounded-xs bg-[#121212] border border-neutral-805 flex flex-col justify-between p-0.5">
-                  <div className="h-1 w-full bg-neutral-800 rounded-3xs"></div>
-                  <div className="flex gap-0.5">
-                    <div className="h-1.5 w-1.5 rounded-full bg-neutral-700"></div>
-                    <div className="h-1.5 w-1.5 rounded-full bg-neutral-700"></div>
-                  </div>
-                </div>
-                <span className="text-[9px] text-slate-400 dark:text-neutral-500 font-semibold">Rich navy dark</span>
-              </div>
-            </div>
-          </div>
-          <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-            selectedTheme === 'dark' ? 'border-primary bg-primary text-white' : 'border-slate-350 dark:border-neutral-700'
-          }`}>
-            {selectedTheme === 'dark' && <Check size={12} strokeWidth={4} />}
-          </div>
-        </button>
-
-      </div>
-
-      <div className="mb-2">
-        <button
-          onClick={() => navigate('/home')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
-        >
-          {language === 'en' ? "Continue" : "தொடரவும்"}
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 9 & 10. HOME DASHBOARD SCREEN (Corrections implemented)
-// ==========================================
+// DASHBOARD
 export const HomeDashboardScreen: React.FC = () => {
   const navigate = useNavigate();
   const { selectedWard, setSelectedWard, theme } = useApp();
@@ -1457,11 +947,9 @@ export const HomeDashboardScreen: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
-// ==========================================
-// 11. COMMUNITY FEED SCREEN
-// ==========================================
+// FEED
 export const CommunityFeedScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -1633,151 +1121,9 @@ export const CommunityFeedScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-export const NoticesScreen: React.FC = () => {
-  const navigate = useNavigate();
-  const { theme } = useApp();
-  const [activeTab, setActiveTab] = useState<'all' | 'gov' | 'events' | 'alerts'>('all');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const noticesList = [
-    { id: 1, title: 'Water Supply Timings', date: 'May 16, 2025', issuer: 'Avadi Corporation', cat: 'gov', color: 'bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400', icon: <Droplet size={16} /> },
-    { id: 2, title: 'Road Maintenance Work', date: 'May 14, 2025', issuer: 'Highways Department', cat: 'alerts', color: 'bg-amber-100 dark:bg-amber-955/40 text-amber-600 dark:text-amber-400', icon: <AlertTriangle size={16} /> },
-    { id: 3, title: 'Community Meeting', date: 'May 12, 2025', issuer: 'Avadi North Ward Office', cat: 'events', color: 'bg-orange-100 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400', icon: <Users size={16} /> },
-    { id: 4, title: 'Health Camp', date: 'May 10, 2025', issuer: 'Primary Health Center', cat: 'events', color: 'bg-purple-100 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400', icon: <HeartIcon size={16} /> }
-  ];
-
-  const filteredNotices = noticesList.filter(n => activeTab === 'all' || n.cat === activeTab);
-
-  const triggerToast = () => {
-    setToastMessage("Notices detail locked under Phase 2.");
-    setTimeout(() => setToastMessage(null), 2000);
-  };
-
-  return (
-    <div className={`flex-1 flex flex-col justify-between relative select-none ${
-      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
-    }`}>
-      <div className="flex-grow overflow-y-auto p-4 space-y-4 pb-20">
-        
-        {/* Header Title */}
-        <div className="flex justify-between items-center h-10">
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => navigate(-1)}
-              className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <h2 className="text-md font-black">Notices</h2>
-          </div>
-          
-          {/* Tabs header scroll list */}
-          <div className="flex gap-2 text-[10px] font-bold">
-            {['all', 'gov', 'events', 'alerts'].map(t => (
-              <button
-                key={t}
-                onClick={() => setActiveTab(t as any)}
-                className={`px-3 py-1.5 rounded-full transition-all border uppercase tracking-wider ${
-                  activeTab === t 
-                    ? 'bg-primary text-white border-primary shadow-xs' 
-                    : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-450 dark:text-neutral-500'
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Notices Cards List */}
-        <div className="space-y-2.5 mt-2">
-          {filteredNotices.map(n => (
-            <button
-              key={n.id}
-              onClick={triggerToast}
-              className={`w-full text-left p-3.5 rounded-card border flex items-center justify-between shadow-2xs hover:scale-[1.005] duration-150 ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-800/80' : 'bg-white border-slate-150'
-              }`}
-            >
-              <div className="flex items-center gap-3.5">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-3xs ${n.color}`}>
-                  {n.icon}
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-white leading-snug">{n.title}</h4>
-                  <p className="text-[9px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">
-                    {n.date} • <span className="text-primary/80">{n.issuer}</span>
-                  </p>
-                </div>
-              </div>
-              <span className="text-[10px] text-slate-350 dark:text-neutral-700">▶</span>
-            </button>
-          ))}
-        </div>
-
-      </div>
-
-      {/* Sticky Bottom Navigation (MD3 style) */}
-      <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
-        theme === 'dark' 
-          ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' 
-          : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
-      }`}>
-        <button 
-          onClick={() => navigate('/home')}
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
-        >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🏠</span>
-          </div>
-          <span className="text-[9px] font-bold mt-1">Home</span>
-        </button>
-
-        <button 
-          onClick={() => navigate('/civic')}
-          className="flex flex-col items-center justify-center flex-1 text-primary"
-        >
-          <div className="px-5 py-1 bg-primary/10 rounded-full flex items-center justify-center">
-            <span className="text-md">🏛️</span>
-          </div>
-          <span className="text-[9px] font-bold mt-1">Civic</span>
-        </button>
-
-        <button 
-          onClick={() => navigate('/explore')} 
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
-        >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md text-slate-500">🧭</span>
-          </div>
-          <span className="text-[9px] font-bold mt-1">Explore</span>
-        </button>
-
-        <button 
-          onClick={() => navigate('/community-feed')}
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
-        >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md text-slate-500">👥</span>
-          </div>
-          <span className="text-[9px] font-bold mt-1">Feed</span>
-        </button>
-      </div>
-
-      {toastMessage && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/80 dark:bg-white/95 text-white dark:text-slate-900 px-5 py-3 rounded-full text-xs font-bold shadow-2xl z-50 text-center w-64 leading-snug animate-fade-in">
-          {toastMessage}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// ==========================================
-// 13. REPORT ISSUE – STEP 1 SCREEN
-// ==========================================
+// STEP 1
 export const ReportIssueStep1Screen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -1846,11 +1192,9 @@ export const ReportIssueStep1Screen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 14. REPORT ISSUE – STEP 2 SCREEN
-// ==========================================
+// STEP 2
 export const ReportIssueStep2Screen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -1956,11 +1300,9 @@ export const ReportIssueStep2Screen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 15. ISSUE SUBMITTED SCREEN
-// ==========================================
+// SUBMITTED
 export const IssueSubmittedScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -2008,11 +1350,9 @@ export const IssueSubmittedScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-// ==========================================
-// 13. NAVIGATION (DRAWER)
-// ==========================================
+// DRAWER
 export const DrawerScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -2088,4 +1428,4 @@ export const DrawerScreen: React.FC = () => {
       </div>
     </div>
   );
-};
+}

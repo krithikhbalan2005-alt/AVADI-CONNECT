@@ -8,15 +8,10 @@ import { AppLayout } from './components/AppLayout';
 import {
   SplashScreen,
   WelcomeScreen,
-  OnboardingCivicScreen,
-  OnboardingSafetyScreen,
-  WardSelectionScreen,
   RegistrationScreen,
   ContactInfoScreen,
   AddressWardScreen,
   OTPScreen,
-  LocationPermissionScreen,
-  ChooseAppearanceScreen,
   HomeDashboardScreen,
   CommunityFeedScreen,
   ReportIssueStep1Screen,
@@ -66,42 +61,6 @@ const AnimatedRoutes: React.FC = () => {
             <WelcomeScreen />
           </motion.div>
         } />
-        
-        <Route path="/onboarding/civic" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <OnboardingCivicScreen />
-          </motion.div>
-        } />
-        
-        <Route path="/onboarding/safety" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <OnboardingSafetyScreen />
-          </motion.div>
-        } />
-        
-        <Route path="/ward-selection" element={
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <WardSelectionScreen />
-          </motion.div>
-        } />
 
         <Route path="/registration" element={
           <motion.div
@@ -148,30 +107,6 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <OTPScreen />
-          </motion.div>
-        } />
-
-        <Route path="/location-permission" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <LocationPermissionScreen />
-          </motion.div>
-        } />
-
-        <Route path="/choose-appearance" element={
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full h-full flex flex-col flex-1"
-          >
-            <ChooseAppearanceScreen />
           </motion.div>
         } />
 
