@@ -4,14 +4,23 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AppProvider } from './context/AppContext';
 import { AppLayout } from './components/AppLayout';
 
-// Module 1 Screens (Active 1 to 5)
+// Module 1 Screens (Active 1 to 8)
 import {
   SplashScreen,
   WelcomeScreen,
   RegistrationScreen,
   ContactInfoScreen,
-  AddressWardScreen
+  AddressWardScreen,
+  OTPScreen,
+  HomeDashboardScreen,
+  CommunityFeedScreen
 } from './screens/Module1';
+
+// Module 2 Screens (Active 9 & 10)
+import {
+  CommunityPostCreateScreen,
+  CivicHubScreen
+} from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
@@ -79,6 +88,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <AddressWardScreen />
+          </motion.div>
+        } />
+
+        <Route path="/otp" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <OTPScreen />
+          </motion.div>
+        } />
+
+        <Route path="/home" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <HomeDashboardScreen />
+          </motion.div>
+        } />
+
+        <Route path="/community-feed" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CommunityFeedScreen />
+          </motion.div>
+        } />
+
+        <Route path="/community-feed/create" element={
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CommunityPostCreateScreen />
+          </motion.div>
+        } />
+
+        <Route path="/civic" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CivicHubScreen />
           </motion.div>
         } />
         

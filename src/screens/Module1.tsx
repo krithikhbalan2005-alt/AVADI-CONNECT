@@ -431,3 +431,535 @@ export const AddressWardScreen: React.FC = () => {
     </div>
   );
 }
+
+
+// SCREEN 6
+export const OTPScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, language } = useApp();
+  const [timer, setTimer] = useState(45);
+  const [otp, setOtp] = useState<string[]>(['5', '2', '8', '1', '6', '3']);
+  const [error, setError] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
+
+  const handleKeypadPress = (num: number) => {
+    setError(null);
+    if (otp.length < 6) {
+      setOtp(prev => [...prev, String(num)]);
+    }
+  };
+
+  const handleBackspace = () => {
+    setError(null);
+    if (otp.length > 0) {
+      setOtp(prev => prev.slice(0, -1));
+    }
+  };
+
+  const handleVerify = () => {
+    if (otp.length < 6) {
+      setError(
+        language === 'en' 
+          ? "Please enter the complete 6-digit OTP code" 
+          : "தயவுசெய்து 6 இலக்க OTP குறியீட்டை உள்ளிடவும்"
+      );
+      return;
+    }
+    setVerifying(true);
+    setTimeout(() => {
+      setVerifying(false);
+      navigate('/home');
+    }, 800);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key >= '0' && e.key <= '9') {
+        if (otp.length < 6) {
+          setOtp(prev => [...prev, e.key]);
+          setError(null);
+        }
+      } else if (e.key === 'Backspace') {
+        if (otp.length > 0) {
+          setOtp(prev => prev.slice(0, -1));
+          setError(null);
+        }
+      } else if (e.key === 'Enter') {
+        if (otp.length === 6) {
+          handleVerify();
+        } else {
+          setError(
+            language === 'en' 
+              ? "Please enter the complete 6-digit OTP code" 
+              : "தயவுசெய்து 6 இலக்க OTP குறியீட்டை உள்ளிடவும்"
+          );
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [otp, language]);
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      {/* Header back */}
+      <div className="h-8 flex items-center">
+        <button 
+          onClick={() => navigate('/register/address')}
+          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+      </div>
+
+      {/* Center Shield Logo Artwork */}
+      <div className="flex flex-col items-center justify-center my-2">
+        <div className="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-[#4A3AFF] border border-indigo-100 dark:border-indigo-900 shadow-2xs relative">
+          <span className="text-sm font-black tracking-wider text-[#4A3AFF]">OTP</span>
+        </div>
+      </div>
+
+      {/* Main Text */}
+      <div className="mt-2 text-center">
+        <h2 className="text-lg font-black text-slate-800 dark:text-white">Verify Your Number</h2>
+        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 max-w-xs mx-auto leading-relaxed font-semibold">
+          your email and mobile
+        </p>
+      </div>
+
+      {/* OTP Blocks */}
+      <div className="flex justify-center gap-2.5 my-4">
+        {[0, 1, 2, 3, 4, 5].map((idx) => {
+          const digit = otp[idx] || '';
+          return (
+            <div 
+              key={idx}
+              className={`w-10 h-12 rounded-xl border flex items-center justify-center text-md font-extrabold shadow-2xs transition duration-150 ${
+                digit 
+                  ? 'border-[#4A3AFF] dark:border-[#4A3AFF] ring-1 ring-[#4A3AFF]/20' 
+                  : 'border-slate-200 dark:border-neutral-800'
+              } ${
+                theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-slate-50 text-slate-800'
+              }`}
+            >
+              {digit}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Timer and Error feedback */}
+      <div className="text-center h-8 flex flex-col justify-center">
+        {error ? (
+          <span className="text-red-500 text-[10px] font-bold animate-pulse">{error}</span>
+        ) : (
+          <span className="text-xs font-semibold text-slate-400 dark:text-neutral-500">
+            Resend OTP in <span className="text-slate-400 dark:text-neutral-500 font-bold">00:{timer < 10 ? `0${timer}` : timer}</span>
+          </span>
+        )}
+      </div>
+
+      {/* Action Button */}
+      <div className="my-2.5">
+        <button
+          onClick={handleVerify}
+          disabled={otp.length < 6 || verifying}
+          className={`w-full h-12 rounded-btn text-white font-bold flex items-center justify-center transition-all duration-200 text-xs uppercase tracking-wider shadow-md ${
+            otp.length === 6 && !verifying
+              ? 'bg-[#4A3AFF] hover:scale-[1.01] active:scale-[0.98]'
+              : 'bg-slate-300 dark:bg-neutral-800 text-white/50 cursor-not-allowed shadow-none'
+          }`}
+        >
+          {verifying ? (
+            <span>Verifying...</span>
+          ) : (
+            <span>Verify & Continue</span>
+          )}
+        </button>
+      </div>
+
+      {/* Keypad */}
+      <div className="border-t border-slate-100 dark:border-neutral-900 pt-3.5 grid grid-cols-3 gap-y-3 gap-x-6 text-center">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+          <button 
+            key={num}
+            onClick={() => handleKeypadPress(num)}
+            className={`py-3 rounded-xl font-extrabold text-sm active:bg-slate-100 dark:active:bg-neutral-800 transition-all ${
+              theme === 'dark' ? 'text-white' : 'text-slate-800'
+            }`}
+          >
+            {num}
+          </button>
+        ))}
+        <button className="py-3 text-xs font-bold text-slate-400">.</button>
+        <button 
+          onClick={() => handleKeypadPress(0)}
+          className={`py-3 rounded-xl font-extrabold text-sm active:bg-slate-100 dark:active:bg-neutral-800 transition-all ${
+            theme === 'dark' ? 'text-white' : 'text-slate-800'
+          }`}
+        >
+          0
+        </button>
+        <button 
+          onClick={handleBackspace}
+          className="py-3 flex items-center justify-center text-slate-400 hover:text-slate-600 transition active:scale-90"
+        >
+          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// SCREEN 7
+export const HomeDashboardScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scrollable Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20">
+        
+        {/* Header Profile & Notifications */}
+        <div className="flex justify-between items-center h-10">
+          <div className="text-left">
+            <h4 className="text-sm font-black text-slate-800 dark:text-white leading-tight">Hello, Karthik 👋</h4>
+            <span className="text-[9px] text-slate-400 dark:text-neutral-500 font-semibold block mt-0.5">World Awaits!</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 transition">
+              <span className="text-sm">🔔</span>
+            </button>
+            <div className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-150">
+              <img 
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" 
+                alt="User Profile" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Actions Grid */}
+        <div>
+          <div className="flex justify-between items-center pb-2">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Today's Actions</h4>
+            <span className="text-xs text-slate-400 cursor-pointer">❯</span>
+          </div>
+          <div className="grid grid-cols-4 gap-2.5 mt-1">
+            {/* Complaints */}
+            <button 
+              onClick={() => navigate('/civic')}
+              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-950/20 flex items-center justify-center text-blue-600">
+                📄
+              </div>
+              <span className="text-[8.5px] font-bold text-center">Complaints</span>
+            </button>
+
+            {/* SOS */}
+            <button 
+              onClick={() => navigate('/home')}
+              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-950/20 flex items-center justify-center text-red-600 font-black text-xs">
+                SOS
+              </div>
+              <span className="text-[8.5px] font-bold text-center">Emergency SOS</span>
+            </button>
+
+            {/* Community Feed */}
+            <button 
+              onClick={() => navigate('/community-feed')}
+              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-purple-950/20 flex items-center justify-center text-purple-650">
+                👥
+              </div>
+              <span className="text-[8.5px] font-bold text-center">Community Feed</span>
+            </button>
+
+            {/* Local Services */}
+            <button 
+              onClick={() => navigate('/home')}
+              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-950/20 flex items-center justify-center text-blue-600">
+                📁
+              </div>
+              <span className="text-[8.5px] font-bold text-center">Local Services</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Travel Information */}
+        <div className="space-y-2">
+          <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Travel Information</h4>
+          <div className="grid grid-cols-2 gap-3">
+            <div className={`p-4 rounded-card border shadow-2xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9px] font-bold text-slate-400 block uppercase">Avadi Railway</span>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-lg">☀️</span>
+                <span className="text-xs font-black">28°C</span>
+              </div>
+            </div>
+
+            <div className={`p-4 rounded-card border shadow-2xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9px] font-bold text-slate-400 block uppercase">Traffic</span>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-lg">🚧</span>
+                <span className="text-xs font-black">Moderate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Explore Avadi Card Banner */}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Explore Avadi</h4>
+            <span className="text-[9.5px] text-[#4A3AFF] font-bold cursor-pointer">View All ❯</span>
+          </div>
+          <div className="rounded-card overflow-hidden border aspect-[16/7] relative shadow-soft">
+            <img 
+              src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=600" 
+              alt="Avadi Landscape Banner" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-4 flex flex-col justify-end">
+              <h3 className="text-white font-extrabold text-xs">Explore Local Places</h3>
+              <p className="text-white/80 text-[8px] mt-0.5 font-bold">Discover parks, temples, and markets near you</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Sticky Bottom Navigation (4 items) */}
+      <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
+        theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white' : 'bg-white/95 border-slate-150 text-slate-700'
+      }`}>
+        <button className="flex flex-col items-center justify-center flex-1 text-[#4A3AFF]">
+          <span className="text-md bg-[#4A3AFF]/10 px-4 py-0.5 rounded-full">🏠</span>
+          <span className="text-[9px] font-bold mt-1">Home</span>
+        </button>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">💼</span>
+          <span className="text-[9px] font-bold mt-1">Services</span>
+        </button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">👥</span>
+          <span className="text-[9px] font-bold mt-1">Feed</span>
+        </button>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">👤</span>
+          <span className="text-[9px] font-bold mt-1">Profile</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// SCREEN 8
+export const CommunityFeedScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeTab, setActiveTab] = useState<'ward' | 'all' | 'complaints'>('ward');
+
+  const feedPosts = [
+    {
+      id: "post_1",
+      author: "Ramesh Kumar",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
+      ward: "Avadi, Tamil Nadu",
+      time: "3h ago",
+      content: "Street light not working near Avadi Park Gate 3",
+      image: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=600",
+      likes: 12,
+      commentsCount: 5,
+      sharesCount: 3
+    },
+    {
+      id: "post_2",
+      author: "Revathi",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+      ward: "Thirumullaivoyal",
+      time: "4h ago",
+      content: "Road damage causing minor blockages in main streets.",
+      likes: 8,
+      commentsCount: 1,
+      sharesCount: 0
+    }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between relative select-none h-full ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20">
+        
+        {/* Header */}
+        <div className="flex justify-between items-center h-10">
+          <h2 className="text-md font-black text-slate-800 dark:text-white">Community Feed</h2>
+          <div className="flex gap-3">
+            <button className="p-1 hover:text-primary transition"><span className="text-sm">🔍</span></button>
+            <button className="p-1 hover:text-primary transition"><span className="text-sm">🔔</span></button>
+          </div>
+        </div>
+
+        {/* Tabs Pills */}
+        <div className="flex gap-2 text-[10px] font-bold">
+          <button 
+            onClick={() => setActiveTab('ward')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'ward'
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            My Feed
+          </button>
+          <button 
+            onClick={() => setActiveTab('all')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'all'
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            All Avadi
+          </button>
+          <button 
+            onClick={() => setActiveTab('complaints')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'complaints'
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            Complaints
+          </button>
+        </div>
+
+        {/* Posts list */}
+        <div className="space-y-4">
+          {feedPosts.map((post) => (
+            <div 
+              key={post.id}
+              onClick={() => {}}
+              className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 cursor-pointer ${
+                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Profile info header */}
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2.5">
+                  <img 
+                    src={post.avatar} 
+                    alt="Author avatar" 
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 className="text-xs font-black">{post.author}</h4>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-500 font-bold mt-0.5">{post.ward} • {post.time}</p>
+                  </div>
+                </div>
+                <span className="text-slate-400 text-xs">•••</span>
+              </div>
+
+              {/* Description */}
+              <p className="text-xs leading-relaxed font-semibold text-slate-750 dark:text-neutral-350">
+                {post.content}
+              </p>
+
+              {/* Photo */}
+              {post.image && (
+                <div className="rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-neutral-900 bg-slate-100 dark:bg-neutral-950">
+                  <img src={post.image} alt="Attachment" className="w-full h-full object-cover" />
+                </div>
+              )}
+
+              {/* Actions row */}
+              <div className="flex items-center gap-4 text-slate-400 dark:text-neutral-500 text-[10px] border-t border-slate-100 dark:border-neutral-900/60 pt-2.5 mt-1" onClick={(e) => e.stopPropagation()}>
+                <button className="flex items-center gap-1.5 hover:text-red-500 font-extrabold active:scale-95 transition">
+                  <span>❤️</span>
+                  <span>{post.likes}</span>
+                </button>
+                <button className="flex items-center gap-1.5 hover:text-primary font-bold active:scale-95 transition">
+                  <span>💬</span>
+                  <span>{post.commentsCount}</span>
+                </button>
+                {post.sharesCount > 0 && (
+                  <button className="flex items-center gap-1.5 hover:text-primary font-bold active:scale-95 transition">
+                    <span>➡️</span>
+                    <span>{post.sharesCount}</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating Action Button (FAB) */}
+      <button
+        onClick={() => navigate('/community-feed/create')}
+        className="absolute bottom-20 right-6 w-12 h-12 rounded-full bg-[#4A3AFF] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition z-40"
+      >
+        <span className="text-lg font-black">+</span>
+      </button>
+
+      {/* Bottom Nav */}
+      <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
+        theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">🏠</span>
+          <span className="text-[9px] font-bold mt-1">Home</span>
+        </button>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">💼</span>
+          <span className="text-[9px] font-bold mt-1">Services</span>
+        </button>
+        <button className="flex flex-col items-center justify-center flex-1 text-[#4A3AFF]">
+          <span className="text-md bg-[#4A3AFF]/10 px-4 py-0.5 rounded-full">👥</span>
+          <span className="text-[9px] font-bold mt-1">Feed</span>
+        </button>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">👤</span>
+          <span className="text-[9px] font-bold mt-1">Profile</span>
+        </button>
+      </div>
+    </div>
+  );
+};
