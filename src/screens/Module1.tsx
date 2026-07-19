@@ -768,8 +768,8 @@ export const AddressWardScreen: React.FC = () => {
 export const OTPScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme, language } = useApp();
-  const [timer, setTimer] = useState(25);
-  const [otp, setOtp] = useState<string[]>(['5', '2', '8', '1', '6', '3']);
+  const [timer, setTimer] = useState(45);
+  const [otp, setOtp] = useState<string[]>(['5', '2', '8', '1']);
   const [error, setError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
 
@@ -784,7 +784,7 @@ export const OTPScreen: React.FC = () => {
 
   const handleKeypadPress = (num: number) => {
     setError(null);
-    if (otp.length < 6) {
+    if (otp.length < 4) {
       setOtp(prev => [...prev, String(num)]);
     }
   };
@@ -797,11 +797,11 @@ export const OTPScreen: React.FC = () => {
   };
 
   const handleVerify = () => {
-    if (otp.length < 6) {
+    if (otp.length < 4) {
       setError(
         language === 'en' 
-          ? "Please enter the complete 6-digit OTP code" 
-          : "தயவுசெய்து 6 இலக்க OTP குறியீட்டை உள்ளிடவும்"
+          ? "Please enter the complete 4-digit OTP code" 
+          : "தயவுசெய்து 4 இலக்க OTP குறியீட்டை உள்ளிடவும்"
       );
       return;
     }
@@ -815,7 +815,7 @@ export const OTPScreen: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key >= '0' && e.key <= '9') {
-        if (otp.length < 6) {
+        if (otp.length < 4) {
           setOtp(prev => [...prev, e.key]);
           setError(null);
         }
@@ -825,13 +825,13 @@ export const OTPScreen: React.FC = () => {
           setError(null);
         }
       } else if (e.key === 'Enter') {
-        if (otp.length === 6) {
+        if (otp.length === 4) {
           handleVerify();
         } else {
           setError(
             language === 'en' 
-              ? "Please enter the complete 6-digit OTP code" 
-              : "தயவுசெய்து 6 இலக்க OTP குறியீட்டை உள்ளிடவும்"
+              ? "Please enter the complete 4-digit OTP code" 
+              : "தயவுசெய்து 4 இலக்க OTP குறியீட்டை உள்ளிடவும்"
           );
         }
       }
@@ -854,27 +854,34 @@ export const OTPScreen: React.FC = () => {
         </button>
       </div>
 
+      {/* Center Shield Logo Artwork */}
+      <div className="flex flex-col items-center justify-center my-2">
+        <div className="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-primary border border-indigo-100 dark:border-indigo-900 shadow-2xs relative">
+          <span className="text-sm font-black tracking-wider text-primary">OTP</span>
+        </div>
+      </div>
+
       {/* Main Text */}
       <div className="mt-2 text-center">
-        <h2 className="text-xl font-black text-slate-800 dark:text-white">Verify Your Mobile</h2>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 max-w-xs mx-auto leading-relaxed font-semibold">
-          Enter the 6-digit code sent to <span className="text-slate-600 dark:text-neutral-300 font-bold">+91 98765 43210</span>
+        <h2 className="text-lg font-black text-slate-800 dark:text-white">Verify Your Number</h2>
+        <p className="text-xs text-slate-405 dark:text-neutral-500 mt-1 max-w-xs mx-auto leading-relaxed font-semibold">
+          your email and mobile
         </p>
       </div>
 
       {/* OTP Blocks */}
-      <div className="flex justify-center gap-2.5 my-4">
-        {[0, 1, 2, 3, 4, 5].map((idx) => {
+      <div className="flex justify-center gap-3.5 my-4">
+        {[0, 1, 2, 3].map((idx) => {
           const digit = otp[idx] || '';
           return (
             <div 
               key={idx}
-              className={`w-10 h-12 rounded-xl border flex items-center justify-center text-md font-extrabold shadow-2xs transition duration-150 ${
+              className={`w-12 h-14 rounded-xl border flex items-center justify-center text-lg font-extrabold shadow-2xs transition duration-150 ${
                 digit 
                   ? 'border-primary dark:border-primary ring-1 ring-primary/20' 
-                  : 'border-slate-200 dark:border-neutral-800'
+                  : 'border-slate-205 dark:border-neutral-805'
               } ${
-                theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-slate-50 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-slate-50 text-slate-850'
               }`}
             >
               {digit}
@@ -888,8 +895,8 @@ export const OTPScreen: React.FC = () => {
         {error ? (
           <span className="text-red-500 text-[10px] font-bold animate-pulse">{error}</span>
         ) : (
-          <span className="text-xs font-semibold text-slate-450 dark:text-neutral-500">
-            Resend OTP in <span className="text-primary font-bold">00:{timer < 10 ? `0${timer}` : timer}</span>
+          <span className="text-xs font-semibold text-slate-450 dark:text-neutral-505">
+            Resend OTP in <span className="text-slate-450 dark:text-neutral-505 font-bold">00:{timer < 10 ? `0${timer}` : timer}</span>
           </span>
         )}
       </div>
@@ -898,17 +905,17 @@ export const OTPScreen: React.FC = () => {
       <div className="my-2.5">
         <button
           onClick={handleVerify}
-          disabled={otp.length < 6 || verifying}
-          className={`w-full h-12 rounded-[16px] text-white font-bold flex items-center justify-center transition-all duration-200 text-sm shadow-md ${
-            otp.length === 6 && !verifying
-              ? 'bg-gradient-to-r from-primary to-[#5b7eff] hover:scale-[1.01] active:scale-[0.98]'
+          disabled={otp.length < 4 || verifying}
+          className={`w-full h-12 rounded-btn text-white font-bold flex items-center justify-center transition-all duration-200 text-xs uppercase tracking-wider shadow-md ${
+            otp.length === 4 && !verifying
+              ? 'bg-primary hover:scale-[1.01] active:scale-[0.98]'
               : 'bg-slate-350 dark:bg-neutral-800 text-white/50 cursor-not-allowed shadow-none'
           }`}
         >
           {verifying ? (
             <span>{language === 'en' ? "Verifying..." : "சரிபார்க்கிறது..."}</span>
           ) : (
-            <span>{language === 'en' ? "Verify OTP" : "OTP சரிபார்க்கவும்"}</span>
+            <span>Verify & Continue</span>
           )}
         </button>
       </div>
@@ -948,9 +955,6 @@ export const OTPScreen: React.FC = () => {
   );
 };
 
-// ==========================================
-// 8. LOCATION PERMISSION SCREEN
-// ==========================================
 export const LocationPermissionScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -1291,9 +1295,9 @@ export const HomeDashboardScreen: React.FC = () => {
           <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Quick Actions</h4>
           <div className="grid grid-cols-4 gap-2.5 mt-2">
             
-            {/* Report */}
+            {/* Complaints */}
             <button 
-              onClick={() => navigate('/complaints/camera')}
+              onClick={() => navigate('/civic')}
               className={`p-3 rounded-card border shadow-2xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' 
                   ? 'bg-neutral-900 border-neutral-850 hover:bg-neutral-800' 
@@ -1303,10 +1307,10 @@ export const HomeDashboardScreen: React.FC = () => {
               <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <FileText size={15} />
               </div>
-              <span className="text-[10px] font-bold">Report</span>
+              <span className="text-[10px] font-bold">Complaints</span>
             </button>
 
-            {/* SOS */}
+            {/* Emergency SOS */}
             <button 
               onClick={() => navigate('/sos')}
               className={`p-3 rounded-card border shadow-2xs flex flex-col items-center gap-1.5 active:scale-95 transition relative overflow-hidden ${
@@ -1316,15 +1320,15 @@ export const HomeDashboardScreen: React.FC = () => {
               }`}
             >
               <div className="absolute inset-0 bg-red-500/5 animate-pulse"></div>
-              <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-950/40 flex items-center justify-center text-red-600 dark:text-red-400 animate-bounce">
+              <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-950/40 flex items-center justify-center text-red-600 dark:text-red-400">
                 <Shield size={15} />
               </div>
-              <span className="text-[10px] font-bold text-red-600 dark:text-red-400">SOS</span>
+              <span className="text-[10px] font-bold text-red-600 dark:text-red-400 animate-pulse">Emergency SOS</span>
             </button>
 
-            {/* Notices */}
+            {/* Community Feed */}
             <button 
-              onClick={() => navigate('/notifications')}
+              onClick={() => navigate('/community-feed')}
               className={`p-3 rounded-card border shadow-2xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' 
                   ? 'bg-neutral-900 border-neutral-850 hover:bg-neutral-850' 
@@ -1332,14 +1336,14 @@ export const HomeDashboardScreen: React.FC = () => {
               }`}
             >
               <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                <Bell size={15} />
+                <Users size={15} />
               </div>
-              <span className="text-[10px] font-bold">Notices</span>
+              <span className="text-[10px] font-bold">Community Feed</span>
             </button>
 
-            {/* More */}
+            {/* Local Services */}
             <button 
-              onClick={() => navigate('/explore')}
+              onClick={() => navigate('/services')}
               className={`p-3 rounded-card border shadow-2xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' 
                   ? 'bg-neutral-900 border-neutral-850 hover:bg-neutral-800' 
@@ -1349,7 +1353,7 @@ export const HomeDashboardScreen: React.FC = () => {
               <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-neutral-850 flex items-center justify-center text-slate-600 dark:text-slate-400">
                 <Compass size={15} />
               </div>
-              <span className="text-[10px] font-bold">More</span>
+              <span className="text-[10px] font-bold">Local Services</span>
             </button>
           </div>
         </div>
@@ -1460,235 +1464,177 @@ export const HomeDashboardScreen: React.FC = () => {
 // ==========================================
 export const CommunityFeedScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, communityPosts, profile } = useApp();
-  const [activeTab, setActiveTab] = useState<'foryou' | 'following' | 'nearby'>('foryou');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const { theme } = useApp();
+  const [activeTab, setActiveTab] = useState<'ward' | 'all' | 'complaints'>('ward');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const triggerToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 2000);
-  };
+  const feedPosts = [
+    {
+      id: "post_1",
+      author: "Ramesh Kumar",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
+      ward: "Ward 12",
+      time: "5 min ago",
+      content: "Street light not working near ABC Nagar 2nd Street.",
+      image: "/assets/images/live-update-thumbnail-1.png",
+      likes: 12,
+      commentsCount: 3,
+    },
+    {
+      id: "post_2",
+      author: "Revathi",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+      ward: "Ward 3",
+      time: "1h ago",
+      content: "Road damage causing heavy traffic congestion near the primary school.",
+      likes: 8,
+      commentsCount: 1,
+    }
+  ];
 
   return (
-    <div className={`flex-grow flex flex-col justify-between relative select-none ${
+    <div className={`flex-grow flex flex-col justify-between relative select-none h-full ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scroll Area */}
-      <div className="flex-grow overflow-y-auto p-4 space-y-4 pb-20">
-        
-        {/* Header Top Tab Panel */}
-        <div className="flex justify-between items-center h-10 border-b border-slate-200/40 dark:border-neutral-900 pb-2">
-          <button 
-            onClick={() => navigate('/home')}
-            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          
-          <div className="flex gap-4 text-xs font-bold">
-            <button 
-              onClick={() => setActiveTab('foryou')}
-              className={`pb-1 transition-all ${
-                activeTab === 'foryou' ? 'text-primary border-b-2 border-primary font-black' : 'text-slate-400 dark:text-neutral-500'
-              }`}
-            >
-              For You
-            </button>
-            <button 
-              onClick={() => setActiveTab('following')}
-              className={`pb-1 transition-all ${
-                activeTab === 'following' ? 'text-primary border-b-2 border-primary font-black' : 'text-slate-400 dark:text-neutral-500'
-              }`}
-            >
-              Following
-            </button>
-            <button 
-              onClick={() => setActiveTab('nearby')}
-              className={`pb-1 transition-all ${
-                activeTab === 'nearby' ? 'text-primary border-b-2 border-primary font-black' : 'text-slate-400 dark:text-neutral-500'
-              }`}
-            >
-              Nearby
-            </button>
-          </div>
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20">
+        {/* Title */}
+        <h2 className="text-lg font-black text-slate-850 dark:text-white">Community Feed</h2>
 
-          <div className="flex items-center gap-1.5">
-            <button 
-              onClick={() => navigate('/community')}
-              title="Community Hub"
-              className="p-1.5 text-slate-400 hover:text-primary flex items-center justify-center gap-0.5 font-bold text-[9px] border border-slate-200 dark:border-neutral-800 rounded-full"
-            >
-              🤝 <span>Hub</span>
-            </button>
-            <button 
-              onClick={() => navigate('/search')}
-              className="p-1.5 text-slate-400 hover:text-primary"
-            >
-              <Search size={16} />
-            </button>
-          </div>
+        {/* Search bar */}
+        <div className="relative">
+          <input 
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search posts..."
+            className={`w-full py-2.5 pl-10 pr-4 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+            }`}
+          />
+          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
         </div>
 
-        {/* Feed Posts list */}
-        <div className="space-y-4">
-          {/* "What's on your mind?" Create Post trigger card */}
-          <div 
-            onClick={() => navigate('/community-feed/create')}
-            className={`p-3 rounded-card border shadow-2xs flex items-center gap-3.5 cursor-pointer hover:scale-[1.005] duration-150 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+        {/* Tabs Pills */}
+        <div className="flex gap-2 text-[10px] font-bold">
+          <button 
+            onClick={() => setActiveTab('ward')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'ward'
+                ? 'bg-primary text-white border-primary shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-455 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
-            <img 
-              src={profile.avatar} 
-              alt="My Profile Avatar" 
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            <div className="flex-grow py-2 px-4 rounded-full bg-slate-100 dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 font-semibold text-[10px] border border-slate-200 dark:border-neutral-800/80">
-              Share something with Avadi residents...
-            </div>
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-              <Plus size={16} strokeWidth={3} />
-            </div>
-          </div>
+            My Ward
+          </button>
+          <button 
+            onClick={() => setActiveTab('all')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'all'
+                ? 'bg-primary text-white border-primary shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-455 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            All Avadi
+          </button>
+          <button 
+            onClick={() => setActiveTab('complaints')}
+            className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
+              activeTab === 'complaints'
+                ? 'bg-primary text-white border-primary shadow-xs'
+                : 'bg-white dark:bg-neutral-900 text-slate-455 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+            }`}
+          >
+            Complaints
+          </button>
+        </div>
 
-          {communityPosts.map((post) => (
+        {/* Posts list */}
+        <div className="space-y-4">
+          {feedPosts.map((post) => (
             <div 
               key={post.id}
-              onClick={() => navigate(`/community-feed/post/${post.id}`)}
-              className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 cursor-pointer hover:scale-[1.005] duration-150 ${
+              onClick={() => navigate(`/community-feed/post/1`)}
+              className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 cursor-pointer hover:shadow-xs transition duration-150 ${
                 theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
               }`}
             >
-              {/* Profile Info */}
+              {/* Profile info header */}
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2.5">
                   <img 
                     src={post.avatar} 
-                    alt={`${post.author} Avatar`} 
+                    alt="Author avatar" 
                     className="w-9 h-9 rounded-full object-cover"
                   />
                   <div>
-                    <h4 className="text-xs font-bold">{post.author}</h4>
-                    <p className="text-[10px] text-slate-400 dark:text-neutral-500">{post.category || 'General'}</p>
+                    <h4 className="text-xs font-black">{post.author}</h4>
+                    <p className="text-[9px] text-slate-405 dark:text-neutral-505 font-bold mt-0.5">{post.ward} • {post.time}</p>
                   </div>
                 </div>
-                <span className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">{post.time}</span>
               </div>
 
-              {/* Post Description */}
-              <p className="text-xs leading-relaxed font-semibold">
+              {/* Description */}
+              <p className="text-xs leading-relaxed font-semibold text-slate-700 dark:text-neutral-300">
                 {post.content}
               </p>
 
-              {/* Post Media */}
+              {/* Photo */}
               {post.image && (
-                <div className="rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-neutral-900 bg-slate-50 dark:bg-neutral-950">
-                  <img src={post.image} alt="Post Attachment" className="w-full h-full object-cover" />
+                <div className="rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-neutral-900 bg-slate-100 dark:bg-neutral-950">
+                  <img src={post.image} alt="Attachment" className="w-full h-full object-cover" />
                 </div>
               )}
 
-              {/* Actions Bar */}
-              <div className="flex justify-between items-center text-slate-400 dark:text-neutral-500 text-xs border-t border-slate-100 dark:border-neutral-900/60 pt-2" onClick={(e) => e.stopPropagation()}>
-                <button 
-                  onClick={() => triggerToast("Liked Post")}
-                  className="flex items-center gap-1.5 hover:text-red-500 active:scale-95 transition"
-                >
-                  <HeartIcon size={14} className={post.likes > 0 ? "fill-red-500 text-red-500" : ""} />
-                  <span className={`font-extrabold text-[10px] ${post.likes > 0 ? "text-red-500" : ""}`}>{post.likes}</span>
+              {/* Actions row */}
+              <div className="flex items-center gap-4 text-slate-400 dark:text-neutral-500 text-[10px] border-t border-slate-100 dark:border-neutral-900/60 pt-2.5 mt-1" onClick={(e) => e.stopPropagation()}>
+                <button className="flex items-center gap-1.5 hover:text-red-500 font-extrabold active:scale-95 transition">
+                  <HeartIcon size={14} />
+                  <span>{post.likes}</span>
                 </button>
-                <button 
-                  onClick={() => navigate(`/community-feed/post/${post.id}`)}
-                  className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
-                >
+                <button className="flex items-center gap-1.5 hover:text-primary font-bold active:scale-95 transition">
                   <MessageSquare size={14} />
-                  <span className="font-bold text-[10px]">{post.commentsCount}</span>
-                </button>
-                <button 
-                  onClick={() => triggerToast("Link Copied")}
-                  className="flex items-center gap-1.5 hover:text-primary active:scale-95 transition"
-                >
-                  <Share2 size={14} />
-                  <span className="font-bold text-[10px]">Share</span>
-                </button>
-                <button 
-                  onClick={() => triggerToast("Saved to Bookmarks")}
-                  className="p-1 hover:text-primary transition"
-                >
-                  <Bookmark size={14} />
+                  <span>{post.commentsCount}</span>
                 </button>
               </div>
             </div>
           ))}
         </div>
-
       </div>
 
-      {/* Floating Action Button (FAB) for writing a new post */}
+      {/* Floating Action Button (FAB) */}
       <button
         onClick={() => navigate('/community-feed/create')}
-        aria-label="Create new feed post"
-        className="absolute bottom-20 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-primary to-[#5b7eff] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition z-40"
+        className="absolute bottom-20 right-6 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition z-45"
       >
         <Plus size={22} strokeWidth={2.5} />
       </button>
 
-      {/* Sticky Bottom Navigation (MD3 style) */}
+      {/* Bottom Nav */}
       <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
-        theme === 'dark' 
-          ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' 
-          : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
+        theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
       }`}>
-        <button 
-          onClick={() => navigate('/home')}
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
-        >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🏠</span>
-          </div>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">🏠</span>
           <span className="text-[9px] font-bold mt-1">Home</span>
         </button>
-
-        <button 
-          onClick={() => navigate('/civic')}
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
-        >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🏛️</span>
-          </div>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">🏛️</span>
           <span className="text-[9px] font-bold mt-1">Civic</span>
         </button>
-
-        <button 
-          onClick={() => navigate('/explore')}
-          className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition"
-        >
-          <div className="px-5 py-1 rounded-full flex items-center justify-center">
-            <span className="text-md">🧭</span>
-          </div>
+        <button onClick={() => navigate('/explore')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+          <span className="text-md">🧭</span>
           <span className="text-[9px] font-bold mt-1">Explore</span>
         </button>
-
         <button className="flex flex-col items-center justify-center flex-1 text-primary">
-          <div className="px-5 py-1 bg-primary/10 rounded-full flex items-center justify-center">
-            <span className="text-md">👥</span>
-          </div>
+          <span className="text-md bg-primary/10 px-4 py-0.5 rounded-full">👥</span>
           <span className="text-[9px] font-bold mt-1">Feed</span>
         </button>
       </div>
-
-      {/* Toast message overlay */}
-      {toastMessage && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/80 dark:bg-white/95 text-white dark:text-slate-900 px-5 py-3 rounded-full text-xs font-bold shadow-2xl z-50 text-center w-64 leading-snug animate-fade-in">
-          {toastMessage}
-        </div>
-      )}
     </div>
   );
 };
 
-// ==========================================
-// 12. NOTICES SCREEN
-// ==========================================
 export const NoticesScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
