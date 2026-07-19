@@ -3098,3 +3098,220 @@ export const MapViewScreen: React.FC = () => {
     </div>
   );
 };
+
+// ==========================================
+// 46. COMMUNITY FEED (VARIANT 3)
+// ==========================================
+export const CommunityFeedScreenVariant3: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <span className="text-xs font-black text-slate-850 dark:text-white">Community Feed</span>
+          <span className="text-slate-400">🔍</span>
+        </div>
+
+        {/* Tab Selector */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {['My Feed', 'All Feed', 'Completed'].map((tag, idx) => (
+            <button
+              key={idx}
+              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
+                idx === 0
+                  ? 'bg-emerald-600 text-white border-emerald-650'
+                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        {/* Card List */}
+        <div className="space-y-4">
+          {/* Card 1 */}
+          <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-2.5 items-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">RK</div>
+              <div className="leading-none">
+                <h4 className="text-[10px] font-black">Ramesh Kumar</h4>
+                <p className="text-[7.5px] text-slate-400 font-semibold mt-1">2 hours ago</p>
+              </div>
+            </div>
+            <div className="aspect-[2/1] rounded-xl overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" />
+            </div>
+            <p className="text-[9.5px] font-semibold text-slate-750 dark:text-neutral-300 leading-normal">
+              Street light not working near Avadi Park Circle
+            </p>
+            <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400">
+              <span>💬 12</span>
+              <span>❤️ 3</span>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-2.5 items-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">R</div>
+              <div className="leading-none">
+                <h4 className="text-[10px] font-black">Revathi</h4>
+                <p className="text-[7.5px] text-slate-400 font-semibold mt-1">5 hours ago</p>
+              </div>
+            </div>
+            <p className="text-[9.5px] font-semibold text-slate-750 dark:text-neutral-300 leading-normal">
+              Garbage not collected in Ward 12
+            </p>
+            <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400">
+              <span>💬 8</span>
+              <span>❤️ 2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Action Button */}
+      <button 
+        onClick={() => navigate('/community-feed/create')}
+        className="absolute bottom-20 right-5 w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-650 to-indigo-500 text-white flex items-center justify-center text-xl shadow-lg active:scale-95 transition-all z-20"
+      >
+        +
+      </button>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">📝</span><span>Report</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450 font-bold"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 47. HOME DASHBOARD (VARIANT 2)
+// ==========================================
+export const HomeDashboardScreenVariant2: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20 text-left">
+        {/* Header profile container */}
+        <div className="flex justify-between items-center h-8">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-105 border">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h4 className="text-[11px] font-black">Hello, Karthik 👋</h4>
+              <p className="text-[8px] text-slate-400 font-semibold mt-0.5">Ward 14, Avadi</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <span className="text-slate-400 cursor-pointer">🔔</span>
+            <div className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="space-y-2">
+          <h5 className="text-[9.5px] font-black uppercase text-slate-400 tracking-wider">Quick Actions</h5>
+          <div className="grid grid-cols-4 gap-2 text-center text-[8px] font-bold">
+            <button onClick={() => navigate('/civic')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-blue-500">📋</span>
+              <span className="text-slate-700 dark:text-neutral-300">Complaints</span>
+            </button>
+            <button onClick={() => navigate('/sos')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-red-500">SS</span>
+              <span className="text-slate-700 dark:text-neutral-300">Emergency SOS</span>
+            </button>
+            <button onClick={() => navigate('/community-feed')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-purple-500">👥</span>
+              <span className="text-slate-700 dark:text-neutral-300">Community Feed</span>
+            </button>
+            <button onClick={() => navigate('/services')} className="p-3 bg-white dark:bg-neutral-900 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs">
+              <span className="text-base text-indigo-500">🤝</span>
+              <span className="text-slate-700 dark:text-neutral-300">Local Services</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Travel Information */}
+        <div className="space-y-2">
+          <h5 className="text-[9.5px] font-black uppercase text-slate-400 tracking-wider">Travel Information</h5>
+          <div className="grid grid-cols-2 gap-3.5">
+            <div className="p-3.5 bg-white dark:bg-neutral-900 border rounded-xl shadow-3xs text-[9.5px]">
+              <p className="font-extrabold text-slate-700 dark:text-white">Avadi Railway Station</p>
+              <div className="flex items-center gap-1.5 mt-2">
+                <span className="text-md">☀️</span>
+                <span className="font-black text-slate-800 dark:text-white">28°C</span>
+              </div>
+            </div>
+            <div className="p-3.5 bg-white dark:bg-neutral-900 border rounded-xl shadow-3xs text-[9.5px]">
+              <p className="font-extrabold text-slate-700 dark:text-white">Traffic</p>
+              <div className="flex items-center gap-1.5 mt-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="font-black text-slate-800 dark:text-white">Moderate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Explore Avadi Horizontal scrolling */}
+        <div className="space-y-2.5">
+          <div className="flex justify-between items-center">
+            <h5 className="text-[9.5px] font-black uppercase text-slate-400 tracking-wider">Explore Avadi</h5>
+            <button onClick={() => navigate('/services')} className="text-[9px] font-black text-[#4A3AFF]">View all &gt;</button>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {[1, 2, 3].map((num) => (
+              <div key={num} className="w-40 rounded-xl overflow-hidden border shadow-3xs bg-white shrink-0">
+                <div className="h-20 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=200" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">📝</span><span>Report</span></button>
+        <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 48. COMMUNITY FEED (VARIANT 4)
+// ==========================================
+export const CommunityFeedScreenVariant4: React.FC = () => {
+  return <CommunityFeedScreenVariant3 />;
+};

@@ -54,7 +54,10 @@ import {
   CategoryFilterScreen,
   CityFilterScreen,
   ListViewToggleScreen,
-  MapViewScreen
+  MapViewScreen,
+  CommunityFeedScreenVariant3,
+  HomeDashboardScreenVariant2,
+  CommunityFeedScreenVariant4
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -603,6 +606,42 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <MapViewScreen />
+          </motion.div>
+        } />
+
+        <Route path="/feed-variant-3" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CommunityFeedScreenVariant3 />
+          </motion.div>
+        } />
+
+        <Route path="/home-variant-2" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <HomeDashboardScreenVariant2 />
+          </motion.div>
+        } />
+
+        <Route path="/feed-variant-4" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <CommunityFeedScreenVariant4 />
           </motion.div>
         } />
         
