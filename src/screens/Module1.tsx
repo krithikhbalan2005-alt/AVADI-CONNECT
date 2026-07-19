@@ -24,7 +24,10 @@ import {
   MapPin,
   X,
   Droplet,
-  Users
+  Users,
+  Home,
+  Settings,
+  LogOut
 } from 'lucide-react';
 
 // ==========================================
@@ -58,61 +61,76 @@ export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
 
-  const illustrationSrc = theme === 'dark' 
-    ? "/assets/images/welcome-screen-illustration-dark.png" 
-    : "/assets/images/welcome-screen-illustration.png";
+  const features = [
+    { name: 'Community Feed', icon: <MessageSquare className="w-5 h-5 text-indigo-500" />, path: '/community-feed' },
+    { name: 'Complaints', icon: <FileText className="w-5 h-5 text-orange-500" />, path: '/civic' },
+    { name: 'Emergency SOS', icon: <Shield className="w-5 h-5 text-red-500" />, path: '/sos' },
+    { name: 'Explore Avadi', icon: <Compass className="w-5 h-5 text-teal-500" />, path: '/explore' },
+    { name: 'Local Services', icon: <Compass className="w-5 h-5 text-blue-500" />, path: '/services' },
+    { name: 'Rentals & Jobs', icon: <Users className="w-5 h-5 text-purple-500" />, path: '/jobs-rentals' },
+    { name: 'Notifications', icon: <Bell className="w-5 h-5 text-yellow-500" />, path: '/notifications' },
+    { name: 'Live Updates', icon: <AlertTriangle className="w-5 h-5 text-emerald-500" />, path: '/live-updates' }
+  ];
 
   return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
-      theme === 'dark' ? 'bg-gradient-to-b from-[#0f1424] to-[#121212]' : 'bg-gradient-to-b from-[#f0f4ff] to-[#fafafa]'
+    <div className={`flex-grow flex flex-col justify-between p-5 select-none overflow-y-auto ${
+      theme === 'dark' ? 'bg-[#0f1424] text-white' : 'bg-gradient-to-b from-[#f0f4ff] to-[#fafafa] text-slate-800'
     }`}>
-      {/* Top Header Text */}
-      <div className="pt-6">
-        <h1 className="text-xs text-slate-400 dark:text-neutral-500 font-bold uppercase tracking-wider">Welcome to</h1>
-        <h2 className="text-2xl font-black text-primary dark:text-white mt-1">Avadi Connect</h2>
-        <p className="text-xs text-slate-500 dark:text-neutral-400 mt-2 leading-relaxed max-w-xs font-medium">
-          Let's build a smarter, safer and stronger community together.
+      {/* Top Header Logo & Brand */}
+      <div className="text-center pt-4 flex flex-col items-center">
+        <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-lg text-white font-black text-xl tracking-wider mb-2">
+          AC
+        </div>
+        <h2 className="text-xl font-black text-primary dark:text-white">AVADI CONNECT</h2>
+        <p className="text-xs text-slate-500 dark:text-neutral-400 mt-1 max-w-[280px] font-semibold leading-relaxed">
+          One App. Many Services. Stronger Community. Better Avadi.
+        </p>
+        <p className="text-[10px] text-slate-400 dark:text-neutral-500 mt-0.5 font-medium italic">
+          Stay Connected. Stay Informed. Stay Ahead.
         </p>
       </div>
 
-      {/* Welcome illustration card */}
-      <div className={`my-6 rounded-card overflow-hidden border h-56 relative shadow-soft ${
-        theme === 'dark' 
-          ? 'bg-neutral-900 border-neutral-800' 
-          : 'bg-white border-slate-150'
-      }`}>
-        <img 
-          src={illustrationSrc} 
-          alt="Avadi Gopuram and Suburban Metro Train" 
-          className="w-full h-full object-cover"
-        />
+      {/* Get Started Action */}
+      <div className="my-4">
+        <button 
+          onClick={() => navigate('/registration')}
+          className="w-full py-3.5 bg-primary hover:bg-primary/95 text-white font-bold rounded-btn shadow-md hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 text-sm flex items-center justify-center gap-2"
+        >
+          <span>Get Started</span>
+          <ArrowRight size={16} />
+        </button>
+        <div className="text-center text-[11px] mt-2 font-medium">
+          <span className="text-slate-400 dark:text-neutral-500">Already registered? </span>
+          <button onClick={() => navigate('/ward-selection')} className="text-primary font-bold hover:underline">
+            Login
+          </button>
+        </div>
       </div>
 
-      {/* Buttons */}
-      <div className="space-y-3.5 mb-2">
-        <button 
-          onClick={() => navigate('/onboarding/civic')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
-        >
-          Get Started
-        </button>
-
-        <button 
-          onClick={() => navigate('/ward-selection')}
-          className={`w-full py-4 font-bold rounded-btn border text-sm transition-all active:scale-95 ${
-            theme === 'dark'
-              ? 'bg-[#181818] border-neutral-800 text-white hover:bg-neutral-800'
-              : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
-          }`}
-        >
-          Login
-        </button>
-
-        <div className="text-center text-xs pt-2">
-          <span className="text-slate-400 dark:text-neutral-500">New here? </span>
-          <Link to="/registration" className="text-primary font-bold hover:underline ml-1">
-            Create an account
-          </Link>
+      {/* Our Features Section */}
+      <div className="mb-2">
+        <h3 className="text-xs font-black tracking-wider uppercase text-slate-450 dark:text-neutral-500 mb-3 text-center">
+          Our Features
+        </h3>
+        <div className="grid grid-cols-4 gap-3">
+          {features.map((f, i) => (
+            <button
+              key={i}
+              onClick={() => navigate(f.path)}
+              className={`flex flex-col items-center justify-center p-2 rounded-card border transition active:scale-95 duration-200 ${
+                theme === 'dark' 
+                  ? 'bg-neutral-900 border-neutral-800 text-white hover:bg-neutral-800' 
+                  : 'bg-white border-slate-100 text-slate-700 hover:bg-slate-50 shadow-2xs'
+              }`}
+            >
+              <div className={`p-2 rounded-full mb-1.5 ${theme === 'dark' ? 'bg-neutral-850' : 'bg-slate-50'}`}>
+                {f.icon}
+              </div>
+              <span className="text-[8px] font-bold text-center leading-tight tracking-tight line-clamp-2">
+                {f.name}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
     </div>
@@ -404,43 +422,47 @@ export const WardSelectionScreen: React.FC = () => {
 };
 
 // ==========================================
-// 6. REGISTRATION SCREEN
+// 6. REGISTRATION - STEP 1: BASIC INFO
 // ==========================================
 export const RegistrationScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
-  const [showPassword, setShowPassword] = useState(false);
-  const [agreed, setAgreed] = useState(true);
+  const [fullName, setFullName] = useState('Karthik Balan');
+  const [dob, setDob] = useState('15/08/1998');
+  const [bloodGroup, setBloodGroup] = useState('O+');
+  const [gender, setGender] = useState<'Male' | 'Female' | 'Other'>('Male');
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
       theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
     }`}>
-      {/* Header Navigation */}
+      {/* Header Back */}
       <div className="h-8 flex items-center">
         <button 
-          onClick={() => navigate('/ward-selection')}
+          onClick={() => navigate('/welcome')}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
         </button>
       </div>
 
-      {/* Welcome Title */}
+      {/* Title */}
       <div className="mt-2">
         <h2 className="text-xl font-black text-slate-800 dark:text-white">Create Your Account</h2>
-        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 font-semibold">Let's get you started</p>
+        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 font-semibold">Step 1 of 3: Basic Details</p>
       </div>
 
       {/* Form Fields */}
       <div className="flex-1 flex flex-col justify-center space-y-4 my-4">
-        {/* Name input */}
+        {/* Full Name */}
         <div className="space-y-1.5">
           <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Full Name</label>
           <input
             type="text"
-            defaultValue="Karthik Balan"
-            className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Enter your full name"
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
               theme === 'dark' 
                 ? 'bg-neutral-900 border-neutral-800 text-white focus:bg-neutral-900/60' 
                 : 'bg-slate-50 border-slate-200 text-slate-800 focus:bg-white'
@@ -448,16 +470,132 @@ export const RegistrationScreen: React.FC = () => {
           />
         </div>
 
+        {/* Date of Birth */}
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Date of Birth</label>
+          <input
+            type="text"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            placeholder="DD / MM / YYYY"
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+              theme === 'dark' 
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-800'
+            }`}
+          />
+        </div>
+
+        {/* Blood Group */}
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Blood Group</label>
+          <select
+            value={bloodGroup}
+            onChange={(e) => setBloodGroup(e.target.value)}
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+              theme === 'dark' 
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-855'
+            }`}
+          >
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="O+">O+</option>
+            <option value="AB+">AB+</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="O-">O-</option>
+            <option value="AB-">AB-</option>
+          </select>
+        </div>
+
+        {/* Gender Selection */}
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Gender</label>
+          <div className="grid grid-cols-3 gap-2">
+            {(['Male', 'Female', 'Other'] as const).map((g) => (
+              <button
+                key={g}
+                type="button"
+                onClick={() => setGender(g)}
+                className={`py-2.5 text-xs font-bold rounded-btn border transition ${
+                  gender === g 
+                    ? 'border-primary bg-primary/10 text-primary' 
+                    : theme === 'dark' 
+                      ? 'border-neutral-805 bg-neutral-900 text-neutral-400 hover:text-white' 
+                      : 'border-slate-205 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                {g}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex items-center gap-3 mb-2">
+        <button 
+          onClick={() => navigate('/welcome')}
+          className={`flex-1 py-3 text-xs font-bold rounded-btn border transition ${
+            theme === 'dark' 
+              ? 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-neutral-850' 
+              : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          Back
+        </button>
+        <button 
+          onClick={() => navigate('/register/contact')}
+          className="flex-1 py-3 bg-primary text-white font-bold rounded-btn shadow-md hover:bg-primary-dark transition text-xs"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 6A. REGISTRATION - STEP 2: CONTACT INFO
+// ==========================================
+export const ContactInfoScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [mobile, setMobile] = useState('+91 98765 43210');
+  const [email, setEmail] = useState('karthik.balan@email.com');
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      <div className="h-8 flex items-center">
+        <button 
+          onClick={() => navigate('/registration')}
+          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+      </div>
+
+      <div className="mt-2">
+        <h2 className="text-xl font-black text-slate-800 dark:text-white">Contact Information</h2>
+        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 font-semibold">Step 2 of 3: Mobile & Email</p>
+      </div>
+
+      <div className="flex-1 flex flex-col justify-center space-y-4 my-4">
         {/* Mobile Number */}
         <div className="space-y-1.5">
           <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Mobile Number</label>
           <input
             type="tel"
-            defaultValue="+91 98765 43210"
-            className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            placeholder="Enter mobile number"
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
               theme === 'dark' 
-                ? 'bg-neutral-900 border-neutral-800 text-white focus:bg-neutral-900/60' 
-                : 'bg-slate-50 border-slate-200 text-slate-800 focus:bg-white'
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-800'
             }`}
           />
         </div>
@@ -467,70 +605,158 @@ export const RegistrationScreen: React.FC = () => {
           <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Email Address</label>
           <input
             type="email"
-            defaultValue="karthik.balan@email.com"
-            className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email address"
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
               theme === 'dark' 
-                ? 'bg-neutral-900 border-neutral-800 text-white focus:bg-neutral-900/60' 
-                : 'bg-slate-50 border-slate-200 text-slate-800 focus:bg-white'
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-800'
+            }`}
+          />
+          <p className="text-[9px] text-slate-400 dark:text-neutral-500 italic mt-0.5">Email is mandatory</p>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3 mb-2">
+        <button 
+          onClick={() => navigate('/registration')}
+          className={`flex-1 py-3 text-xs font-bold rounded-btn border transition ${
+            theme === 'dark' 
+              ? 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-neutral-850' 
+              : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          Back
+        </button>
+        <button 
+          onClick={() => navigate('/register/address')}
+          className="flex-1 py-3 bg-primary text-white font-bold rounded-btn shadow-md hover:bg-primary-dark transition text-xs"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 6B. REGISTRATION - STEP 3: ADDRESS & WARD
+// ==========================================
+export const AddressWardScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, selectedWard, setSelectedWard } = useApp();
+  const [street, setStreet] = useState('ABC Nagar 2nd Street');
+
+  const wards = [
+    'Ward 12 - Avadi',
+    'Ward 11 - Avadi',
+    'Ward 6 - Avadi',
+    'Ward 2 - Avadi'
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      <div className="h-8 flex items-center">
+        <button 
+          onClick={() => navigate('/register/contact')}
+          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+      </div>
+
+      <div className="mt-2">
+        <h2 className="text-xl font-black text-slate-800 dark:text-white">Address & Ward</h2>
+        <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 font-semibold">Step 3 of 3: Location Details</p>
+      </div>
+
+      <div className="flex-1 flex flex-col justify-center space-y-4 my-4">
+        {/* Ward Number */}
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Ward Number</label>
+          <select
+            value={selectedWard}
+            onChange={(e) => setSelectedWard(e.target.value)}
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+              theme === 'dark' 
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-800'
+            }`}
+          >
+            {wards.map((w) => (
+              <option key={w} value={w}>{w}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Street Name */}
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Street Name</label>
+          <input
+            type="text"
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
+            placeholder="Select Street"
+            className={`w-full p-3 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+              theme === 'dark' 
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-800'
             }`}
           />
         </div>
 
-        {/* Password */}
+        {/* Community */}
         <div className="space-y-1.5">
-          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Password</label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              defaultValue="password123"
-              className={`w-full p-3.5 pr-10 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
-                theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-800 text-white focus:bg-neutral-900/60' 
-                  : 'bg-slate-50 border-slate-200 text-slate-800 focus:bg-white'
-              }`}
-            />
-            <button 
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
-            >
-              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-            </button>
+          <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-500">Community</label>
+          <div className={`w-full p-3 text-xs font-semibold rounded-btn border ${
+            theme === 'dark' ? 'bg-neutral-900/50 border-neutral-800/80 text-neutral-400' : 'bg-slate-100 border-slate-200 text-slate-500'
+          }`}>
+            Auto selected based on Street
           </div>
         </div>
 
-        {/* Terms agreement checkbox */}
-        <button 
-          type="button"
-          onClick={() => setAgreed(!agreed)}
-          className="flex items-center gap-2.5 text-xs text-left pt-1 font-semibold text-slate-500 dark:text-neutral-400"
-        >
-          <div className={`w-4.5 h-4.5 rounded-xs border flex items-center justify-center ${
-            agreed 
-              ? 'bg-primary border-primary text-white' 
-              : 'border-slate-350 dark:border-neutral-700 bg-white dark:bg-neutral-950'
-          } transition duration-200`}>
-            {agreed && <Check size={12} strokeWidth={4} />}
+        {/* Location access */}
+        <div className={`p-3 rounded-card border flex items-start gap-3 transition-all ${
+          theme === 'dark' ? 'bg-neutral-950/40 border-neutral-805' : 'bg-[#f8faff] border-blue-50'
+        }`}>
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-0.5 shrink-0">
+            <MapPin size={16} />
           </div>
-          <span>I agree to <span className="text-primary font-bold hover:underline">Terms & Privacy Policy</span></span>
-        </button>
+          <div>
+            <button 
+              type="button" 
+              onClick={() => alert("Mock Location Permission Granted!")}
+              className="text-xs font-black text-primary hover:underline text-left block"
+            >
+              Allow Access Location
+            </button>
+            <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 leading-relaxed font-semibold">
+              Location access helps us to find your area and ward automatically.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Actions */}
-      <div className="space-y-3.5 mb-2">
+      <div className="flex items-center gap-3 mb-2">
+        <button 
+          onClick={() => navigate('/register/contact')}
+          className={`flex-1 py-3 text-xs font-bold rounded-btn border transition ${
+            theme === 'dark' 
+              ? 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:bg-neutral-850' 
+              : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          Back
+        </button>
         <button 
           onClick={() => navigate('/otp')}
-          className="w-full py-4 bg-gradient-to-r from-primary to-[#5b7eff] text-white font-bold rounded-btn shadow-md hover:scale-101 active:scale-95 transition-all duration-200 text-sm"
+          className="flex-1 py-3 bg-primary text-white font-bold rounded-btn shadow-md hover:bg-primary-dark transition text-xs"
         >
-          Register
+          Next
         </button>
-
-        <div className="text-center text-xs pt-1">
-          <span className="text-slate-400 dark:text-neutral-500">Already have an account? </span>
-          <Link to="/welcome" className="text-primary font-bold hover:underline ml-1">
-            Login
-          </Link>
-        </div>
       </div>
     </div>
   );
@@ -621,7 +847,7 @@ export const OTPScreen: React.FC = () => {
       {/* Header back */}
       <div className="h-8 flex items-center">
         <button 
-          onClick={() => navigate('/registration')}
+          onClick={() => navigate('/register/address')}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
@@ -1843,6 +2069,86 @@ export const IssueSubmittedScreen: React.FC = () => {
             {toastMessage}
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 13. NAVIGATION (DRAWER)
+// ==========================================
+export const DrawerScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const menuItems = [
+    { name: 'Home', icon: <Home size={18} />, path: '/home' },
+    { name: 'Community Feed', icon: <MessageSquare size={18} />, path: '/community-feed' },
+    { name: 'Complaints', icon: <FileText size={18} />, path: '/complaints' },
+    { name: 'Emergency SOS', icon: <Shield size={18} />, path: '/sos' },
+    { name: 'Explore Avadi', icon: <Compass size={18} />, path: '/explore' },
+    { name: 'Local Services', icon: <Compass size={18} />, path: '/services' },
+    { name: 'Rentals & Jobs', icon: <Users size={18} />, path: '/jobs-rentals' },
+    { name: 'Profile Settings', icon: <Settings size={18} />, path: '/settings' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#0f1424] text-white' : 'bg-gradient-to-r from-[#f5f8ff] to-[#fafafa] text-slate-800'
+    }`}>
+      {/* Drawer Header Block */}
+      <div className="p-6 bg-gradient-to-r from-primary to-[#5b7eff] text-white relative rounded-b-[24px] shadow-md">
+        <button 
+          onClick={() => navigate(-1)}
+          className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition"
+        >
+          <X size={16} />
+        </button>
+
+        <div className="flex items-center gap-4 pt-4">
+          <div className="w-14 h-14 rounded-full border-2 border-white/50 overflow-hidden bg-white/20 flex items-center justify-center font-bold text-lg text-white">
+            KB
+          </div>
+          <div>
+            <h3 className="text-sm font-black">Karthik Balan</h3>
+            <p className="text-[10px] text-white/80 font-medium">Ward 12, Avadi</p>
+            <p className="text-[9px] text-white/70 mt-0.5">karthik.balan@email.com</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Drawer Menu Items */}
+      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+        {menuItems.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => navigate(item.path)}
+            className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-btn font-bold text-xs transition duration-150 text-left ${
+              theme === 'dark'
+                ? 'hover:bg-white/5 text-slate-300 hover:text-white'
+                : 'hover:bg-primary/5 text-slate-655 hover:text-primary'
+            }`}
+          >
+            <span className={theme === 'dark' ? 'text-slate-400' : 'text-slate-455'}>
+              {item.icon}
+            </span>
+            <span>{item.name}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Drawer Footer Log out */}
+      <div className="p-4 border-t border-slate-100 dark:border-neutral-900">
+        <button
+          onClick={() => {
+            alert("Logging out...");
+            navigate('/welcome');
+          }}
+          className="w-full flex items-center gap-3 px-4 py-3.5 rounded-btn font-bold text-xs text-red-500 hover:bg-red-500/5 transition duration-150 text-left"
+        >
+          <LogOut size={18} />
+          <span>Logout</span>
+        </button>
       </div>
     </div>
   );

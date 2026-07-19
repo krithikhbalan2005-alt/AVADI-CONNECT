@@ -12,6 +12,8 @@ import {
   OnboardingSafetyScreen,
   WardSelectionScreen,
   RegistrationScreen,
+  ContactInfoScreen,
+  AddressWardScreen,
   OTPScreen,
   LocationPermissionScreen,
   ChooseAppearanceScreen,
@@ -20,7 +22,8 @@ import {
   NoticesScreen,
   ReportIssueStep1Screen,
   ReportIssueStep2Screen,
-  IssueSubmittedScreen
+  IssueSubmittedScreen,
+  DrawerScreen
 } from './screens/Module1';
 
 // Screens 17 to 21 + My Reported + 22 to 25 + 31 to 32
@@ -46,7 +49,9 @@ import {
   RecentAlertsDetailScreen,
   EmergencyContactDetailScreen,
   CommunityPostDetailScreen,
-  CommunityPostCreateScreen
+  CommunityPostCreateScreen,
+  EmergencyContactsScreen,
+  AboutAppScreen
 } from './screens/Module2';
 
 // Screens 33 to 48
@@ -152,6 +157,30 @@ const AnimatedRoutes: React.FC = () => {
           </motion.div>
         } />
 
+        <Route path="/register/contact" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ContactInfoScreen />
+          </motion.div>
+        } />
+
+        <Route path="/register/address" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <AddressWardScreen />
+          </motion.div>
+        } />
+
         <Route path="/otp" element={
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -197,6 +226,18 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <HomeDashboardScreen />
+          </motion.div>
+        } />
+
+        <Route path="/drawer" element={
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <DrawerScreen />
           </motion.div>
         } />
 
@@ -370,6 +411,18 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <EmergencyContactDetailScreen />
+          </motion.div>
+        } />
+
+        <Route path="/emergency-contacts" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <EmergencyContactsScreen />
           </motion.div>
         } />
 
@@ -728,6 +781,18 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <SettingsScreen />
+          </motion.div>
+        } />
+
+        <Route path="/about" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <AboutAppScreen />
           </motion.div>
         } />
         
