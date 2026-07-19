@@ -920,3 +920,415 @@ export const RentalsPageScreen: React.FC = () => {
     </div>
   );
 };
+
+// ==========================================
+// 21. JOBS PAGE
+// ==========================================
+export const JobsPageScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const menuItems = [
+    { name: 'Community Feed', icon: '👥', path: '/community-feed' },
+    { name: 'Emergency SOS', icon: '🚨', path: '/sos' },
+    { name: 'Explore Avadi', icon: '🧭', path: '/home' },
+    { name: 'Local Services', icon: '🤝', path: '/services' },
+    { name: 'Events & Festivals', icon: '📅', path: '/home' },
+    { name: 'Profile Settings', icon: '⚙️', path: '/theme' },
+    { name: 'Logout', icon: '🚪', path: '/welcome' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header Search */}
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              placeholder="Search Jobs..."
+              className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+              }`}
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+          </div>
+          <button className="p-1.5 border rounded-lg text-slate-400"><span className="text-xs">⊶</span></button>
+        </div>
+
+        {/* Jobs List */}
+        <div className="space-y-3">
+          {/* Card 1 */}
+          <div 
+            onClick={() => navigate('/jobs/detail')}
+            className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center cursor-pointer ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}
+          >
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-indigo-500 text-xs shrink-0">AC</div>
+              <div className="space-y-0.5 leading-tight">
+                <div className="flex items-center gap-1.5">
+                  <h4 className="text-[11px] font-extrabold">Sales Executive</h4>
+                  <span className="text-[8px] font-bold text-slate-400">100</span>
+                </div>
+                <p className="text-[8.5px] text-slate-400 font-semibold">Ace Communications</p>
+                <p className="text-[8.5px] text-slate-405 font-bold">40K - 60K</p>
+                <p className="text-[8px] text-slate-400 font-bold">Trichy, TN - Full-time</p>
+              </div>
+            </div>
+            <button onClick={(e) => { e.stopPropagation(); navigate('/jobs/detail'); }} className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg">Apply</button>
+          </div>
+
+          {/* Card 2 */}
+          <div className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-emerald-505 text-xs shrink-0">FD</div>
+              <div className="space-y-0.5 leading-tight">
+                <h4 className="text-[11px] font-extrabold">Delivery Partner</h4>
+                <p className="text-[8.5px] text-slate-400 font-semibold">Fast Delivery</p>
+                <p className="text-[8.5px] text-slate-405 font-bold">20K - 30K</p>
+                <p className="text-[8px] text-slate-400 font-bold">Trichy, TN - Part-time</p>
+              </div>
+            </div>
+            <button className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg">Apply</button>
+          </div>
+
+          {/* Card 3 */}
+          <div className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-purple-500 text-xs shrink-0">MS</div>
+              <div className="space-y-0.5 leading-tight">
+                <h4 className="text-[11px] font-extrabold">Store Manager</h4>
+                <p className="text-[8.5px] text-slate-400 font-semibold">Mega Store</p>
+                <p className="text-[8.5px] text-slate-405 font-bold">35K - 45K</p>
+                <p className="text-[8px] text-slate-400 font-bold">Trichy, TN - Full-time</p>
+              </div>
+            </div>
+            <span className="text-slate-400 text-xs">❯</span>
+          </div>
+        </div>
+
+        {/* Menu list in scroll list (mockup anomaly) */}
+        <div className="border-t border-slate-100 dark:border-neutral-900 pt-3 space-y-2">
+          {menuItems.map((item, idx) => (
+            <div 
+              key={idx}
+              onClick={() => navigate(item.path)}
+              className={`p-3 rounded-card border flex justify-between items-center cursor-pointer active:bg-slate-50 dark:active:bg-neutral-800 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-100'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-sm">{item.icon}</span>
+                <span className="text-[10px] font-extrabold">{item.name}</span>
+              </div>
+              <span className="text-slate-400 text-xs">❯</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 22. JOBS PAGE (DETAIL)
+// ==========================================
+export const JobsDetailScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const details = [
+    { label: 'Job Role', value: 'Sales Executive', icon: '💼' },
+    { label: 'Company', value: 'Ace Communications', icon: '🏠' },
+    { label: 'CTC / Salary', value: '₹40,000 - ₹60,000', icon: '💵' },
+    { label: 'Experience', value: '1 - 2 Years', icon: '⚙️' },
+    { label: 'Job Type', value: 'Full-time', icon: '💼' },
+    { label: 'Location', value: 'Trichy, Tamil Nadu', icon: '📍' },
+    { label: 'Application Deadline', value: '20 May 2025', icon: '📅' },
+    { label: 'Posted Date', value: '10 May 2025', icon: '📅' }
+  ];
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <button 
+            onClick={() => navigate('/jobs')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <div className="text-center flex-grow pr-4">
+            <h3 className="text-xs font-black">Sales Executive</h3>
+            <p className="text-[9px] text-slate-400 font-semibold mt-0.5">Ace Communications</p>
+          </div>
+          <span className="text-slate-400 text-sm">⭐</span>
+        </div>
+
+        {/* Info Grid/List */}
+        <div className={`rounded-card border divide-y ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850 divide-neutral-800' : 'bg-white border-slate-150 divide-slate-100'
+        }`}>
+          {details.map((d, i) => (
+            <div key={i} className="p-3.5 flex justify-between items-center text-[10px]">
+              <div className="flex items-center gap-2 text-slate-500 dark:text-neutral-400">
+                <span>{d.icon}</span>
+                <span className="font-extrabold">{d.label}</span>
+              </div>
+              <span className="font-black text-slate-800 dark:text-white">{d.value}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Job Description */}
+        <div className="space-y-1.5">
+          <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400">Job Description</h4>
+          <p className="text-[10px] text-slate-650 dark:text-neutral-350 leading-relaxed font-semibold">
+            We are looking for a dynamic sales executive to join our team and drive business growth.
+          </p>
+        </div>
+
+        {/* Skills required */}
+        <div className="space-y-2">
+          <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400">Skills Required</h4>
+          <div className="flex flex-wrap gap-2 text-[9px] font-bold">
+            {['Communication', 'Negotiation', 'CRM', 'Teamwork'].map(skill => (
+              <span key={skill} className="px-3 py-1.5 bg-slate-100 dark:bg-neutral-900 rounded-full border border-slate-200 dark:border-neutral-800">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Apply Button */}
+      <div className="absolute bottom-4 left-0 w-full p-4 z-20 bg-transparent">
+        <button
+          onClick={() => navigate('/jobs')}
+          className="w-full py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn shadow-md text-xs text-center uppercase tracking-wider"
+        >
+          Apply
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 23. NAVIGATION DRAWER
+// ==========================================
+export const DrawerScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+
+  const links = [
+    { name: 'Home', icon: '🏠', path: '/home' },
+    { name: 'Community Feed', icon: '👥', path: '/community-feed' },
+    { name: 'Complaints', icon: '⚠️', path: '/civic' },
+    { name: 'Emergency SOS', icon: '🚨', path: '/sos' },
+    { name: 'Explore Avadi', icon: '🧭', path: '/home' },
+    { name: 'Local Services', icon: '🤝', path: '/services' },
+    { name: 'Events & Festivals', icon: '📅', path: '/home' },
+    { name: 'Profile Settings', icon: '⚙️', path: '/theme' },
+    { name: 'Logout', icon: '🚪', path: '/welcome' }
+  ];
+
+  return (
+    <div className="w-full h-full flex select-none relative overflow-hidden bg-slate-900/40">
+      {/* Drawer content (width ~85%) */}
+      <div className={`w-[85%] h-full flex flex-col justify-between text-left shadow-2xl relative z-20 animate-slide-in-left ${
+        theme === 'dark' ? 'bg-[#181818] text-white' : 'bg-white text-slate-800'
+      }`}>
+        
+        {/* Profile Card Header */}
+        <div className="p-6 bg-gradient-to-r from-indigo-650 to-indigo-500 text-white flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/40 bg-white/20">
+              <img 
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" 
+                alt="Drawer Avatar" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            <div className="leading-tight">
+              <h4 className="text-xs font-black">Karthik Balan</h4>
+              <p className="text-[8px] text-white/70 mt-0.5">karthik.balan</p>
+              <button onClick={() => navigate('/home')} className="text-[8.5px] font-bold text-white/90 underline mt-1 block">View Profile</button>
+            </div>
+          </div>
+          <span className="text-white/60 text-xs">❯</span>
+        </div>
+
+        {/* Drawer menu scroll list */}
+        <div className="flex-grow overflow-y-auto py-4 px-4 space-y-1">
+          {links.map((link, i) => (
+            <button
+              key={i}
+              onClick={() => navigate(link.path)}
+              className={`w-full p-3 rounded-xl flex items-center gap-3.5 text-[10.5px] font-extrabold transition active:bg-slate-100 dark:active:bg-neutral-800 ${
+                theme === 'dark' ? 'text-neutral-250' : 'text-slate-700'
+              }`}
+            >
+              <span className="text-sm">{link.icon}</span>
+              <span>{link.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 24. THEME TOGGLE SCREEN
+// ==========================================
+export const ThemeToggleScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, setTheme } = useApp();
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-6 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center gap-2">
+          <button 
+            onClick={() => navigate('/home')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Theme</span>
+        </div>
+
+        {/* Grid theme options */}
+        <div className="grid grid-cols-2 gap-4 pt-2">
+          {/* Light Mode */}
+          <button
+            onClick={() => setTheme('light')}
+            className={`p-4 rounded-2xl border flex flex-col items-center gap-4 transition shadow-md ${
+              theme === 'light'
+                ? 'border-[#4A3AFF] ring-2 ring-[#4A3AFF]/15 bg-white'
+                : 'border-neutral-800 bg-neutral-900 text-slate-400'
+            }`}
+          >
+            <div className="aspect-[3/4] w-24 rounded-lg overflow-hidden border border-slate-100 bg-slate-100 flex items-center justify-center">
+              <span className="text-[10px] font-bold text-slate-400">☀️ Light</span>
+            </div>
+            <span className="text-[10.5px] font-extrabold">Light Mode</span>
+          </button>
+
+          {/* Dark Mode */}
+          <button
+            onClick={() => setTheme('dark')}
+            className={`p-4 rounded-2xl border flex flex-col items-center gap-4 transition shadow-md ${
+              theme === 'dark'
+                ? 'border-[#4A3AFF] ring-2 ring-[#4A3AFF]/15 bg-neutral-900 text-white'
+                : 'border-slate-200 bg-white text-slate-500'
+            }`}
+          >
+            <div className="aspect-[3/4] w-24 rounded-lg overflow-hidden border border-neutral-800 bg-neutral-950 flex items-center justify-center">
+              <span className="text-[10px] font-bold text-neutral-500">🌙 Dark</span>
+            </div>
+            <span className="text-[10.5px] font-extrabold">Dark Mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 25. LANGUAGE SCREEN
+// ==========================================
+export const LanguageSelectionScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, language, setLanguage } = useApp();
+  const [selectedLang, setSelectedLang] = useState<'en' | 'ta' | 'hi'>(language || 'en');
+
+  const options = [
+    { code: 'en', name: 'English', icon: '🌐' },
+    { code: 'ta', name: 'தமிழ் (Tamil)', icon: '📖' },
+    { code: 'hi', name: 'हिंदी (Hindi)', icon: '🖋️' }
+  ];
+
+  const handleApply = () => {
+    setLanguage(selectedLang === 'hi' ? 'en' : selectedLang);
+    navigate('/home');
+  };
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
+    }`}>
+      {/* Scroll area */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-6 text-left">
+        {/* Header */}
+        <div className="h-8 flex items-center gap-2">
+          <button 
+            onClick={() => navigate('/home')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <span className="text-xs font-black text-slate-850 dark:text-white">Choose Language</span>
+        </div>
+
+        {/* Radio Option cards */}
+        <div className="space-y-3 pt-2">
+          {options.map((option) => (
+            <button
+              key={option.code}
+              onClick={() => setSelectedLang(option.code as any)}
+              className={`w-full p-4 rounded-xl border flex items-center justify-between transition shadow-3xs ${
+                selectedLang === option.code
+                  ? 'border-[#4A3AFF] bg-indigo-50/10'
+                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-neutral-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-sm">{option.icon}</span>
+                <span className="text-xs font-extrabold">{option.name}</span>
+              </div>
+              <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                selectedLang === option.code
+                  ? 'border-[#4A3AFF] bg-[#4A3AFF]'
+                  : 'border-slate-300'
+              }`}>
+                {selectedLang === option.code && (
+                  <span className="w-1.5 h-1.5 bg-white rounded-full" />
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Apply Button */}
+      <div className="absolute bottom-4 left-0 w-full p-4 z-20 bg-transparent">
+        <button
+          onClick={handleApply}
+          className="w-full py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn shadow-md text-xs text-center uppercase tracking-wider"
+        >
+          Apply
+        </button>
+      </div>
+    </div>
+  );
+};
