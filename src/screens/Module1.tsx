@@ -27,7 +27,8 @@ import {
   Users,
   Home,
   Settings,
-  LogOut
+  LogOut,
+  Menu
 } from 'lucide-react';
 
 
@@ -150,9 +151,11 @@ export const RegistrationScreen: React.FC = () => {
   const [fullName, setFullName] = useState('');
   const [dob, setDob] = useState('');
   const [genderSelection, setGenderSelection] = useState<'Male' | 'Female' | 'Other' | null>(null);
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState<string | null>(null);
+  const [bloodGroupOpen, setBloodGroupOpen] = useState(false);
 
   return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full relative ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Header back */}
@@ -189,29 +192,55 @@ export const RegistrationScreen: React.FC = () => {
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Date of Birth</label>
           <div className="relative">
             <input
-              type="text"
+              type="date"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
+              onClick={(e) => {
+                try {
+                  (e.target as any).showPicker();
+                } catch (err) {}
+              }}
               placeholder="DD / MM / YYYY"
               className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
                 theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-805 text-white' 
-                  : 'bg-white border-slate-200 text-slate-800'
+                  ? 'bg-neutral-900 border-neutral-805 text-white font-sans' 
+                  : 'bg-white border-slate-200 text-slate-800 font-sans'
               }`}
             />
-            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">📅</span>
+            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">📅</span>
           </div>
         </div>
 
-        {/* Select Gender (Anomaly dropdown) */}
-        <div className="space-y-1">
-          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Select Gender</label>
-          <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
-          }`}>
-            <span>Select Blood Group</span>
+        {/* Select Blood Group */}
+        <div className="space-y-1 relative">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Select Blood Group</label>
+          <div 
+            onClick={() => setBloodGroupOpen(!bloodGroupOpen)}
+            className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+            }`}
+          >
+            <span>{selectedBloodGroup || "Select Blood Group"}</span>
             <span className="text-[10px] text-slate-400">▼</span>
           </div>
+          {bloodGroupOpen && (
+            <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+            }`}>
+              {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((bg) => (
+                <div 
+                  key={bg}
+                  onClick={() => {
+                    setSelectedBloodGroup(bg);
+                    setBloodGroupOpen(false);
+                  }}
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                >
+                  {bg}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Gender Pills */}
@@ -335,7 +364,6 @@ export const ContactInfoScreen: React.FC = () => {
           onClick={() => navigate('/register/address')}
           className="flex-1 py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
         >
-          Next
         </button>
       </div>
     </div>
@@ -346,11 +374,21 @@ export const ContactInfoScreen: React.FC = () => {
 export const AddressWardScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
+  const [selectedWard, setSelectedWard] = useState<string | null>(null);
+  const [selectedStreet, setSelectedStreet] = useState<string | null>(null);
+  const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null);
+  const [wardOpen, setWardOpen] = useState(false);
+  const [streetOpen, setStreetOpen] = useState(false);
+  const [communityOpen, setCommunityOpen] = useState(false);
+  const [locationAllowed, setLocationAllowed] = useState(true);
+  const [showLocationDialog, setShowLocationDialog] = useState(false);
+
+  const wards = Array.from({ length: 48 }, (_, i) => `Ward ${i + 1}`);
 
   return (
-    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
-      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
-    }`}>
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212]' : 'bg-slate-50'
+    } ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
       {/* Header back */}
       <div className="h-8 flex items-center gap-2">
         <button 
@@ -365,49 +403,175 @@ export const AddressWardScreen: React.FC = () => {
       {/* Form Content */}
       <div className="flex-1 flex flex-col justify-center space-y-4 my-4">
         {/* Ward Number */}
-        <div className="space-y-1">
+        <div className="space-y-1 relative">
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Ward Number</label>
-          <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
-          }`}>
-            <span>Select Ward</span>
+          <div 
+            onClick={() => {
+              setWardOpen(!wardOpen);
+              setStreetOpen(false);
+              setCommunityOpen(false);
+            }}
+            className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
+            }`}
+          >
+            <span>{selectedWard || "Select Ward"}</span>
             <span className="text-[10px] text-slate-400">▼</span>
           </div>
+          {wardOpen && (
+            <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+            }`}>
+              {wards.map((w) => (
+                <div 
+                  key={w}
+                  onClick={() => {
+                    setSelectedWard(w);
+                    setWardOpen(false);
+                  }}
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                >
+                  {w}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Street Name */}
-        <div className="space-y-1">
+        <div className="space-y-1 relative">
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Street Name</label>
-          <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
-          }`}>
-            <span>Select Street</span>
+          <div 
+            onClick={() => {
+              setStreetOpen(!streetOpen);
+              setWardOpen(false);
+              setCommunityOpen(false);
+            }}
+            className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
+            }`}
+          >
+            <span>{selectedStreet || "Select Street"}</span>
             <span className="text-[10px] text-slate-400">▼</span>
           </div>
+          {streetOpen && (
+            <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+            }`}>
+              {['Poonamallee High Rd', 'Gandhi St', 'Railway Station Rd', 'Market St'].map((s) => (
+                <div 
+                  key={s}
+                  onClick={() => {
+                    setSelectedStreet(s);
+                    setStreetOpen(false);
+                  }}
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                >
+                  {s}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Community */}
-        <div className="space-y-1">
+        <div className="space-y-1 relative">
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Community</label>
-          <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
-          }`}>
-            <span>Auto selected</span>
+          <div 
+            onClick={() => {
+              setCommunityOpen(!communityOpen);
+              setWardOpen(false);
+              setStreetOpen(false);
+            }}
+            className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-855'
+            }`}
+          >
+            <span>{selectedCommunity || "Auto selected"}</span>
             <span className="text-[10px] text-slate-400">▼</span>
           </div>
+          {communityOpen && (
+            <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+            }`}>
+              {['Avadi Municipality', 'Paruthipattu', 'Kovilpathu', 'Thirumullaivoyal'].map((c) => (
+                <div 
+                  key={c}
+                  onClick={() => {
+                    setSelectedCommunity(c);
+                    setCommunityOpen(false);
+                  }}
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                >
+                  {c}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Location Permission Box */}
-        <div className="p-4 rounded-btn border bg-[#E8F5E9]/65 dark:bg-emerald-950/20 border-emerald-500/25 flex flex-col gap-1 text-left">
+        <div 
+          onClick={() => setShowLocationDialog(true)}
+          className={`p-4 rounded-btn border cursor-pointer flex flex-col gap-1 text-left transition-all ${
+            locationAllowed
+              ? 'bg-[#E8F5E9]/65 dark:bg-emerald-950/20 border-emerald-500/25'
+              : 'bg-slate-100 dark:bg-neutral-900 border-slate-205 dark:border-neutral-800'
+          }`}
+        >
           <div className="flex items-center gap-2">
-            <span className="text-emerald-600 dark:text-emerald-400 text-sm">✔</span>
-            <span className="text-xs font-black text-emerald-600 dark:text-emerald-400">Allow Access Location</span>
+            <span className={locationAllowed ? "text-emerald-600 dark:text-emerald-400 text-sm" : "text-slate-400 text-sm"}>
+              {locationAllowed ? '✔' : '🔘'}
+            </span>
+            <span className={`text-xs font-black ${locationAllowed ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500'}`}>
+              {locationAllowed ? 'Allow Access Location' : 'Location Access Disabled'}
+            </span>
           </div>
           <p className="text-[9px] text-slate-500 dark:text-neutral-500 font-semibold leading-relaxed pl-6">
-            Location access helps us to deliver community-based services accurately.
+            Location access helps us to deliver community-based services accurately. Click to toggle auto-fill.
           </p>
         </div>
       </div>
+
+      {showLocationDialog && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl text-center space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-2xl block">📍</span>
+            <h4 className="text-xs font-black uppercase tracking-wider">Access Device Location</h4>
+            <p className="text-[10px] text-slate-500 dark:text-neutral-400 font-semibold leading-relaxed">
+              Avadi Connect requires access to your GPS location to automatically determine your municipal Ward, street address, and neighborhood community.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setLocationAllowed(false);
+                  setSelectedWard(null);
+                  setSelectedStreet(null);
+                  setSelectedCommunity(null);
+                  setShowLocationDialog(false);
+                }}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-850 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-800"
+              >
+                Deny
+              </button>
+              <button
+                onClick={() => {
+                  setLocationAllowed(true);
+                  setSelectedWard('Ward 1');
+                  setSelectedStreet('Poonamallee High Rd');
+                  setSelectedCommunity('Avadi Municipality');
+                  setShowLocationDialog(false);
+                }}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full bg-[#4A3AFF] text-white hover:bg-[#3b2ecc]"
+              >
+                Allow
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer Navigation */}
       <div className="flex gap-4 mt-6">
@@ -422,7 +586,7 @@ export const AddressWardScreen: React.FC = () => {
           Back
         </button>
         <button
-          onClick={() => {}}
+          onClick={() => navigate('/otp')}
           className="flex-1 py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
         >
           Next
@@ -627,7 +791,34 @@ export const OTPScreen: React.FC = () => {
 // SCREEN 7
 export const HomeDashboardScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme } = useApp();
+  const { theme, language, selectedWard } = useApp();
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [travelTab, setTravelTab] = useState<'train' | 'bus'>('train');
+
+  const slides = [
+    {
+      title: 'Explore Local Places',
+      desc: 'Discover parks, temples, and markets near you',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      title: 'Paruthipattu Lake Park',
+      desc: 'Beautiful boating lake and walking pathways',
+      image: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      title: 'Avadi Market Hub',
+      desc: 'Fresh farm produce and daily household essentials',
+      image: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=600'
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
   return (
     <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
@@ -638,126 +829,329 @@ export const HomeDashboardScreen: React.FC = () => {
         
         {/* Header Profile & Notifications */}
         <div className="flex justify-between items-center h-10">
-          <div className="text-left">
-            <h4 className="text-sm font-black text-slate-800 dark:text-white leading-tight">Hello, Karthik 👋</h4>
-            <span className="text-[9px] text-slate-400 dark:text-neutral-500 font-semibold block mt-0.5">World Awaits!</span>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => navigate('/drawer')}
+              className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 transition text-slate-600 dark:text-white"
+            >
+              <Menu size={20} />
+            </button>
+            <div className="flex items-center gap-1.5">
+              <img 
+                src="/assets/images/logo-icon.png?v=5" 
+                alt="Avadi Connect Logo" 
+                className="h-7 w-auto object-contain"
+              />
+              <div className="flex flex-col text-left select-none leading-none pt-0.5">
+                <span className="text-[11px] font-black text-[#0D233A] dark:text-white tracking-wider block leading-[1.05]">AVADI</span>
+                <span className="text-[9.5px] font-black text-[#009BF2] tracking-wide block leading-[1.05]">CONNECT</span>
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 transition">
+            <button 
+              onClick={() => navigate('/alerts')}
+              className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 transition"
+            >
               <span className="text-sm">🔔</span>
             </button>
-            <div className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-150">
+            <div 
+              onClick={() => navigate('/settings')}
+              className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-150 cursor-pointer active:scale-95 transition"
+            >
               <img 
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" 
                 alt="User Profile" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover" 
               />
             </div>
           </div>
         </div>
 
-        {/* Actions Grid */}
-        <div>
-          <div className="flex justify-between items-center pb-2">
-            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Today's Actions</h4>
-            <span className="text-xs text-slate-400 cursor-pointer">❯</span>
-          </div>
-          <div className="grid grid-cols-4 gap-2.5 mt-1">
-            {/* Complaints */}
-            <button 
-              onClick={() => navigate('/civic')}
-              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-              }`}
-            >
-              <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-950/20 flex items-center justify-center text-blue-600">
-                📄
+        {/* Greeting & Weather Card */}
+        <div className={`p-4 rounded-card border shadow-3xs text-left relative overflow-hidden ${
+          theme === 'dark' 
+            ? 'bg-neutral-900/60 border-neutral-850 text-white' 
+            : 'bg-white border-slate-150 text-slate-800'
+        }`}>
+          <div className="flex justify-between items-center">
+            <div className="space-y-1">
+              <h4 className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">
+                {language === 'en' ? 'Welcome Back' : 'நல்வரவு'}
+              </h4>
+              <h2 className="text-xs font-black leading-tight text-slate-850 dark:text-white">
+                {language === 'en' ? 'Hello, Karthik 👋' : 'வணக்கம், கார்த்திக் 👋'}
+              </h2>
+              <div className="text-[9.5px] text-slate-500 dark:text-neutral-400 font-bold flex items-center gap-1.5 mt-0.5">
+                <span>📍 Avadi, TN</span>
+                <span>•</span>
+                <span>{selectedWard || 'Ward 1'}</span>
               </div>
-              <span className="text-[8.5px] font-bold text-center">Complaints</span>
+            </div>
+            {/* Weather Block inside Card */}
+            <div className="text-right flex flex-col items-end">
+              <span className="text-xl animate-pulse">⛅</span>
+              <span className="text-[10px] font-black text-slate-850 dark:text-white mt-0.5">32°C</span>
+              <span className="text-[8px] text-slate-400 dark:text-neutral-500 font-extrabold uppercase tracking-wider">Cloudy</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Explore Avadi Slide Carousel (Moved to the Top) */}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Explore Avadi</h4>
+            <span 
+              onClick={() => navigate('/services')}
+              className="text-[9.5px] text-[#4A3AFF] font-bold cursor-pointer hover:underline"
+            >
+              View All ❯
+            </span>
+          </div>
+          <div 
+            onClick={() => navigate('/services')}
+            className="rounded-card overflow-hidden border aspect-[16/7] relative shadow-soft cursor-pointer group active:scale-98 transition-all"
+          >
+            <img 
+              src={slides[activeSlide].image} 
+              alt={slides[activeSlide].title} 
+              className="w-full h-full object-cover transition-all duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent p-4 flex flex-col justify-end">
+              <h3 className="text-white font-extrabold text-xs">{slides[activeSlide].title}</h3>
+              <p className="text-white/80 text-[8px] mt-0.5 font-bold">{slides[activeSlide].desc}</p>
+            </div>
+            
+            {/* Slide Navigation Arrows */}
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
+              }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              ◀
+            </button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              ▶
             </button>
 
-            {/* SOS */}
+            {/* Slide Dots Indicator */}
+            <div className="absolute bottom-2 right-4 flex gap-1">
+              {slides.map((_, idx) => (
+                <div 
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveSlide(idx);
+                  }}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${
+                    activeSlide === idx ? 'bg-white w-3' : 'bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions (Moved below Carousel) */}
+        <div>
+          <div className="pb-2">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Quick Actions</h4>
+          </div>
+          <div className="grid grid-cols-3 gap-2.5 mt-1">
+            {/* Emergency SOS */}
             <button 
-              onClick={() => navigate('/home')}
-              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+              onClick={() => navigate('/sos')}
+              className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
               }`}
             >
-              <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-950/20 flex items-center justify-center text-red-600 font-black text-xs">
+              <div className="w-7 h-7 rounded-full bg-red-50 dark:bg-red-950/20 flex items-center justify-center text-red-650 text-xs font-black">
                 SOS
               </div>
-              <span className="text-[8.5px] font-bold text-center">Emergency SOS</span>
+              <span className="text-[7.5px] font-bold text-center leading-tight">Emergency SOS</span>
             </button>
 
-            {/* Community Feed */}
+            {/* Explore Places */}
             <button 
-              onClick={() => navigate('/community-feed')}
-              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+              onClick={() => navigate('/explore')}
+              className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
               }`}
             >
-              <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-purple-950/20 flex items-center justify-center text-purple-650">
-                👥
+              <div className="w-7 h-7 rounded-full bg-teal-50 dark:bg-teal-950/20 flex items-center justify-center text-teal-650 text-xs">
+                🧭
               </div>
-              <span className="text-[8.5px] font-bold text-center">Community Feed</span>
+              <span className="text-[7.5px] font-bold text-center leading-tight">Explore Places</span>
+            </button>
+
+            {/* Explore Foods */}
+            <button 
+              onClick={() => navigate('/explore-food')}
+              className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-7 h-7 rounded-full bg-amber-50 dark:bg-amber-955/20 flex items-center justify-center text-amber-650 text-xs">
+                🍲
+              </div>
+              <span className="text-[7.5px] font-bold text-center leading-tight">Explore Foods</span>
             </button>
 
             {/* Local Services */}
             <button 
-              onClick={() => navigate('/home')}
-              className={`p-3 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+              onClick={() => navigate('/services')}
+              className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
               }`}
             >
-              <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-950/20 flex items-center justify-center text-blue-600">
-                📁
+              <div className="w-7 h-7 rounded-full bg-indigo-50 dark:bg-indigo-950/20 flex items-center justify-center text-indigo-650 text-xs">
+                🤝
               </div>
-              <span className="text-[8.5px] font-bold text-center">Local Services</span>
+              <span className="text-[7.5px] font-bold text-center leading-tight">Local Services</span>
+            </button>
+
+            {/* Jobs & Rentals */}
+            <button 
+              onClick={() => navigate('/jobs-rentals')}
+              className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-955/20 flex items-center justify-center text-emerald-650 text-xs">
+                🏢
+              </div>
+              <span className="text-[7.5px] font-bold text-center leading-tight">Jobs & Rentals</span>
+            </button>
+
+            {/* Govt Schemes */}
+            <button 
+              onClick={() => navigate('/schemes')}
+              className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="w-7 h-7 rounded-full bg-indigo-50 dark:bg-indigo-950/20 flex items-center justify-center text-indigo-650 text-xs">
+                📜
+              </div>
+              <span className="text-[7.5px] font-bold text-center leading-tight">Govt Schemes</span>
             </button>
           </div>
         </div>
 
         {/* Travel Information */}
         <div className="space-y-2">
-          <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Travel Information</h4>
-          <div className="grid grid-cols-2 gap-3">
-            <div className={`p-4 rounded-card border shadow-2xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-            }`}>
-              <span className="text-[9px] font-bold text-slate-400 block uppercase">Avadi Railway</span>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-lg">☀️</span>
-                <span className="text-xs font-black">28°C</span>
-              </div>
-            </div>
-
-            <div className={`p-4 rounded-card border shadow-2xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-            }`}>
-              <span className="text-[9px] font-bold text-slate-400 block uppercase">Traffic</span>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-lg">🚧</span>
-                <span className="text-xs font-black">Moderate</span>
-              </div>
+          <div className="flex justify-between items-center">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Travel Information</h4>
+            <div className="flex gap-1.5 text-[8.5px] font-bold">
+              {['train', 'bus'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setTravelTab(tab as any)}
+                  className={`px-2.5 py-1 rounded-full border uppercase tracking-wider transition ${
+                    travelTab === tab
+                      ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-850 border-slate-800 dark:border-white'
+                      : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+                  }`}
+                >
+                  {tab === 'train' ? 'Trains' : 'Buses'}
+                </button>
+              ))}
             </div>
           </div>
+
+          {travelTab === 'train' && (
+            <div className={`p-4 rounded-card border shadow-2xs space-y-2 text-xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <div className="flex justify-between border-b pb-1.5 border-slate-100 dark:border-neutral-800">
+                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Route</span>
+                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Timings</span>
+              </div>
+              <div className="flex justify-between font-bold text-[10px]">
+                <span>Avadi ➔ Central (Fast Local)</span>
+                <span>08:30 AM | 09:15 AM</span>
+              </div>
+              <div className="flex justify-between font-bold text-[10px]">
+                <span>Avadi ➔ Central (Slow Local)</span>
+                <span>09:45 AM | 10:15 AM</span>
+              </div>
+              <div className="flex justify-between font-bold text-[10px]">
+                <span>Central ➔ Avadi (Return Local)</span>
+                <span>05:30 PM | 06:15 PM</span>
+              </div>
+            </div>
+          )}
+
+          {travelTab === 'bus' && (
+            <div className={`p-4 rounded-card border shadow-2xs space-y-2 text-xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <div className="flex justify-between border-b pb-1.5 border-slate-100 dark:border-neutral-800">
+                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Bus Route No.</span>
+                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Frequency / Destination</span>
+              </div>
+              <div className="flex justify-between font-bold text-[10px]">
+                <span>Route 70 (Avadi Terminus)</span>
+                <span>Every 15 mins ➔ CMBT Koyambedu</span>
+              </div>
+              <div className="flex justify-between font-bold text-[10px]">
+                <span>Route 71E (Avadi Terminus)</span>
+                <span>Every 20 mins ➔ Broadway</span>
+              </div>
+              <div className="flex justify-between font-bold text-[10px]">
+                <span>Route 206 (Avadi Terminus)</span>
+                <span>Every 30 mins ➔ Tambaram</span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Explore Avadi Card Banner */}
+        {/* Quick Info About Avadi Section */}
         <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Explore Avadi</h4>
-            <span className="text-[9.5px] text-[#4A3AFF] font-bold cursor-pointer">View All ❯</span>
-          </div>
-          <div className="rounded-card overflow-hidden border aspect-[16/7] relative shadow-soft">
-            <img 
-              src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=600" 
-              alt="Avadi Landscape Banner" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-4 flex flex-col justify-end">
-              <h3 className="text-white font-extrabold text-xs">Explore Local Places</h3>
-              <p className="text-white/80 text-[8px] mt-0.5 font-bold">Discover parks, temples, and markets near you</p>
+          <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Quick Info About Avadi</h4>
+          <div className="grid grid-cols-2 gap-3">
+            <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Defense Hub 🎖️</span>
+              <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
+                Home to Heavy Vehicles Factory (HVF), OCF & CVRDE labs.
+              </p>
+            </div>
+
+            <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Tidel Park 💻</span>
+              <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
+                Pattabiram Tidel IT Park spanning over 3.5 Lakh sq ft area.
+              </p>
+            </div>
+
+            <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Eco Park 🌳</span>
+              <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
+                Paruthipattu Lake Eco-Park covering 87 acres with boating.
+              </p>
+            </div>
+
+            <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Administration 🏢</span>
+              <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
+                Avadi Municipal Corporation comprising of 48 Wards.
+              </p>
             </div>
           </div>
         </div>
@@ -772,17 +1166,17 @@ export const HomeDashboardScreen: React.FC = () => {
           <span className="text-md bg-[#4A3AFF]/10 px-4 py-0.5 rounded-full">🏠</span>
           <span className="text-[9px] font-bold mt-1">Home</span>
         </button>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
-          <span className="text-md">💼</span>
-          <span className="text-[9px] font-bold mt-1">Services</span>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">📄</span>
+          <span className="text-[9px] font-bold mt-1">Complaints</span>
         </button>
-        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+        <button onClick={() => navigate('/explore')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">🧭</span>
+          <span className="text-[9px] font-bold mt-1">Explore</span>
+        </button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
           <span className="text-md">👥</span>
           <span className="text-[9px] font-bold mt-1">Feed</span>
-        </button>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
-          <span className="text-md">👤</span>
-          <span className="text-[9px] font-bold mt-1">Profile</span>
         </button>
       </div>
     </div>
@@ -943,21 +1337,21 @@ export const CommunityFeedScreen: React.FC = () => {
       <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
         theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
       }`}>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
           <span className="text-md">🏠</span>
           <span className="text-[9px] font-bold mt-1">Home</span>
         </button>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
-          <span className="text-md">💼</span>
-          <span className="text-[9px] font-bold mt-1">Services</span>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">📄</span>
+          <span className="text-[9px] font-bold mt-1">Complaints</span>
+        </button>
+        <button onClick={() => navigate('/explore')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">🧭</span>
+          <span className="text-[9px] font-bold mt-1">Explore</span>
         </button>
         <button className="flex flex-col items-center justify-center flex-1 text-[#4A3AFF]">
           <span className="text-md bg-[#4A3AFF]/10 px-4 py-0.5 rounded-full">👥</span>
           <span className="text-[9px] font-bold mt-1">Feed</span>
-        </button>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70">
-          <span className="text-md">👤</span>
-          <span className="text-[9px] font-bold mt-1">Profile</span>
         </button>
       </div>
     </div>
@@ -974,9 +1368,9 @@ export const ReportIssueStep1Screen: React.FC = () => {
     { id: 'light', name: 'Street Light', icon: '💡' },
     { id: 'water', name: 'Water Issue', icon: '💧' },
     { id: 'garbage', name: 'Garbage', icon: '🗑️', color: 'text-emerald-500' },
-    { id: 'drain', name: 'Drainage', icon: '📅' },
-    { id: 'road', name: 'Road Damage', icon: '🅰️' },
-    { id: 'other', name: 'Others', icon: '💬' }
+    { id: 'drain', name: 'Drainage', icon: '🕳️' },
+    { id: 'road', name: 'Road Damage', icon: '🚧' },
+    { id: 'other', name: 'Others', icon: '🔧' }
   ];
 
   return (
@@ -1180,6 +1574,109 @@ export const IssueSubmittedScreen: React.FC = () => {
         >
           Go to My Complaints
         </button>
+      </div>
+    </div>
+  );
+};
+
+// LOCAL ALERTS SCREEN
+export const AlertsScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, language, alerts } = useApp();
+  const [expandedAlertId, setExpandedAlertId] = useState<string | null>(null);
+
+  const getAlertIcon = (type: string) => {
+    switch (type) {
+      case 'weather': return '🌧️';
+      case 'traffic': return '🚧';
+      case 'utility': return '⚡';
+      default: return '📢';
+    }
+  };
+
+  const getSeverityBadge = (severity: string) => {
+    switch (severity) {
+      case 'high':
+        return 'text-red-605 bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900/50';
+      case 'medium':
+        return 'text-amber-600 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50';
+      default:
+        return 'text-blue-600 bg-blue-50 dark:bg-blue-955/30 border-blue-200 dark:border-blue-900/50';
+    }
+  };
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scrollable Container */}
+      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+        {/* Header */}
+        <div className="flex justify-between items-center h-8">
+          <button 
+            onClick={() => navigate('/home')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <span className="text-xs font-black text-slate-850 dark:text-white font-sans">
+            {language === 'en' ? 'Local Alerts' : 'உள்ளூர் எச்சரிக்கைகள்'}
+          </span>
+          <div className="w-6 h-6" /> {/* spacer */}
+        </div>
+
+        {/* Alerts List */}
+        <div className="space-y-3.5 pt-2">
+          {alerts.map((alert) => {
+            const isExpanded = expandedAlertId === alert.id;
+            return (
+              <div
+                key={alert.id}
+                onClick={() => setExpandedAlertId(isExpanded ? null : alert.id)}
+                className={`p-4 rounded-card border shadow-3xs transition-all duration-200 cursor-pointer ${
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                }`}
+              >
+                <div className="flex justify-between items-start gap-3">
+                  <div className="flex gap-3 items-center">
+                    <span className="text-xl shrink-0">{getAlertIcon(alert.type)}</span>
+                    <div className="space-y-0.5 leading-tight">
+                      <h4 className="text-[11px] font-extrabold pr-2">
+                        {language === 'en' ? alert.title : alert.titleTa}
+                      </h4>
+                      <p className="text-[8px] text-slate-400 dark:text-neutral-505 font-bold mt-0.5">
+                        {alert.date} • {alert.time}
+                      </p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-0.5 text-[7px] font-black uppercase tracking-wider rounded-full border ${getSeverityBadge(alert.severity)}`}>
+                    {alert.severity}
+                  </span>
+                </div>
+
+                {isExpanded && (
+                  <div className="mt-3 pt-3 border-t border-slate-100 dark:border-neutral-800/60 space-y-3 text-[10px] animate-fade-in">
+                    <p className="leading-relaxed font-semibold text-slate-600 dark:text-neutral-300">
+                      {language === 'en' ? alert.description : alert.descriptionTa}
+                    </p>
+                    {alert.guidelines && alert.guidelines.length > 0 && (
+                      <div className="space-y-1">
+                        <h5 className="font-black text-slate-400 uppercase text-[8px] tracking-wider">
+                          {language === 'en' ? 'Guidelines' : 'வழிமுறைகள்'}
+                        </h5>
+                        <ul className="list-disc pl-4 space-y-1 font-bold text-slate-500 dark:text-neutral-400">
+                          {alert.guidelines.map((g, idx) => (
+                            <li key={idx}>{g}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

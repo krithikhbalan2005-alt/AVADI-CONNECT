@@ -16,7 +16,8 @@ import {
   CommunityFeedScreen,
   ReportIssueStep1Screen,
   ReportIssueStep2Screen,
-  IssueSubmittedScreen
+  IssueSubmittedScreen,
+  AlertsScreen
 } from './screens/Module1';
 
 // Module 2 Screens
@@ -28,7 +29,6 @@ import {
   MyReportedScreenAlt,
   EmergencySOSScreenAlt,
   LocalServicesScreen,
-  RentalsJobsHomeScreen,
   RentalsPageScreen,
   JobsPageScreen,
   JobsDetailScreen,
@@ -57,7 +57,8 @@ import {
   MapViewScreen,
   CommunityFeedScreenVariant3,
   HomeDashboardScreenVariant2,
-  CommunityFeedScreenVariant4
+  CommunityFeedScreenVariant4,
+  GovernmentSchemesScreen
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -237,6 +238,18 @@ const AnimatedRoutes: React.FC = () => {
           </motion.div>
         } />
 
+        <Route path="/alerts" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <AlertsScreen />
+          </motion.div>
+        } />
+
         <Route path="/sos" element={
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -245,7 +258,7 @@ const AnimatedRoutes: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="w-full h-full flex flex-col flex-1"
           >
-            <EmergencySOSScreen />
+            <EmergencySOSScreenAlt />
           </motion.div>
         } />
 
@@ -272,8 +285,31 @@ const AnimatedRoutes: React.FC = () => {
             <EmergencySOSScreenAlt />
           </motion.div>
         } />
+        <Route path="/schemes" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <GovernmentSchemesScreen />
+          </motion.div>
+        } />
 
         <Route path="/services" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <LocalServicesScreenVariant />
+          </motion.div>
+        } />
+
+        <Route path="/explore" element={
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -293,7 +329,7 @@ const AnimatedRoutes: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="w-full h-full flex flex-col flex-1"
           >
-            <RentalsJobsHomeScreen />
+            <RentalsJobsHomeScreenVariant />
           </motion.div>
         } />
 
