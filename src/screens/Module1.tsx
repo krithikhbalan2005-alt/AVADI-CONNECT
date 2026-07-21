@@ -2065,18 +2065,17 @@ export const ThemeSelectionScreen: React.FC = () => {
     if (selectedTheme === 'light') {
       setTheme('light');
       navigate('/home');
-    }
-  };
-
-  const handleSelectTheme = (mode: 'light' | 'dark') => {
-    setSelectedTheme(mode);
-    if (mode === 'dark') {
+    } else if (selectedTheme === 'dark') {
       setShowFlash(true);
       setTimeout(() => {
         setTheme('dark');
         navigate('/home');
       }, 600);
     }
+  };
+
+  const handleSelectTheme = (mode: 'light' | 'dark') => {
+    setSelectedTheme(mode);
   };
 
 
@@ -2142,7 +2141,7 @@ export const ThemeSelectionScreen: React.FC = () => {
 
       {/* Footer Navigation */}
       <div className="h-16 flex items-center justify-center">
-        {selectedTheme === 'light' && (
+        {selectedTheme && (
           <button
             onClick={handleApply}
             className="w-full py-3.5 bg-[#4A3AFF] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center shadow-md animate-pulse active:scale-98 transition duration-150"

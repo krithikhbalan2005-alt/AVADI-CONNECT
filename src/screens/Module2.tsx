@@ -213,28 +213,28 @@ export const CivicHubScreen: React.FC = () => {
         {/* 4 Cards Grid */}
         <div className="grid grid-cols-2 gap-3">
           <button 
-            onClick={() => navigate('/my-reports')}
+            onClick={() => navigate('/my-reports', { state: { activeTab: 'my' } })}
             className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition duration-200 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}
           >
             <span className="text-xl">🟢</span>
             <div>
-              <h5 className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">My Reports</h5>
-              <p className="text-[7.5px] text-slate-400 leading-normal mt-0.5 font-bold">View all complaints</p>
+              <h5 className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">My Complaints</h5>
+              <p className="text-[7.5px] text-slate-400 leading-normal mt-0.5 font-bold">Track status</p>
             </div>
           </button>
 
           <button 
-            onClick={() => navigate('/complaints')}
+            onClick={() => navigate('/my-reports', { state: { activeTab: 'public' } })}
             className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition duration-200 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}
           >
             <span className="text-xl">🔴</span>
             <div>
-              <h5 className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">My Complaints</h5>
-              <p className="text-[7.5px] text-slate-400 leading-normal mt-0.5 font-bold">Track status</p>
+              <h5 className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">Public Complaints</h5>
+              <p className="text-[7.5px] text-slate-400 leading-normal mt-0.5 font-bold">View community issues</p>
             </div>
           </button>
 
@@ -334,7 +334,8 @@ export const CivicHubScreen: React.FC = () => {
 export const MyReportedScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
-  const [activeTab, setActiveTab] = useState<'my' | 'public'>('my');
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<'my' | 'public'>(location.state?.activeTab || 'my');
 
   const myComplaints = [
     {
@@ -1061,6 +1062,7 @@ export const LocalServicesScreen: React.FC = () => {
   const [activeTag, setActiveTag] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [dialConfirmContact, setDialConfirmContact] = useState<{name: string; phone: string; icon: string} | null>(null);
+  const [showTransportModal, setShowTransportModal] = useState(false);
 
   const places = [
     {
@@ -1190,31 +1192,55 @@ export const LocalServicesScreen: React.FC = () => {
 
         {/* Quick Actions Grid */}
         <div className="space-y-2">
-          <h5 className="text-[9px] font-black uppercase text-slate-405 tracking-wider">Quick Actions</h5>
+          <h5 className="text-[9px] font-black uppercase text-slate-405 tracking-wider">Avadi Directory Hub</h5>
           <div className="grid grid-cols-4 gap-2 text-center text-[8px] font-bold">
             <button onClick={() => navigate('/civic')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-blue-500">📋</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Complaints</span>
             </button>
             <button onClick={() => navigate('/sos')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-red-500">🚨</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">SOS</span>
             </button>
-            <button onClick={() => navigate('/community-feed')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+            <button onClick={() => setActiveTag('places')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
             }`}>
-              <span className="text-base text-purple-500">👥</span>
-              <span className="text-slate-705 dark:text-neutral-350 font-black">Feed</span>
+              <span className="text-base text-emerald-500">🌳</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Explore Places</span>
+            </button>
+            <button onClick={() => navigate('/explore-food')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-amber-500">🍲</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Explore Food</span>
             </button>
             <button onClick={() => navigate('/services')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-indigo-500">🤝</span>
-              <span className="text-slate-705 dark:text-neutral-350 font-black">Services</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Local Services</span>
+            </button>
+            <button onClick={() => navigate('/jobs-rentals')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-orange-500">🏢</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Jobs & Rentals</span>
+            </button>
+            <button onClick={() => navigate('/government-schemes')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-teal-500">📜</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Gov Schemes</span>
+            </button>
+            <button onClick={() => setShowTransportModal(true)} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-rose-500">🚌</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Transport Hub</span>
             </button>
           </div>
         </div>
@@ -1310,14 +1336,25 @@ export const LocalServicesScreen: React.FC = () => {
       </div>
 
       {/* Mock Tab bar */}
-      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      <div className={`absolute bottom-0 left-0 w-full h-16 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
       }`}>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
-        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
-        <button onClick={() => navigate('/civic')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">📝</span><span>Report</span></button>
-        <button onClick={() => navigate('/explore')} className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🧭</span><span>Explore</span></button>
-        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">🏠</span>
+          <span className="text-[9px] font-bold mt-1">Home</span>
+        </button>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">📄</span>
+          <span className="text-[9px] font-bold mt-1">Complaints</span>
+        </button>
+        <button className="flex flex-col items-center justify-center flex-1 text-[#4A3AFF]">
+          <span className="text-md bg-[#4A3AFF]/10 px-4 py-0.5 rounded-full">🧭</span>
+          <span className="text-[9px] font-bold mt-1">Explore</span>
+        </button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">👥</span>
+          <span className="text-[9px] font-bold mt-1">Feed</span>
+        </button>
       </div>
 
       {/* In-UI Dial Confirmation Overlay */}
@@ -1350,6 +1387,74 @@ export const LocalServicesScreen: React.FC = () => {
                 Call
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {/* Transport schedules modal popup */}
+      {showTransportModal && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 animate-fade-in text-left">
+          <div className={`w-full max-w-xs p-5 rounded-card border shadow-2xl flex flex-col justify-between max-h-[85%] ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <div className="space-y-4 overflow-y-auto">
+              <div className="flex justify-between items-center border-b pb-3 border-slate-100 dark:border-neutral-800">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-lg">🚌</span>
+                  <h3 className="text-xs font-black uppercase tracking-wider">Avadi Transport Hub</h3>
+                </div>
+                <button type="button" onClick={() => setShowTransportModal(false)} className="text-slate-405 hover:text-slate-655 font-bold">✕</button>
+              </div>
+
+              {/* Train Timetable */}
+              <div className="space-y-2">
+                <span className="text-[8px] uppercase tracking-wider font-black text-blue-500">Train Schedules (Local & Fast)</span>
+                <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-lg border border-slate-100 dark:border-neutral-850 space-y-1.5 text-[8.5px] leading-tight">
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                    <span className="font-bold">Chennai Central ➔ Avadi</span>
+                    <span className="font-extrabold text-[#4A3AFF]">08:15 AM (Fast)</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                    <span className="font-bold">Chennai Central ➔ Avadi</span>
+                    <span className="font-extrabold text-[#4A3AFF]">09:30 AM (Local)</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-bold">Avadi ➔ Chennai Central</span>
+                    <span className="font-extrabold text-emerald-500">07:30 AM (Local)</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1 border-t border-dashed border-slate-200 dark:border-neutral-805">
+                    <span className="font-bold">Avadi ➔ Chennai Central</span>
+                    <span className="font-extrabold text-emerald-500">08:45 AM (Fast)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bus Timetable */}
+              <div className="space-y-2">
+                <span className="text-[8px] uppercase tracking-wider font-black text-amber-500">MTC Bus Routes</span>
+                <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-lg border border-slate-100 dark:border-neutral-850 space-y-1.5 text-[8.5px] leading-tight">
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                    <span className="font-bold">70G: Avadi ➔ CMBT (Koyambedu)</span>
+                    <span className="text-slate-400 font-bold">Every 15 mins</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                    <span className="font-bold">71E: Avadi ➔ Broadway</span>
+                    <span className="text-slate-400 font-bold">Every 20 mins</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="font-bold">206: Avadi ➔ Tambaram</span>
+                    <span className="text-slate-400 font-bold">Every 30 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              type="button" 
+              onClick={() => setShowTransportModal(false)}
+              className="w-full mt-4 py-2.5 bg-slate-100 dark:bg-neutral-800 hover:bg-slate-200 text-[9px] font-black uppercase rounded-btn text-center"
+            >
+              Close Timetable
+            </button>
           </div>
         </div>
       )}
