@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { 
@@ -123,10 +123,9 @@ export const WelcomeScreen: React.FC = () => {
         </h3>
         <div className="grid grid-cols-4 gap-2">
           {features.map((f, i) => (
-            <button
+            <div
               key={i}
-              onClick={() => navigate(f.path)}
-              className={`flex flex-col items-center justify-center p-2 rounded-2xl border transition active:scale-95 duration-200 h-16 ${
+              className={`flex flex-col items-center justify-center p-2 rounded-2xl border h-16 ${
                 theme === 'dark' 
                   ? 'bg-neutral-900 border-neutral-850 text-white' 
                   : 'bg-white border-slate-100 text-slate-700 shadow-3xs'
@@ -136,7 +135,7 @@ export const WelcomeScreen: React.FC = () => {
               <span className="text-[7.5px] font-bold text-center leading-tight tracking-tight line-clamp-2">
                 {f.name}
               </span>
-            </button>
+            </div>
           ))}
         </div>
       </div>
@@ -150,6 +149,28 @@ export const RegistrationScreen: React.FC = () => {
   const { theme } = useApp();
   const [fullName, setFullName] = useState('');
   const [dob, setDob] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(5); // June (0-indexed)
+  const [currentYear, setCurrentYear] = useState(1998);
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  
+  const getDaysInMonth = (m: number, y: number) => new Date(y, m + 1, 0).getDate();
+  const getFirstDayOfMonth = (m: number, y: number) => new Date(y, m, 1).getDay();
+
+  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
+  const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
+  const calendarDays = [];
+  for (let i = 0; i < firstDay; i++) {
+    calendarDays.push(null);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    calendarDays.push(d);
+  }
+
   const [genderSelection, setGenderSelection] = useState<'Male' | 'Female' | 'Other' | null>(null);
   const [selectedBloodGroup, setSelectedBloodGroup] = useState<string | null>(null);
   const [bloodGroupOpen, setBloodGroupOpen] = useState(false);
@@ -166,7 +187,7 @@ export const RegistrationScreen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-805 dark:text-white">Create Your Account</span>
+        <span className="text-xs font-black text-slate-855 dark:text-white">Create Your Account</span>
       </div>
 
       {/* Form Content */}
@@ -192,19 +213,15 @@ export const RegistrationScreen: React.FC = () => {
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Date of Birth</label>
           <div className="relative">
             <input
-              type="date"
+              type="text"
+              readOnly
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              onClick={(e) => {
-                try {
-                  (e.target as any).showPicker();
-                } catch (err) {}
-              }}
+              onClick={() => setShowDatePicker(true)}
               placeholder="DD / MM / YYYY"
-              className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
+              className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] cursor-pointer ${
                 theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-805 text-white font-sans' 
-                  : 'bg-white border-slate-200 text-slate-800 font-sans'
+                  ? 'bg-neutral-900 border-neutral-805 text-white' 
+                  : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">📅</span>
@@ -265,6 +282,118 @@ export const RegistrationScreen: React.FC = () => {
         </div>
       </div>
 
+      {/* Date Picker Modal Popover */}
+      {showDatePicker && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6">
+          <div className={`w-full max-w-xs p-4 rounded-card border shadow-xl flex flex-col ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            {/* Header select controls */}
+            <div className="flex justify-between items-center mb-3">
+              <button
+                type="button"
+                onClick={() => {
+                  if (currentMonth === 0) {
+                    setCurrentMonth(11);
+                    setCurrentYear(prev => prev - 1);
+                  } else {
+                    setCurrentMonth(prev => prev - 1);
+                  }
+                }}
+                className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800"
+              >
+                ◀
+              </button>
+              
+              <div className="flex gap-1.5 items-center">
+                <select
+                  value={currentMonth}
+                  onChange={(e) => setCurrentMonth(Number(e.target.value))}
+                  className={`bg-transparent font-bold text-xs focus:outline-none cursor-pointer ${
+                    theme === 'dark' ? 'text-white' : 'text-slate-800'
+                  }`}
+                >
+                  {monthNames.map((name, idx) => (
+                    <option key={name} value={idx} className={theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-slate-800'}>{name}</option>
+                  ))}
+                </select>
+
+                <select
+                  value={currentYear}
+                  onChange={(e) => setCurrentYear(Number(e.target.value))}
+                  className={`bg-transparent font-bold text-xs focus:outline-none cursor-pointer ${
+                    theme === 'dark' ? 'text-white' : 'text-slate-800'
+                  }`}
+                >
+                  {Array.from({ length: 100 }, (_, i) => 2026 - i).map(year => (
+                    <option key={year} value={year} className={theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-slate-800'}>{year}</option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (currentMonth === 11) {
+                    setCurrentMonth(0);
+                    setCurrentYear(prev => prev + 1);
+                  } else {
+                    setCurrentMonth(prev => prev + 1);
+                  }
+                }}
+                className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800"
+              >
+                ▶
+              </button>
+            </div>
+
+            {/* Days header */}
+            <div className="grid grid-cols-7 gap-1 text-center mb-1 text-[10px] font-black text-slate-400">
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(day => (
+                <div key={day}>{day}</div>
+              ))}
+            </div>
+
+            {/* Calendar Days */}
+            <div className="grid grid-cols-7 gap-1 text-center">
+              {calendarDays.map((day, idx) => (
+                <div key={idx} className="h-7 flex items-center justify-center">
+                  {day ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const dayStr = String(day).padStart(2, '0');
+                        const monthStr = String(currentMonth + 1).padStart(2, '0');
+                        setDob(`${dayStr} / ${monthStr} / ${currentYear}`);
+                        setShowDatePicker(false);
+                      }}
+                      className={`w-7 h-7 rounded-full text-[10px] font-bold transition-all flex items-center justify-center ${
+                        dob === `${String(day).padStart(2, '0')} / ${String(currentMonth + 1).padStart(2, '0')} / ${currentYear}`
+                          ? 'bg-[#4A3AFF] text-white'
+                          : 'hover:bg-[#4A3AFF]/15 text-slate-800 dark:text-slate-200'
+                      }`}
+                    >
+                      {day}
+                    </button>
+                  ) : (
+                    <div className="w-7 h-7" />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Cancel Control */}
+            <button
+              type="button"
+              onClick={() => setShowDatePicker(false)}
+              className="mt-3 py-1.5 border border-slate-200 dark:border-neutral-800 rounded-full text-[10px] font-black uppercase text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-900 transition"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Footer Navigation */}
       <div className="flex gap-4 mt-6">
         <button
@@ -292,8 +421,7 @@ export const RegistrationScreen: React.FC = () => {
 export const ContactInfoScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [contactInfo, setContactInfo] = useState('');
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
@@ -307,43 +435,41 @@ export const ContactInfoScreen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-850 dark:text-white">Contact Information</span>
+        <span className="text-xs font-black text-slate-855 dark:text-white">Contact Information</span>
       </div>
 
       {/* Form Content */}
-      <div className="flex-1 flex flex-col justify-center space-y-4 my-4">
-        {/* Mobile Number */}
-        <div className="space-y-1">
-          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Mobile Number</label>
+      <div className="flex-1 flex flex-col justify-start pt-12 space-y-6 my-4">
+        {/* Email or Mobile Number */}
+        <div className="space-y-2.5">
+          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Email ID or Mobile Number</label>
           <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter mobile number"
-            className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
+            type="text"
+            value={contactInfo}
+            onChange={(e) => setContactInfo(e.target.value)}
+            placeholder="Enter email address or mobile number"
+            className={`w-full p-4 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
               theme === 'dark' 
                 ? 'bg-neutral-900 border-neutral-805 text-white' 
                 : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
+          <p className="text-[9.5px] text-slate-400 dark:text-neutral-500 font-semibold leading-relaxed mt-2 text-left">
+            Provide your email address or 10-digit mobile number. We will send a 6-digit verification code to this contact details to secure your account.
+          </p>
         </div>
 
-        {/* Email Address */}
-        <div className="space-y-1">
-          <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Email Address</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email address"
-            className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
-              theme === 'dark' 
-                ? 'bg-neutral-900 border-neutral-850 text-white' 
-                : 'bg-white border-slate-200 text-slate-800'
-            }`}
-          />
-          <p className="text-[9px] text-slate-405 dark:text-neutral-505 font-bold mt-1.5">
-            Email is mandatory
+        {/* Dynamic Supporting Helper Text/Info at the bottom */}
+        <div className="p-4 rounded-btn bg-[#4A3AFF]/5 dark:bg-[#4A3AFF]/10 border border-[#4A3AFF]/15 text-left space-y-3 mt-6">
+          <span className="text-[10px] font-black uppercase tracking-wider text-[#4A3AFF] block">Onboarding Guidelines</span>
+          <p className="text-[9.5px] text-slate-500 dark:text-neutral-400 font-bold leading-relaxed">
+            • <b>Identity Verification</b>: Secure login relies on verified contact details to protect user accounts.
+          </p>
+          <p className="text-[9.5px] text-slate-500 dark:text-neutral-400 font-bold leading-relaxed">
+            • <b>One-Time Passcode</b>: Standard security validation using a 6-digit OTP will be dispatched immediately.
+          </p>
+          <p className="text-[9.5px] text-slate-500 dark:text-neutral-400 font-bold leading-relaxed">
+            • <b>Local Announcements</b>: Important ward advisories and emergency public notifications will be sent directly to your registered details.
           </p>
         </div>
       </div>
@@ -361,9 +487,10 @@ export const ContactInfoScreen: React.FC = () => {
           Back
         </button>
         <button
-          onClick={() => navigate('/register/address')}
+          onClick={() => navigate('/otp', { state: { contactInfo } })}
           className="flex-1 py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
         >
+          Next
         </button>
       </div>
     </div>
@@ -383,6 +510,10 @@ export const AddressWardScreen: React.FC = () => {
   const [locationAllowed, setLocationAllowed] = useState(true);
   const [showLocationDialog, setShowLocationDialog] = useState(false);
 
+  useEffect(() => {
+    setShowLocationDialog(true);
+  }, []);
+
   const wards = Array.from({ length: 48 }, (_, i) => `Ward ${i + 1}`);
 
   return (
@@ -392,7 +523,7 @@ export const AddressWardScreen: React.FC = () => {
       {/* Header back */}
       <div className="h-8 flex items-center gap-2">
         <button 
-          onClick={() => navigate('/register/contact')}
+          onClick={() => navigate('/otp')}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
@@ -458,7 +589,7 @@ export const AddressWardScreen: React.FC = () => {
             <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
               theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
             }`}>
-              {['Poonamallee High Rd', 'Gandhi St', 'Railway Station Rd', 'Market St'].map((s) => (
+              {['Poonamallee High Rd', 'Gandhi St', 'Railway Station Rd', 'Market St', 'Kamaraj Nagar 5th Street (Ward 48)', 'TNHB Phase III Main Road (Ward 48)', 'Periyar Nagar Main Road (Ward 48)', 'P&T Colony 2nd Cross Street (Ward 48)', 'CTH Road (Chennai-Tiruvallur High Road)', 'Sannidhi Street'].map((s) => (
                 <div 
                   key={s}
                   onClick={() => {
@@ -494,7 +625,7 @@ export const AddressWardScreen: React.FC = () => {
             <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
               theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
             }`}>
-              {['Avadi Municipality', 'Paruthipattu', 'Kovilpathu', 'Thirumullaivoyal'].map((c) => (
+              {['Avadi Municipality', 'Paruthipattu (Ward 48)', 'Kovilpathu', 'Thirumullaivoyal', 'Avadi Housing Board Community (Ward 48)'].map((c) => (
                 <div 
                   key={c}
                   onClick={() => {
@@ -552,16 +683,16 @@ export const AddressWardScreen: React.FC = () => {
                   setSelectedCommunity(null);
                   setShowLocationDialog(false);
                 }}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-850 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-800"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-800"
               >
                 Deny
               </button>
               <button
                 onClick={() => {
                   setLocationAllowed(true);
-                  setSelectedWard('Ward 1');
-                  setSelectedStreet('Poonamallee High Rd');
-                  setSelectedCommunity('Avadi Municipality');
+                  setSelectedWard('Ward 48');
+                  setSelectedStreet('TNHB Phase III Main Road (Ward 48)');
+                  setSelectedCommunity('Avadi Housing Board Community (Ward 48)');
                   setShowLocationDialog(false);
                 }}
                 className="flex-1 py-2 text-[10px] font-bold rounded-full bg-[#4A3AFF] text-white hover:bg-[#3b2ecc]"
@@ -576,7 +707,7 @@ export const AddressWardScreen: React.FC = () => {
       {/* Footer Navigation */}
       <div className="flex gap-4 mt-6">
         <button
-          onClick={() => navigate('/register/contact')}
+          onClick={() => navigate('/otp')}
           className={`flex-1 py-3.5 font-bold rounded-btn text-xs uppercase tracking-wider text-center border ${
             theme === 'dark'
               ? 'bg-transparent border-neutral-800 text-[#4A3AFF]'
@@ -586,7 +717,7 @@ export const AddressWardScreen: React.FC = () => {
           Back
         </button>
         <button
-          onClick={() => navigate('/otp')}
+          onClick={() => navigate('/home')}
           className="flex-1 py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
         >
           Next
@@ -600,6 +731,8 @@ export const AddressWardScreen: React.FC = () => {
 // SCREEN 6
 export const OTPScreen: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const contactInfo = location.state?.contactInfo || 'your email or mobile number';
   const { theme, language } = useApp();
   const [timer, setTimer] = useState(45);
   const [otp, setOtp] = useState<string[]>(['5', '2', '8', '1', '6', '3']);
@@ -641,7 +774,7 @@ export const OTPScreen: React.FC = () => {
     setVerifying(true);
     setTimeout(() => {
       setVerifying(false);
-      navigate('/home');
+      navigate('/register/address');
     }, 800);
   };
 
@@ -671,7 +804,7 @@ export const OTPScreen: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [otp, language]);
+  }, [otp, language, handleVerify]);
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
@@ -680,7 +813,7 @@ export const OTPScreen: React.FC = () => {
       {/* Header back */}
       <div className="h-8 flex items-center">
         <button 
-          onClick={() => navigate('/register/address')}
+          onClick={() => navigate('/register/contact')}
           className="p-1 rounded-full text-slate-400 hover:text-primary transition"
         >
           <ChevronLeft size={20} />
@@ -698,7 +831,7 @@ export const OTPScreen: React.FC = () => {
       <div className="mt-2 text-center">
         <h2 className="text-lg font-black text-slate-800 dark:text-white">Verify Your Number</h2>
         <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 max-w-xs mx-auto leading-relaxed font-semibold">
-          your email and mobile
+          Sent to {contactInfo}
         </p>
       </div>
 
@@ -794,6 +927,35 @@ export const HomeDashboardScreen: React.FC = () => {
   const { theme, language, selectedWard } = useApp();
   const [activeSlide, setActiveSlide] = useState(0);
   const [travelTab, setTravelTab] = useState<'train' | 'bus'>('train');
+
+  // Highlights & Viral Videos state
+  const [playingVideo, setPlayingVideo] = useState<{title: string; duration: string; views: string; thumbnail: string; source: string} | null>(null);
+  const [videoPlayingState, setVideoPlayingState] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(30);
+
+  const videos = [
+    {
+      title: 'Paruthipattu Lake Eco Park Walkthrough Vlog',
+      duration: '4:20',
+      views: '12K views',
+      thumbnail: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=400',
+      source: 'YouTube'
+    },
+    {
+      title: 'Avadi Tidel IT Park Construction Drone Update',
+      duration: '1:45',
+      views: '45K views',
+      thumbnail: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400',
+      source: 'Instagram Viral'
+    },
+    {
+      title: 'Best Midnight Street Food Spots in Avadi',
+      duration: '8:12',
+      views: '28K views',
+      thumbnail: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=400',
+      source: 'YouTube'
+    }
+  ];
 
   const slides = [
     {
@@ -901,12 +1063,6 @@ export const HomeDashboardScreen: React.FC = () => {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Explore Avadi</h4>
-            <span 
-              onClick={() => navigate('/services')}
-              className="text-[9.5px] text-[#4A3AFF] font-bold cursor-pointer hover:underline"
-            >
-              View All ❯
-            </span>
           </div>
           <div 
             onClick={() => navigate('/services')}
@@ -1046,6 +1202,44 @@ export const HomeDashboardScreen: React.FC = () => {
           </div>
         </div>
 
+        {/* Highlights & Viral Videos */}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Highlights & News</h4>
+            <span className="text-[8.5px] font-bold text-red-500 bg-red-50 dark:bg-red-950/20 px-2 py-0.5 rounded-full animate-pulse">LIVE</span>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-none">
+            {videos.map((vid, idx) => (
+              <div 
+                key={idx}
+                onClick={() => {
+                  setPlayingVideo(vid);
+                  setVideoPlayingState(true);
+                  setVideoProgress(35);
+                }}
+                className={`w-44 flex-shrink-0 p-2.5 rounded-card border shadow-3xs cursor-pointer active:scale-[0.98] transition-all flex flex-col justify-between ${
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                }`}
+              >
+                <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-slate-100 dark:bg-neutral-800">
+                  <img src={vid.thumbnail} alt={vid.title} className="w-full h-full object-cover" />
+                  <span className="absolute bottom-1 right-1 px-1 bg-black/75 text-[7px] text-white font-black rounded-sm">{vid.duration}</span>
+                  <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
+                    <span className="w-8 h-8 rounded-full bg-white/90 dark:bg-neutral-900/90 text-slate-800 dark:text-white flex items-center justify-center shadow-md font-bold text-xs">▶</span>
+                  </div>
+                </div>
+                <div className="space-y-0.5 mt-2 text-left leading-tight">
+                  <h5 className="text-[9.5px] font-black text-slate-800 dark:text-white line-clamp-2">{vid.title}</h5>
+                  <div className="flex justify-between text-[7.5px] text-slate-400 font-extrabold uppercase mt-1">
+                    <span>{vid.source}</span>
+                    <span>• {vid.views}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Travel Information */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
@@ -1069,47 +1263,47 @@ export const HomeDashboardScreen: React.FC = () => {
 
           {travelTab === 'train' && (
             <div className={`p-4 rounded-card border shadow-2xs space-y-2 text-xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}>
               <div className="flex justify-between border-b pb-1.5 border-slate-100 dark:border-neutral-800">
-                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Route</span>
-                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Timings</span>
+                <span className="font-black text-[9.5px] text-[#4A3AFF] uppercase tracking-wide">Route Name / Type</span>
+                <span className="font-black text-[9.5px] text-[#4A3AFF] uppercase tracking-wide">Timings</span>
               </div>
-              <div className="flex justify-between font-bold text-[10px]">
-                <span>Avadi ➔ Central (Fast Local)</span>
-                <span>08:30 AM | 09:15 AM</span>
-              </div>
-              <div className="flex justify-between font-bold text-[10px]">
-                <span>Avadi ➔ Central (Slow Local)</span>
-                <span>09:45 AM | 10:15 AM</span>
-              </div>
-              <div className="flex justify-between font-bold text-[10px]">
-                <span>Central ➔ Avadi (Return Local)</span>
-                <span>05:30 PM | 06:15 PM</span>
-              </div>
+              {[
+                { r: 'Avadi ➔ Central (Fast Local)', t: '08:30 AM | 09:15 AM' },
+                { r: 'Avadi ➔ Central (Slow Local)', t: '09:45 AM | 10:15 AM' },
+                { r: 'Avadi ➔ Tiruvallur (Local) 🚆', t: '09:00 AM | 09:30 AM' },
+                { r: 'Central ➔ Avadi (Return Local)', t: '05:30 PM | 06:15 PM' },
+                { r: 'Tiruvallur ➔ Avadi (Return Local) 🚆', t: '04:30 PM | 05:00 PM' }
+              ].map((row, idx) => (
+                <div key={idx} className="flex justify-between font-bold text-[10.5px] py-1 border-b last:border-0 border-slate-50/50 dark:border-neutral-900/50">
+                  <span className="text-slate-700 dark:text-slate-355">{row.r}</span>
+                  <span className="text-blue-500 font-extrabold shrink-0 pl-2">{row.t}</span>
+                </div>
+              ))}
             </div>
           )}
 
           {travelTab === 'bus' && (
             <div className={`p-4 rounded-card border shadow-2xs space-y-2 text-xs ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}>
               <div className="flex justify-between border-b pb-1.5 border-slate-100 dark:border-neutral-800">
-                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Bus Route No.</span>
-                <span className="font-extrabold text-[9px] text-[#4A3AFF] uppercase">Frequency / Destination</span>
+                <span className="font-black text-[9.5px] text-emerald-650 uppercase tracking-wide">Bus Route No.</span>
+                <span className="font-black text-[9.5px] text-emerald-650 uppercase tracking-wide">Frequency / Destination</span>
               </div>
-              <div className="flex justify-between font-bold text-[10px]">
-                <span>Route 70 (Avadi Terminus)</span>
-                <span>Every 15 mins ➔ CMBT Koyambedu</span>
-              </div>
-              <div className="flex justify-between font-bold text-[10px]">
-                <span>Route 71E (Avadi Terminus)</span>
-                <span>Every 20 mins ➔ Broadway</span>
-              </div>
-              <div className="flex justify-between font-bold text-[10px]">
-                <span>Route 206 (Avadi Terminus)</span>
-                <span>Every 30 mins ➔ Tambaram</span>
-              </div>
+              {[
+                { r: 'Route 70 (Avadi Terminus)', f: 'Every 15 mins ➔ CMBT Koyambedu' },
+                { r: 'Route 71E (Avadi Terminus)', f: 'Every 20 mins ➔ Broadway' },
+                { r: 'Route 70V (Avadi Terminus) 🚌', f: 'Every 20 mins ➔ Vandalur Zoo' },
+                { r: 'Route 153C (Avadi Terminus) 🚌', f: 'Every 15 mins ➔ Koyambedu Market' },
+                { r: 'Route 206 (Avadi Terminus)', f: 'Every 30 mins ➔ Tambaram' }
+              ].map((row, idx) => (
+                <div key={idx} className="flex justify-between font-bold text-[10.5px] py-1 border-b last:border-0 border-slate-50/50 dark:border-neutral-900/50">
+                  <span className="text-slate-700 dark:text-slate-355">{row.r}</span>
+                  <span className="text-emerald-500 font-extrabold shrink-0 pl-2">{row.f}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -1119,44 +1313,125 @@ export const HomeDashboardScreen: React.FC = () => {
           <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Quick Info About Avadi</h4>
           <div className="grid grid-cols-2 gap-3">
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}>
-              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Defense Hub 🎖️</span>
+              <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Defense Hub 🎖️</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
                 Home to Heavy Vehicles Factory (HVF), OCF & CVRDE labs.
               </p>
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}>
-              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Tidel Park 💻</span>
+              <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Tidel IT Park 💻</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
-                Pattabiram Tidel IT Park spanning over 3.5 Lakh sq ft area.
+                Pattabiram IT cluster spanning over 3.5 Lakh sq ft area.
               </p>
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}>
-              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Eco Park 🌳</span>
+              <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Eco Park 🌳</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
                 Paruthipattu Lake Eco-Park covering 87 acres with boating.
               </p>
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
             }`}>
-              <span className="text-[9px] font-extrabold text-[#4A3AFF] uppercase">Administration 🏢</span>
+              <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Administration 🏢</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
                 Avadi Municipal Corporation comprising of 48 Wards.
+              </p>
+            </div>
+
+            <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Lake Ecology 💧</span>
+              <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
+                Avadi Lake is a major local fresh waterbody undergoing eco-restoration.
+              </p>
+            </div>
+
+            <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Ancient Temples 🛕</span>
+              <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
+                Home to historical temples and centuries-old structures like Amman Temple.
               </p>
             </div>
           </div>
         </div>
 
       </div>
+
+      {/* Interactive Mock Video Player Overlay */}
+      {playingVideo && (
+        <div className="absolute inset-0 z-50 bg-black/95 flex flex-col justify-between text-white p-5 select-none">
+          {/* Top Bar */}
+          <div className="flex justify-between items-center h-10">
+            <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest">{playingVideo.source} Video Player</span>
+            <button 
+              onClick={() => {
+                setPlayingVideo(null);
+                setVideoPlayingState(false);
+              }}
+              className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 font-bold"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Video Player Display Screen */}
+          <div className="flex-1 flex flex-col justify-center my-6">
+            <div className="relative aspect-video w-full rounded-card overflow-hidden bg-neutral-900 shadow-2xl border border-neutral-800">
+              <img src={playingVideo.thumbnail} alt={playingVideo.title} className="w-full h-full object-cover opacity-60" />
+              
+              {/* Play / Loading Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {videoPlayingState ? (
+                  <div className="w-14 h-14 rounded-full bg-black/60 border-2 border-white/80 flex items-center justify-center cursor-pointer animate-pulse" onClick={() => setVideoPlayingState(false)}>
+                    <span className="text-xl">❚❚</span>
+                  </div>
+                ) : (
+                  <div className="w-14 h-14 rounded-full bg-[#4A3AFF] flex items-center justify-center cursor-pointer shadow-lg" onClick={() => setVideoPlayingState(true)}>
+                    <span className="text-xl pl-1">▶</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Progress Slider Bar */}
+              <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-3 space-y-2">
+                <div className="flex justify-between items-center text-[8px] font-bold text-white/80">
+                  <span>01:12</span>
+                  <span>{playingVideo.duration}</span>
+                </div>
+                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer" onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+                  setVideoProgress(pct);
+                }}>
+                  <div className="h-full bg-[#4A3AFF] rounded-full" style={{ width: `${videoProgress}%` }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Details & Metadata */}
+          <div className="space-y-2 text-left mb-6 pb-6">
+            <h3 className="text-xs font-black uppercase tracking-wide leading-snug">{playingVideo.title}</h3>
+            <p className="text-[9px] text-slate-400 font-extrabold">{playingVideo.views} • 4.8 Rating • 32 Comments</p>
+            <p className="text-[9px] text-slate-500 font-semibold leading-relaxed">
+              Playing high quality streaming feed of locally sourced content for Avadi municipal dashboard. Standard HD protocols applied.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Sticky Bottom Navigation (4 items) */}
       <div className={`absolute bottom-0 left-0 w-full border-t flex justify-around py-2 h-16 z-30 shadow-lg ${
@@ -1677,6 +1952,109 @@ export const AlertsScreen: React.FC = () => {
             );
           })}
         </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// THEME SELECTION SCREEN
+// ==========================================
+export const ThemeSelectionScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, setTheme } = useApp();
+  const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | null>(null);
+  const [showFlash, setShowFlash] = useState(false);
+
+  const handleApply = () => {
+    if (selectedTheme === 'light') {
+      setTheme('light');
+      navigate('/home');
+    }
+  };
+
+  const handleSelectTheme = (mode: 'light' | 'dark') => {
+    setSelectedTheme(mode);
+    if (mode === 'dark') {
+      setShowFlash(true);
+      setTimeout(() => {
+        setTheme('dark');
+        navigate('/home');
+      }, 600);
+    }
+  };
+
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full relative overflow-hidden ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Brightening Flash overlay for Dark Mode transition */}
+      {showFlash && (
+        <div className="absolute inset-0 z-50 bg-white/95 animate-flash-bright transition-all" />
+      )}
+
+      {/* Header back */}
+      <div className="h-8 flex items-center gap-2">
+        <button 
+          onClick={() => navigate('/register/address')}
+          className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <span className="text-xs font-black text-slate-805 dark:text-white">Choose App Theme</span>
+      </div>
+
+      {/* Theme Choice Cards */}
+      <div className="flex-grow flex flex-col justify-center space-y-6 my-6">
+        <div className="text-center space-y-2 mb-4">
+          <h2 className="text-md font-black text-slate-805 dark:text-white uppercase tracking-wider">Choose Theme</h2>
+          <p className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">
+            Select your preferred display theme for Avadi Connect.
+          </p>
+        </div>
+
+        <div className="flex gap-4">
+          {/* Light Mode Card */}
+          <div 
+            onClick={() => handleSelectTheme('light')}
+            className={`flex-1 p-5 rounded-btn border text-center flex flex-col items-center justify-center cursor-pointer transition-all active:scale-98 ${
+              selectedTheme === 'light'
+                ? 'border-[#4A3AFF] bg-[#4A3AFF]/5 dark:bg-[#4A3AFF]/10 ring-1 ring-[#4A3AFF]/30'
+                : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-3xs'
+            }`}
+          >
+            <span className="text-2xl mb-2">☀️</span>
+            <span className="text-xs font-black uppercase tracking-wider block">Light Mode</span>
+            <span className="text-[8.5px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">Classic bright interface</span>
+          </div>
+
+          {/* Dark Mode Card */}
+          <div 
+            onClick={() => handleSelectTheme('dark')}
+            className={`flex-1 p-5 rounded-btn border text-center flex flex-col items-center justify-center cursor-pointer transition-all active:scale-98 ${
+              selectedTheme === 'dark'
+                ? 'border-[#4A3AFF] bg-[#4A3AFF]/5 dark:bg-[#4A3AFF]/10 ring-1 ring-[#4A3AFF]/30'
+                : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-3xs'
+            }`}
+          >
+            <span className="text-2xl mb-2">🌙</span>
+            <span className="text-xs font-black uppercase tracking-wider block">Dark Mode</span>
+            <span className="text-[8.5px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">Sleek dark interface</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Navigation */}
+      <div className="h-16 flex items-center justify-center">
+        {selectedTheme === 'light' && (
+          <button
+            onClick={handleApply}
+            className="w-full py-3.5 bg-[#4A3AFF] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center shadow-md animate-pulse active:scale-98 transition duration-150"
+          >
+            Apply
+          </button>
+        )}
       </div>
     </div>
   );

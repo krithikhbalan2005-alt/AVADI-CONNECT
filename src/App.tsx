@@ -12,6 +12,7 @@ import {
   ContactInfoScreen,
   AddressWardScreen,
   OTPScreen,
+  ThemeSelectionScreen,
   HomeDashboardScreen,
   CommunityFeedScreen,
   ReportIssueStep1Screen,
@@ -58,7 +59,8 @@ import {
   CommunityFeedScreenVariant3,
   HomeDashboardScreenVariant2,
   CommunityFeedScreenVariant4,
-  GovernmentSchemesScreen
+  GovernmentSchemesScreen,
+  ProfileScreen
 } from './screens/Module2';
 
 const AnimatedRoutes: React.FC = () => {
@@ -127,6 +129,18 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <AddressWardScreen />
+          </motion.div>
+        } />
+
+        <Route path="/register/theme" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ThemeSelectionScreen />
           </motion.div>
         } />
 
@@ -678,6 +692,18 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <CommunityFeedScreenVariant4 />
+          </motion.div>
+        } />
+
+        <Route path="/profile" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ProfileScreen />
           </motion.div>
         } />
         

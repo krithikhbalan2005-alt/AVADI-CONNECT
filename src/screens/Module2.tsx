@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { ChevronLeft, Search, Plus, X } from 'lucide-react';
 
@@ -640,6 +640,8 @@ export const EmergencySOSScreenAlt: React.FC = () => {
   const [contactPhone, setContactPhone] = useState('');
   const [unitsRequired, setUnitsRequired] = useState('1');
   const [patientName, setPatientName] = useState('');
+  const [showSOSAlert, setShowSOSAlert] = useState(false);
+  const [showBloodSuccess, setShowBloodSuccess] = useState(false);
   const [dialConfirmContact, setDialConfirmContact] = useState<{name: string, number: string, icon: string} | null>(null);
 
   // Stateful blood requests list
@@ -686,13 +688,12 @@ export const EmergencySOSScreenAlt: React.FC = () => {
       };
       setBloodRequests([newReq, ...bloodRequests]);
       setShowBloodModal(false);
+      setShowBloodSuccess(true);
       // Reset form
       setPatientName('');
       setHospitalName('');
       setContactPhone('');
       setUnitsRequired('1');
-    } else {
-      alert('Please fill out all fields.');
     }
   };
 
@@ -729,7 +730,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
         <div className="flex flex-col items-center justify-center py-4">
           <button 
             type="button"
-            onClick={() => alert('SOS broadcast alert sent to emergency services and nearest community volunteers!')}
+            onClick={() => setShowSOSAlert(true)}
             className="w-28 h-28 rounded-full bg-red-500 border-4 border-white dark:border-neutral-900 text-white flex flex-col items-center justify-center font-black tracking-wider transition active:scale-95 shadow-lg sos-btn-pulse"
           >
             <span className="text-xl">SOS</span>
@@ -935,6 +936,48 @@ export const EmergencySOSScreenAlt: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* SOS Dispatched Overlay Modal */}
+      {showSOSAlert && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-3xl block animate-bounce">🚨</span>
+            <h4 className="text-xs font-black uppercase tracking-wider text-red-500">SOS Alert Dispatched</h4>
+            <p className="text-[10px] text-slate-500 dark:text-neutral-400 font-semibold leading-relaxed">
+              Your SOS emergency broadcast has been successfully dispatched to nearest Avadi community volunteers, municipal responders, and local authorities.
+            </p>
+            <button
+              onClick={() => setShowSOSAlert(false)}
+              className="w-full py-2.5 bg-[#4A3AFF] text-white font-bold rounded-full text-xs uppercase"
+            >
+              Acknowledge
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Blood Request Success Overlay Modal */}
+      {showBloodSuccess && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-3xl block">🩸</span>
+            <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Request Submitted</h4>
+            <p className="text-[10px] text-slate-505 dark:text-neutral-400 font-semibold leading-relaxed">
+              Your urgent blood request has been successfully registered and broadcasted to all registered donors and volunteers in the area.
+            </p>
+            <button
+              onClick={() => setShowBloodSuccess(false)}
+              className="w-full py-2.5 bg-emerald-500 text-white font-bold rounded-full text-xs uppercase text-center"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -963,8 +1006,8 @@ export const LocalServicesScreen: React.FC = () => {
       tag: 'places',
       subtag: 'temples',
       phone: '044-26340221',
-      icon: '🕌',
-      image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=600'
+      icon: '🛕',
+      image: 'https://images.unsplash.com/photo-1544084944-15269ec7b5a0?auto=format&fit=crop&q=80&w=600'
     },
     {
       name: 'Pattabiram Tidel IT Park',
@@ -1240,31 +1283,46 @@ export const LocalServicesScreen: React.FC = () => {
     </div>
   );
 };
+
 export const RentalsPageScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
+  const [selectedRental, setSelectedRental] = useState<any | null>(null);
+  const [dialConfirmContact, setDialConfirmContact] = useState<{name: string, phone: string, icon: string} | null>(null);
 
   const listings = [
     {
-      title: 'Shop for Rent',
-      location: 'Avadi Market',
-      details: '800 sq ft',
+      id: 1,
+      title: 'Commercial Shop for Rent',
+      location: 'Avadi Bazaar Market',
+      landmark: 'Near Gandhi Statue / Avadi Railway Station',
+      details: '800 sq ft • Ground Floor • 3 Phase Power',
       price: '₹8,000 / month',
-      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=300'
+      address: 'Shop No. 14, Bazaar Street, Avadi Market, Chennai - 600054',
+      phone: '044-26343916',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=400'
     },
     {
-      title: 'House for Rent',
-      location: 'Avadi, Green Park',
-      details: '2 BHK',
+      id: 2,
+      title: 'Modern Residential House',
+      location: 'Green Park Avenue, Avadi',
+      landmark: 'Opposite to Eco-Park Main Gate',
+      details: '2 BHK • 1200 sq ft • Semi-Furnished',
       price: '₹12,000 / month',
-      image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=300'
+      address: 'Plot 45, Green Park 2nd Street, Avadi, Chennai - 600054',
+      phone: '+91 98401 23456',
+      image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=400'
     },
     {
-      title: 'Room for Rent',
-      location: 'Avadi, Anna Nagar',
-      details: '1 Room',
+      id: 3,
+      title: 'Budget Single Room for Rent',
+      location: 'Anna Nagar, Avadi',
+      landmark: 'Behind Vel Tech University Hostel',
+      details: '1 Room • 350 sq ft • Attached Bath',
       price: '₹4,000 / month',
-      image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=300'
+      address: 'Door 12B, Anna Nagar, Avadi, Chennai - 600054',
+      phone: '+91 98402 34567',
+      image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=400'
     }
   ];
 
@@ -1276,13 +1334,13 @@ export const RentalsPageScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header Search */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400 hover:text-slate-655"><ChevronLeft size={20} /></button>
           <div className="flex-1 relative">
             <input
               type="text"
               placeholder="Search rentals..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-855 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -1291,10 +1349,11 @@ export const RentalsPageScreen: React.FC = () => {
 
         {/* Listings List */}
         <div className="space-y-3.5">
-          {listings.map((list, i) => (
+          {listings.map((list) => (
             <div
-              key={i}
-              className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between ${
+              key={list.id}
+              onClick={() => setSelectedRental(list)}
+              className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between cursor-pointer active:scale-99 transition ${
                 theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
               }`}
             >
@@ -1304,25 +1363,137 @@ export const RentalsPageScreen: React.FC = () => {
                   <img src={list.image} alt={list.title} className="w-full h-full object-cover" />
                 </div>
                 {/* Text Details */}
-                <div className="space-y-0.5 leading-tight">
+                <div className="space-y-0.5 leading-tight text-left">
                   <h4 className="text-[11px] font-extrabold">{list.title}</h4>
                   <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.location}</p>
                   <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.details}</p>
-                  <p className="text-[9.5px] font-black text-slate-800 dark:text-white mt-1">{list.price}</p>
+                  <p className="text-[9.5px] font-black text-[#4A3AFF] mt-1">{list.price}</p>
                 </div>
               </div>
-
-              {/* Call Owner Button */}
-              <button
-                type="button"
-                className="px-3 py-1.5 bg-[#4CD964] hover:bg-[#3ec455] text-white text-[9px] font-black rounded-lg transition"
-              >
-                Call Owner
-              </button>
+              <span className="text-slate-400 text-xs pr-1">❯</span>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Detailed Rental slide-up modal sheet */}
+      {selectedRental && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex flex-col justify-end">
+          <div className={`w-full max-h-[85%] rounded-t-[24px] border-t shadow-2xl flex flex-col justify-between overflow-hidden text-left ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            {/* Header */}
+            <div className="p-5 flex justify-between items-center border-b border-slate-100 dark:border-neutral-900">
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-405 dark:text-neutral-500">Rental Details</h3>
+              <button 
+                onClick={() => setSelectedRental(null)}
+                className="w-7 h-7 rounded-full bg-slate-100 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-600 dark:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Scrollable details */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+              {/* Main Image banner */}
+              <div className="w-full aspect-[16/9] rounded-xl overflow-hidden bg-slate-100 dark:bg-neutral-800 shadow-inner">
+                <img src={selectedRental.image} alt={selectedRental.title} className="w-full h-full object-cover" />
+              </div>
+
+              {/* Title & Price */}
+              <div className="flex justify-between items-start gap-4">
+                <div className="space-y-1">
+                  <h2 className="text-sm font-black tracking-wide leading-snug">{selectedRental.title}</h2>
+                  <p className="text-[10px] font-bold text-[#4A3AFF] uppercase">{selectedRental.details}</p>
+                </div>
+                <span className="px-3 py-1.5 bg-[#4A3AFF]/10 dark:bg-[#4A3AFF]/20 text-[#4A3AFF] text-xs font-black rounded-lg shrink-0">
+                  {selectedRental.price}
+                </span>
+              </div>
+
+              {/* Location Details Card */}
+              <div className={`p-4 rounded-xl border space-y-3 ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-slate-50/50 border-slate-150'
+              }`}>
+                <div className="space-y-0.5 leading-snug">
+                  <span className="text-[8px] font-black uppercase text-slate-405">Location Area</span>
+                  <p className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">📍 {selectedRental.location}</p>
+                </div>
+
+                <div className="space-y-0.5 leading-snug">
+                  <span className="text-[8px] font-black uppercase text-slate-405">Landmark Reference</span>
+                  <p className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">🏢 {selectedRental.landmark}</p>
+                </div>
+
+                <div className="space-y-0.5 leading-snug">
+                  <span className="text-[8px] font-black uppercase text-slate-405">Address Details</span>
+                  <p className="text-[10.5px] font-extrabold text-slate-700 dark:text-slate-300">{selectedRental.address}</p>
+                </div>
+              </div>
+
+              {/* General terms / info */}
+              <p className="text-[9.5px] text-slate-400 dark:text-neutral-500 font-semibold leading-relaxed">
+                Contact the landlord directly for deposits, verification of documents, and to schedule visits. Avadi Connect does not charge brokerage.
+              </p>
+            </div>
+
+            {/* Bottom floating call options */}
+            <div className="p-4 bg-slate-50/50 dark:bg-neutral-900 border-t border-slate-100 dark:border-neutral-900 flex gap-3 z-20">
+              {/* Normal Call */}
+              <button
+                onClick={() => setDialConfirmContact({ name: selectedRental.title, phone: selectedRental.phone, icon: '📞' })}
+                className="flex-1 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[10px] uppercase rounded-btn flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition"
+              >
+                <span>📞</span> Normal Call
+              </button>
+
+              {/* WhatsApp Call */}
+              <button
+                onClick={() => {
+                  alert(`Opening WhatsApp chat with property manager at ${selectedRental.phone} to inquire about: ${selectedRental.title}`);
+                }}
+                className="flex-1 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-[10px] uppercase rounded-btn flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition"
+              >
+                <span>💬</span> WhatsApp Call
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation of Call */}
+      {dialConfirmContact && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-2xl block">{dialConfirmContact.icon}</span>
+            <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
+            <p className="text-[10px] text-slate-555 dark:text-neutral-400 font-semibold leading-relaxed">
+              Are you sure you want to dial {dialConfirmContact.name} ({dialConfirmContact.phone})?
+            </p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setDialConfirmContact(null)}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-850 text-slate-505"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = `tel:${dialConfirmContact.phone.replace(/[-\s]+/g, '')}`;
+                  setDialConfirmContact(null);
+                }}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full bg-emerald-500 text-white animate-pulse"
+              >
+                Call
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -1334,14 +1505,43 @@ export const JobsPageScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
 
-  const menuItems = [
-    { name: 'Community Feed', icon: '👥', path: '/community-feed' },
-    { name: 'Emergency SOS', icon: '🚨', path: '/sos' },
-    { name: 'Explore Avadi', icon: '🧭', path: '/home' },
-    { name: 'Local Services', icon: '🤝', path: '/services' },
-    { name: 'Events & Festivals', icon: '📅', path: '/home' },
-    { name: 'Profile Settings', icon: '⚙️', path: '/theme' },
-    { name: 'Logout', icon: '🚪', path: '/welcome' }
+  const jobs = [
+    {
+      id: 1,
+      role: 'Sales Executive',
+      company: 'Ace Communications',
+      salary: '₹40,000 - ₹60,000',
+      type: 'Full-time',
+      experience: '1 - 2 Years',
+      location: 'Avadi, TN',
+      deadline: '20 May 2026',
+      icon: '💼',
+      color: 'indigo'
+    },
+    {
+      id: 2,
+      role: 'Delivery Partner',
+      company: 'Fast Delivery Services',
+      salary: '₹20,000 - ₹30,000',
+      type: 'Part-time',
+      experience: 'Freshers Welcome',
+      location: 'Avadi, TN',
+      deadline: '18 May 2026',
+      icon: '🛵',
+      color: 'emerald'
+    },
+    {
+      id: 3,
+      role: 'Store Manager',
+      company: 'Avadi Mega Store',
+      salary: '₹35,000 - ₹45,000',
+      type: 'Full-time',
+      experience: '3+ Years',
+      location: 'Avadi, TN',
+      deadline: '22 May 2026',
+      icon: '🏬',
+      color: 'purple'
+    }
   ];
 
   return (
@@ -1349,11 +1549,11 @@ export const JobsPageScreen: React.FC = () => {
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scroll Area */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header Search */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <div className="flex-1 relative">
+          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-405"><ChevronLeft size={20} /></button>
+          <div className="flex-grow relative">
             <input
               type="text"
               placeholder="Search Jobs..."
@@ -1363,81 +1563,37 @@ export const JobsPageScreen: React.FC = () => {
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
           </div>
-          <button className="p-1.5 border rounded-lg text-slate-400"><span className="text-xs">⊶</span></button>
         </div>
 
         {/* Jobs List */}
         <div className="space-y-3">
-          {/* Card 1 */}
-          <div 
-            onClick={() => navigate('/jobs/detail')}
-            className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center cursor-pointer ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-            }`}
-          >
-            <div className="flex gap-3 items-center">
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-indigo-500 text-xs shrink-0">AC</div>
-              <div className="space-y-0.5 leading-tight">
-                <div className="flex items-center gap-1.5">
-                  <h4 className="text-[11px] font-extrabold">Sales Executive</h4>
-                  <span className="text-[8px] font-bold text-slate-400">100</span>
-                </div>
-                <p className="text-[8.5px] text-slate-400 font-semibold">Ace Communications</p>
-                <p className="text-[8.5px] text-slate-450 font-bold">40K - 60K</p>
-                <p className="text-[8px] text-slate-400 font-bold">Avadi, TN - Full-time</p>
-              </div>
-            </div>
-            <button onClick={(e) => { e.stopPropagation(); navigate('/jobs/detail'); }} className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg">Apply</button>
-          </div>
-
-          {/* Card 2 */}
-          <div className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-          }`}>
-            <div className="flex gap-3 items-center">
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-emerald-505 text-xs shrink-0">FD</div>
-              <div className="space-y-0.5 leading-tight">
-                <h4 className="text-[11px] font-extrabold">Delivery Partner</h4>
-                <p className="text-[8.5px] text-slate-400 font-semibold">Fast Delivery</p>
-                <p className="text-[8.5px] text-slate-450 font-bold">20K - 30K</p>
-                <p className="text-[8px] text-slate-400 font-bold">Avadi, TN - Part-time</p>
-              </div>
-            </div>
-            <button className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg">Apply</button>
-          </div>
-
-          {/* Card 3 */}
-          <div className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-          }`}>
-            <div className="flex gap-3 items-center">
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-purple-500 text-xs shrink-0">MS</div>
-              <div className="space-y-0.5 leading-tight">
-                <h4 className="text-[11px] font-extrabold">Store Manager</h4>
-                <p className="text-[8.5px] text-slate-400 font-semibold">Mega Store</p>
-                <p className="text-[8.5px] text-slate-450 font-bold">35K - 45K</p>
-                <p className="text-[8px] text-slate-400 font-bold">Avadi, TN - Full-time</p>
-              </div>
-            </div>
-            <span className="text-slate-400 text-xs">❯</span>
-          </div>
-        </div>
-
-        {/* Menu list in scroll list (mockup anomaly) */}
-        <div className="border-t border-slate-100 dark:border-neutral-900 pt-3 space-y-2">
-          {menuItems.map((item, idx) => (
+          {jobs.map((job) => (
             <div 
-              key={idx}
-              onClick={() => navigate(item.path)}
-              className={`p-3 rounded-card border flex justify-between items-center cursor-pointer active:bg-slate-50 dark:active:bg-neutral-800 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-100'
+              key={job.id}
+              onClick={() => navigate('/jobs/detail', { state: { job } })}
+              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center cursor-pointer active:scale-99 transition ${
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-sm">{item.icon}</span>
-                <span className="text-[10px] font-extrabold">{item.name}</span>
+              <div className="flex gap-3 items-center">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-xs shrink-0 bg-[#4A3AFF]`}>
+                  {job.icon}
+                </div>
+                <div className="space-y-0.5 leading-tight text-left">
+                  <div className="flex items-center gap-1.5">
+                    <h4 className="text-[11px] font-extrabold">{job.role}</h4>
+                  </div>
+                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{job.company}</p>
+                  <p className="text-[8.5px] text-emerald-600 font-bold">{job.salary}</p>
+                  <p className="text-[8px] text-slate-400 font-bold">{job.location} - {job.type}</p>
+                </div>
               </div>
-              <span className="text-slate-400 text-xs">❯</span>
+              <button 
+                onClick={(e) => { e.stopPropagation(); navigate('/jobs/detail', { state: { job } }); }} 
+                className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg transition"
+              >
+                Apply
+              </button>
             </div>
           ))}
         </div>
@@ -1452,6 +1608,7 @@ export const JobsPageScreen: React.FC = () => {
 export const JobsDetailScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
+  const location = useLocation();
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   
@@ -1462,14 +1619,27 @@ export const JobsDetailScreen: React.FC = () => {
   const [gradYear, setGradYear] = useState('');
   const [fileName, setFileName] = useState('');
 
+  // Extract selected job or use default fallback
+  const job = location.state?.job || {
+    id: 1,
+    role: 'Sales Executive',
+    company: 'Ace Communications',
+    salary: '₹40,000 - ₹60,000',
+    type: 'Full-time',
+    experience: '1 - 2 Years',
+    location: 'Avadi, TN',
+    deadline: '20 May 2026',
+    icon: '💼'
+  };
+
   const details = [
-    { label: 'Job Role', value: 'Sales Executive', icon: '💼' },
-    { label: 'Company', value: 'Ace Communications', icon: '🏠' },
-    { label: 'CTC / Salary', value: '₹40,000 - ₹60,000', icon: '💵' },
-    { label: 'Experience', value: '1 - 2 Years', icon: '⚙️' },
-    { label: 'Job Type', value: 'Full-time', icon: '💼' },
-    { label: 'Location', value: 'Avadi, Tamil Nadu', icon: '📍' },
-    { label: 'Application Deadline', value: '20 May 2025', icon: '📅' }
+    { label: 'Job Role', value: job.role, icon: '💼' },
+    { label: 'Company', value: job.company, icon: '🏠' },
+    { label: 'CTC / Salary', value: job.salary, icon: '💵' },
+    { label: 'Experience Required', value: job.experience, icon: '⚙️' },
+    { label: 'Job Type', value: job.type, icon: '💼' },
+    { label: 'Location', value: job.location, icon: '📍' },
+    { label: 'Application Deadline', value: job.deadline, icon: '📅' }
   ];
 
   const handleApplySubmit = (e: React.FormEvent) => {
@@ -1477,8 +1647,6 @@ export const JobsDetailScreen: React.FC = () => {
     if (fullName.trim() && email.trim() && degree.trim() && gradYear.trim()) {
       setShowApplyModal(false);
       setShowSuccessModal(true);
-    } else {
-      alert('Please fill out all fields.');
     }
   };
 
@@ -1487,7 +1655,7 @@ export const JobsDetailScreen: React.FC = () => {
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scroll area */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="h-8 flex items-center gap-2">
           <button onClick={() => navigate('/jobs')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
@@ -1498,10 +1666,12 @@ export const JobsDetailScreen: React.FC = () => {
         <div className={`p-4.5 rounded-card border shadow-3xs flex gap-3.5 items-center ${
           theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
         }`}>
-          <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center font-black text-indigo-555 text-sm shrink-0">AC</div>
+          <div className="w-12 h-12 rounded-full bg-[#4A3AFF] text-white flex items-center justify-center font-black text-sm shrink-0">
+            {job.icon}
+          </div>
           <div className="space-y-0.5 text-left leading-tight">
-            <h4 className="text-[12px] font-black text-slate-805 dark:text-white">Sales Executive</h4>
-            <p className="text-[9px] text-slate-405 dark:text-neutral-500 font-bold">Ace Communications • Avadi</p>
+            <h4 className="text-[12px] font-black text-slate-805 dark:text-white">{job.role}</h4>
+            <p className="text-[9px] text-slate-450 dark:text-neutral-500 font-bold">{job.company} • {job.location}</p>
           </div>
         </div>
 
@@ -1513,7 +1683,7 @@ export const JobsDetailScreen: React.FC = () => {
             <div key={idx} className="flex gap-3 text-left leading-snug">
               <span className="text-sm shrink-0">{detail.icon}</span>
               <div>
-                <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">{detail.label}</p>
+                <p className="text-[8px] font-black uppercase tracking-wider text-slate-405">{detail.label}</p>
                 <p className="text-[10px] font-extrabold text-slate-800 dark:text-white mt-0.5">{detail.value}</p>
               </div>
             </div>
@@ -1543,26 +1713,26 @@ export const JobsDetailScreen: React.FC = () => {
             </div>
             <form onSubmit={handleApplySubmit} className="space-y-3">
               <div>
-                <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Full Name</label>
+                <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Full Name</label>
                 <input 
                   type="text" 
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="e.g. John Doe"
+                  placeholder="e.g. Karthik Balan"
                   className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
                     theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-850'
                   }`}
                 />
               </div>
               <div>
-                <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Email Address</label>
+                <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Email Address</label>
                 <input 
                   type="email" 
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e.g. john@gmail.com"
+                  placeholder="e.g. karthik.balan@avadi.gov.in"
                   className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
                     theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
                   }`}
@@ -1570,7 +1740,7 @@ export const JobsDetailScreen: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Degree / Major</label>
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Degree / Major</label>
                   <input 
                     type="text" 
                     required
@@ -1583,7 +1753,7 @@ export const JobsDetailScreen: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Passing Year</label>
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Passing Year</label>
                   <input 
                     type="number" 
                     min="2000"
@@ -1599,23 +1769,15 @@ export const JobsDetailScreen: React.FC = () => {
                 </div>
               </div>
               <div>
-                <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Upload Resume (.pdf, .doc)</label>
+                <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Upload Resume (.pdf, .doc)</label>
                 <div className="relative mt-1">
-                  <input 
-                    type="file" 
-                    accept=".pdf,.doc,.docx"
-                    required
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        setFileName(e.target.files[0].name);
-                      }
-                    }}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                  <div className={`w-full p-3 text-center border-2 border-dashed rounded-btn text-xs font-bold text-slate-400 ${
-                    theme === 'dark' ? 'border-neutral-700 bg-neutral-900' : 'border-slate-200 bg-slate-50'
-                  }`}>
-                    {fileName ? `📄 ${fileName}` : '📁 Select resume file'}
+                  <div 
+                    onClick={() => setFileName('Karthik_Balan_Resume.pdf')}
+                    className={`w-full p-3 text-center border-2 border-dashed rounded-btn text-xs font-bold text-[#4A3AFF] cursor-pointer hover:bg-[#4A3AFF]/5 transition-all ${
+                      theme === 'dark' ? 'border-neutral-700 bg-neutral-900' : 'border-slate-200 bg-slate-50'
+                    }`}
+                  >
+                    {fileName ? `📄 ${fileName}` : '📁 Select resume file (Auto-selects Karthik_Balan_Resume.pdf)'}
                   </div>
                 </div>
               </div>
@@ -1623,7 +1785,7 @@ export const JobsDetailScreen: React.FC = () => {
                 <button 
                   type="button" 
                   onClick={() => setShowApplyModal(false)}
-                  className="flex-1 py-2.5 border rounded-btn text-xs font-bold text-slate-500"
+                  className="flex-1 py-2.5 border rounded-btn text-xs font-bold text-slate-505"
                 >
                   Cancel
                 </button>
@@ -1646,9 +1808,9 @@ export const JobsDetailScreen: React.FC = () => {
             theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-3xl block">✅</span>
-            <h4 className="text-xs font-black uppercase tracking-wider">Applied Successfully</h4>
+            <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Applied Successfully</h4>
             <p className="text-[10px] text-slate-505 dark:text-neutral-400 font-semibold leading-relaxed">
-              Your application has been forwarded to Ace Communications. They will contact you shortly.
+              Your application has been forwarded to {job.company}. They will contact you shortly.
             </p>
             <button
               type="button"
@@ -1656,7 +1818,7 @@ export const JobsDetailScreen: React.FC = () => {
                 setShowSuccessModal(false);
                 navigate('/jobs');
               }}
-              className="w-full py-2 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-black text-[10px] rounded-btn uppercase tracking-wider"
+              className="w-full py-2 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-black text-[10px] rounded-btn uppercase tracking-wider text-center"
             >
               Back to Jobs
             </button>
@@ -1696,7 +1858,7 @@ export const DrawerScreen: React.FC = () => {
       }`}>
         
         {/* Profile Card Header */}
-        <div className="p-6 bg-gradient-to-r from-indigo-650 to-indigo-500 text-white flex justify-between items-center relative z-20">
+        <div className="p-6 bg-gradient-to-r from-[#4A3AFF] to-[#3b2ecc] text-white flex justify-between items-center relative z-20">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/40 bg-white/20">
               <img 
@@ -1801,21 +1963,15 @@ export const ThemeToggleScreen: React.FC = () => {
 export const LanguageSelectionScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme, language, setLanguage } = useApp();
-  const [selectedLang, setSelectedLang] = useState<'en' | 'ta' | 'hi'>(language || 'en');
+  const [selectedLang, setSelectedLang] = useState<'en' | 'ta'>(language === 'ta' ? 'ta' : 'en');
 
   const options = [
     { code: 'en', name: 'English', icon: '🌐' },
-    { code: 'ta', name: 'தமிழ் (Tamil)', icon: '📖' },
-    { code: 'hi', name: 'हिंदी (Hindi)', icon: '🖋️' }
+    { code: 'ta', name: 'தமிழ் (Tamil)', icon: '📖' }
   ];
 
   const handleApply = () => {
-    if (selectedLang === 'hi') {
-      alert('Hindi translations are currently under development. The app will load in English in the meantime.');
-      setLanguage('en');
-    } else {
-      setLanguage(selectedLang);
-    }
+    setLanguage(selectedLang);
     navigate('/home');
   };
 
@@ -1824,16 +1980,16 @@ export const LanguageSelectionScreen: React.FC = () => {
       theme === 'dark' ? 'bg-[#121212]' : 'bg-white'
     }`}>
       {/* Scroll area */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-6 text-left">
+      <div className="flex-grow overflow-y-auto p-5 space-y-6 text-left">
         {/* Header */}
         <div className="h-8 flex items-center gap-2">
           <button 
             onClick={() => navigate('/home')}
-            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+            className="p-1 rounded-full text-slate-405 hover:text-primary transition"
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Choose Language</span>
+          <span className="text-xs font-black text-slate-855 dark:text-white">Choose Language</span>
         </div>
 
         {/* Radio Option cards */}
@@ -1845,7 +2001,7 @@ export const LanguageSelectionScreen: React.FC = () => {
               className={`w-full p-4 rounded-xl border flex items-center justify-between transition shadow-3xs ${
                 selectedLang === option.code
                   ? 'border-[#4A3AFF] bg-indigo-50/10'
-                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-neutral-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-neutral-305' : 'bg-slate-50 border-slate-200 text-slate-700'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -2100,6 +2256,42 @@ export const LocalServicesScreenVariant: React.FC = () => {
       area: 'Avadi Corporation Limits',
       ward: 'All Wards',
       icon: '💧'
+    },
+    {
+      name: 'Avadi Sanitation & Drainage Helpline',
+      role: 'Sewage & Garbage Clearance Desk',
+      phone: '044-26340224',
+      address: 'Municipal Corporation Office, Avadi, Chennai',
+      area: 'Avadi Corporation Limits',
+      ward: 'All Wards',
+      icon: '🧹'
+    },
+    {
+      name: 'Avadi Board EB Support - Sector 2 Substation',
+      role: 'Electricity Supply Sector Helpdesk',
+      phone: '044-26340225',
+      address: 'Sector 2 Substation Road, Avadi, Chennai',
+      area: 'Sector 2 & 3 residential blocks',
+      ward: 'Ward 15',
+      icon: '💡'
+    },
+    {
+      name: 'Avadi Carpenters & Furniture Works',
+      role: 'Door fixing, Sofa repair, Woodwork',
+      phone: '+91 98403 45678',
+      address: '44, Bazaar Street, Avadi, Chennai',
+      area: 'Bazaar Street & surrounding blocks',
+      ward: 'Ward 12',
+      icon: '🪚'
+    },
+    {
+      name: 'Avadi AC & Appliance Service Center',
+      role: 'AC, Fridge & Washing Machine Repair',
+      phone: '+91 98404 56789',
+      address: '112, High Road, Avadi, Chennai',
+      area: 'Avadi Corporation Limits',
+      ward: 'All Wards',
+      icon: '❄️'
     }
   ];
 
@@ -2366,6 +2558,7 @@ export const RentalsPageScreenVariant: React.FC = () => {
 export const GovernmentSchemesScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
+  const [appliedScheme, setAppliedScheme] = useState<string | null>(null);
 
   const schemes = [
     {
@@ -2391,6 +2584,22 @@ export const GovernmentSchemesScreen: React.FC = () => {
       eligibility: 'Own household inside Avadi municipal boundaries',
       action: 'Request Subsidy',
       icon: '☀️'
+    },
+    {
+      title: 'Avadi Senior Pension Plan',
+      sub: 'Avadi Municipal Corporation • Elderly Welfare Program',
+      desc: 'Provides monthly pension support of ₹2,000 for elderly citizens residing inside the municipal limits.',
+      eligibility: 'Resident of Avadi, Age >= 60, family income < 1.5 LPA',
+      action: 'Apply for Pension',
+      icon: '👴'
+    },
+    {
+      title: 'Avadi Women Startup Grant',
+      sub: 'Tamil Nadu Startup Desk • Women Empowerment Scheme',
+      desc: 'Provides interest-free startup grants up to ₹50,000 for women-led home businesses and cottage industries.',
+      eligibility: 'Woman resident of Avadi, business setup within limits',
+      action: 'Apply for Startup Grant',
+      icon: '👩‍💼'
     }
   ];
 
@@ -2402,7 +2611,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/home')} className="p-1 text-slate-400 hover:text-slate-655"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
           <div className="flex-grow text-center font-black text-xs pr-6">Government Schemes</div>
         </div>
 
@@ -2419,7 +2628,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
                 <span className="text-xl shrink-0 mt-0.5">{scheme.icon}</span>
                 <div>
                   <h4 className="text-[11.5px] font-black text-[#4A3AFF]">{scheme.title}</h4>
-                  <p className="text-[8px] text-slate-400 dark:text-neutral-500 font-extrabold uppercase mt-0.5">{scheme.sub}</p>
+                  <p className="text-[8px] text-slate-405 dark:text-neutral-500 font-extrabold uppercase mt-0.5">{scheme.sub}</p>
                 </div>
               </div>
               <p className="text-[9.5px] font-semibold text-slate-600 dark:text-neutral-400 leading-normal">{scheme.desc}</p>
@@ -2428,8 +2637,8 @@ export const GovernmentSchemesScreen: React.FC = () => {
               </div>
               <button 
                 type="button"
-                onClick={() => alert(`Application initiated for ${scheme.title}. Detailed forms will be sent to your registered address.`)}
-                className="w-full py-2 bg-slate-800 dark:bg-white text-white dark:text-slate-800 hover:bg-slate-900 text-[9px] font-black uppercase tracking-wider rounded-btn transition text-center"
+                onClick={() => setAppliedScheme(scheme.title)}
+                className="w-full py-2 bg-[#4A3AFF] text-white hover:bg-slate-900 text-[9px] font-black uppercase tracking-wider rounded-btn transition text-center"
               >
                 {scheme.action}
               </button>
@@ -2437,6 +2646,27 @@ export const GovernmentSchemesScreen: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Success Modal Overlay */}
+      {appliedScheme && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center animate-fade-in">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-2xl space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-3xl block animate-bounce">📋</span>
+            <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Submit Successfully</h4>
+            <p className="text-[10px] text-slate-505 dark:text-neutral-400 font-semibold leading-relaxed">
+              Your application for <span className="font-bold">{appliedScheme}</span> has been initiated. Detailed verification forms will be sent to your registered address.
+            </p>
+            <button
+              onClick={() => setAppliedScheme(null)}
+              className="w-full py-2.5 bg-[#4A3AFF] text-white font-bold rounded-full text-xs uppercase"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -2446,12 +2676,12 @@ export const GovernmentSchemesScreen: React.FC = () => {
 // ==========================================
 export const SettingsScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme } = useApp();
+  const { theme, language } = useApp();
 
   const settingsList = [
-    { name: 'Profile Settings', icon: '👤', path: '/home' },
+    { name: 'Profile Settings', icon: '👤', path: '/profile' },
     { name: 'Notification Settings', icon: '🔔', path: '/notifications' },
-    { name: 'Language', extra: 'English', icon: '🌐', path: '/language' },
+    { name: 'Language', extra: language === 'ta' ? 'Tamil' : 'English', icon: '🌐', path: '/language' },
     { name: 'Theme', extra: theme === 'dark' ? 'Dark Mode' : 'Light Mode', icon: '☀️', path: '/theme' },
     { name: 'Privacy Policy', icon: '🛡️', path: '/home' },
     { name: 'Terms & Conditions', icon: '📄', path: '/home' },
@@ -2476,7 +2706,7 @@ export const SettingsScreen: React.FC = () => {
             <div
               key={idx}
               onClick={() => {
-                if (item.name === 'Profile Settings' || item.name === 'Privacy Policy' || item.name === 'Terms & Conditions') {
+                if (item.name === 'Privacy Policy' || item.name === 'Terms & Conditions') {
                   alert(`${item.name} is currently under development and will be available in the next release.`);
                 } else {
                   navigate(item.path);
@@ -4013,4 +4243,129 @@ export const HomeDashboardScreenVariant2: React.FC = () => {
 // ==========================================
 export const CommunityFeedScreenVariant4: React.FC = () => {
   return <CommunityFeedScreenVariant3 />;
+};
+
+// ==========================================
+// 49. PROFILE SCREEN
+// ==========================================
+export const ProfileScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Form states with fallback values matching Karthik Balan
+  const [name, setName] = useState('Karthik Balan');
+  const [email, setEmail] = useState('karthik.balan@avadi.gov.in');
+  const [phone, setPhone] = useState('+91 98401 23456');
+  const [ward, setWard] = useState('Ward 12 (Bazaar Street)');
+  const [address, setAddress] = useState('12, Gandhi Street, Avadi, Chennai - 600054');
+
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 2000);
+  };
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scroll Area */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-6 pb-20 text-left">
+        {/* Header */}
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/settings')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <div className="flex-grow text-center font-black text-xs pr-6">Profile Settings</div>
+        </div>
+
+        {/* Profile Avatar Card */}
+        <div className="flex flex-col items-center justify-center py-4 space-y-2 text-center">
+          <div className="relative">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4A3AFF] to-[#9285FF] flex items-center justify-center text-white text-3xl font-black shadow-md">
+              KB
+            </div>
+            <span className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-[#4A3AFF] text-white flex items-center justify-center text-xs shadow-sm cursor-pointer">✏️</span>
+          </div>
+          <div>
+            <h3 className="text-xs font-black uppercase tracking-wider">{name}</h3>
+            <p className="text-[9px] text-slate-405 dark:text-neutral-500 font-bold">{email}</p>
+          </div>
+        </div>
+
+        {/* Profile details form */}
+        <form onSubmit={handleSave} className="space-y-4">
+          <div className={`p-5 rounded-card border shadow-3xs space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+          }`}>
+            <div>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Full Name</label>
+              <input 
+                type="text" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              />
+            </div>
+
+            <div>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Phone Number</label>
+              <input 
+                type="text" 
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              />
+            </div>
+
+            <div>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Email Address</label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              />
+            </div>
+
+            <div>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Selected Ward</label>
+              <input 
+                type="text" 
+                value={ward}
+                onChange={(e) => setWard(e.target.value)}
+                className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              />
+            </div>
+
+            <div>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Home Address</label>
+              <textarea 
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                rows={2}
+                className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none resize-none ${
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit"
+            className="w-full py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn shadow-md text-xs uppercase tracking-wider text-center transition"
+          >
+            {isSaved ? '✓ Profile Saved' : 'Save Changes'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
