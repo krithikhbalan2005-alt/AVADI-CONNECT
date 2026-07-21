@@ -1461,34 +1461,35 @@ export const HomeDashboardScreen: React.FC = () => {
 // SCREEN 8
 export const CommunityFeedScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { theme } = useApp();
-  const [activeTab, setActiveTab] = useState<'ward' | 'all' | 'complaints'>('ward');
+  const { theme, communityPosts, profile } = useApp();
+  const [activeTab, setActiveTab] = useState<'ward' | 'all' | 'complaints'>('all');
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showNotifications, setShowNotifications] = useState(false);
 
-  const feedPosts = [
-    {
-      id: "post_1",
-      author: "Ramesh Kumar",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
-      ward: "Avadi, Tamil Nadu",
-      time: "3h ago",
-      content: "Street light not working near Avadi Park Gate 3",
-      image: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=600",
-      likes: 12,
-      commentsCount: 5,
-      sharesCount: 3
-    },
-    {
-      id: "post_2",
-      author: "Revathi",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
-      ward: "Thirumullaivoyal",
-      time: "4h ago",
-      content: "Road damage causing minor blockages in main streets.",
-      likes: 8,
-      commentsCount: 1,
-      sharesCount: 0
+  // Filter posts dynamically
+  const filteredPosts = communityPosts.filter(post => {
+    // 1. Tab filter
+    if (activeTab === 'ward') {
+      if (post.author !== profile.name) return false;
+    } else if (activeTab === 'complaints') {
+      const keywords = ['complaint', 'light', 'pothole', 'garbage', 'road', 'leakage', 'water', 'sewage', 'safety', 'infrastructure'];
+      const contentLower = post.content.toLowerCase();
+      const categoryLower = post.category ? post.category.toLowerCase() : '';
+      const matchesKeyword = keywords.some(k => contentLower.includes(k) || categoryLower.includes(k));
+      if (!matchesKeyword) return false;
     }
-  ];
+
+    // 2. Search query filter
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const matchesSearch = post.content.toLowerCase().includes(q) || 
+                            post.author.toLowerCase().includes(q);
+      if (!matchesSearch) return false;
+    }
+
+    return true;
+  });
 
   return (
     <div className={`flex-grow flex flex-col justify-between relative select-none h-full ${
@@ -1498,12 +1499,49 @@ export const CommunityFeedScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20">
         
         {/* Header */}
-        <div className="flex justify-between items-center h-10">
-          <h2 className="text-md font-black text-slate-800 dark:text-white">Community Feed</h2>
-          <div className="flex gap-3">
-            <button className="p-1 hover:text-primary transition"><span className="text-sm">🔍</span></button>
-            <button className="p-1 hover:text-primary transition"><span className="text-sm">🔔</span></button>
-          </div>
+        <div className="flex justify-between items-center h-10 border-b border-slate-100 dark:border-neutral-900 pb-2">
+          {showSearch ? (
+            <div className="flex-grow flex items-center gap-2">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search posts or authors..."
+                className={`w-full p-2.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-205 text-slate-800'
+                }`}
+                autoFocus
+              />
+              <button 
+                onClick={() => {
+                  setShowSearch(false);
+                  setSearchQuery('');
+                }}
+                className="text-xs text-slate-400 font-bold p-1 hover:text-slate-650"
+              >
+                ✕
+              </button>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-md font-black text-slate-800 dark:text-white">Community Feed</h2>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => setShowSearch(true)}
+                  className="p-1 hover:text-primary transition"
+                >
+                  <span className="text-sm">🔍</span>
+                </button>
+                <button 
+                  onClick={() => setShowNotifications(true)}
+                  className="p-1 hover:text-primary transition relative"
+                >
+                  <span className="text-sm">🔔</span>
+                  <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-red-500 rounded-full" />
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Tabs Pills */}
@@ -1542,7 +1580,14 @@ export const CommunityFeedScreen: React.FC = () => {
 
         {/* Posts list */}
         <div className="space-y-4">
-          {feedPosts.map((post) => (
+          {filteredPosts.length === 0 ? (
+            <div className="p-8 text-center text-xs text-slate-400 font-bold border border-dashed rounded-xl mt-4">
+              {activeTab === 'ward' 
+                ? "You haven't posted anything yet! Click the '+' button to write your first community post."
+                : "No posts found matching search queries or filters."}
+            </div>
+          ) : (
+            filteredPosts.map((post) => (
             <div 
               key={post.id}
               onClick={() => {}}
@@ -1560,7 +1605,7 @@ export const CommunityFeedScreen: React.FC = () => {
                   />
                   <div>
                     <h4 className="text-xs font-black">{post.author}</h4>
-                    <p className="text-[9px] text-slate-400 dark:text-neutral-500 font-bold mt-0.5">{post.ward} • {post.time}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-500 font-bold mt-0.5">{(post as any).ward || "Avadi Ward"} • {post.time}</p>
                   </div>
                 </div>
                 <span className="text-slate-400 text-xs">•••</span>
@@ -1588,15 +1633,15 @@ export const CommunityFeedScreen: React.FC = () => {
                   <span>💬</span>
                   <span>{post.commentsCount}</span>
                 </button>
-                {post.sharesCount > 0 && (
+                {(post as any).sharesCount > 0 && (
                   <button className="flex items-center gap-1.5 hover:text-primary font-bold active:scale-95 transition">
                     <span>➡️</span>
-                    <span>{post.sharesCount}</span>
+                    <span>{(post as any).sharesCount}</span>
                   </button>
                 )}
-              </div>
             </div>
-          ))}
+          </div>
+        )))}
         </div>
       </div>
 
@@ -1629,6 +1674,56 @@ export const CommunityFeedScreen: React.FC = () => {
           <span className="text-[9px] font-bold mt-1">Feed</span>
         </button>
       </div>
+      {showNotifications && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-end animate-fade-in text-left">
+          <div className={`w-72 h-full p-5 flex flex-col justify-between shadow-2xl border-l relative ${
+            theme === 'dark' ? 'bg-[#181818] text-white border-l-neutral-850' : 'bg-white text-slate-800 border-l-slate-150'
+          }`}>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center border-b pb-3 border-slate-100 dark:border-neutral-800">
+                <h3 className="text-xs font-black uppercase tracking-wider">Alerts & Notifications</h3>
+                <button type="button" onClick={() => setShowNotifications(false)} className="text-slate-405 hover:text-slate-655 font-bold">✕ Close</button>
+              </div>
+
+              <div className="space-y-3.5 divide-y divide-slate-100 dark:divide-neutral-800">
+                <div className="pt-0 flex items-start gap-2.5">
+                  <span className="text-sm mt-0.5">🔔</span>
+                  <div className="space-y-0.5 leading-snug">
+                    <p className="text-[9.5px] font-black">Sewage Overflow Resolved</p>
+                    <p className="text-[8.5px] text-slate-500">Ward 12 Councillor Selvi updated status to RESOLVED for AVD12-2025-0008.</p>
+                    <span className="text-[7.5px] text-slate-400 font-bold block mt-0.5">10 minutes ago</span>
+                  </div>
+                </div>
+
+                <div className="pt-3.5 flex items-start gap-2.5">
+                  <span className="text-sm mt-0.5">⚠️</span>
+                  <div className="space-y-0.5 leading-snug">
+                    <p className="text-[9.5px] font-black text-amber-500">Pothole Under Review</p>
+                    <p className="text-[8.5px] text-slate-500">Fast Track Highways Dept assigned inspector for Railway Station Road pothole.</p>
+                    <span className="text-[7.5px] text-slate-400 font-bold block mt-0.5">1 hour ago</span>
+                  </div>
+                </div>
+
+                <div className="pt-3.5 flex items-start gap-2.5">
+                  <span className="text-sm mt-0.5">💼</span>
+                  <div className="space-y-0.5 leading-snug">
+                    <p className="text-[9.5px] font-black text-blue-500">Application Status Update</p>
+                    <p className="text-[8.5px] text-slate-500">Ace Communications viewed your profile for Sales Executive opening.</p>
+                    <span className="text-[7.5px] text-slate-400 font-bold block mt-0.5">2 hours ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => setShowNotifications(false)}
+              className="w-full py-2.5 bg-slate-100 dark:bg-neutral-800 hover:bg-slate-200 text-[9px] font-black uppercase rounded-btn text-center"
+            >
+              Clear All Alerts
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

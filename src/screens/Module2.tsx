@@ -266,27 +266,51 @@ export const CivicHubScreen: React.FC = () => {
         </div>
 
         {/* Ward Administration */}
-        <div className={`p-4.5 rounded-card border shadow-2xs ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+        <div className={`p-4 rounded-card border shadow-2xs space-y-3.5 ${
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-805'
         }`}>
-          <h4 className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Ward Administration</h4>
-          <div className="flex items-center gap-3.5 mt-3">
-            <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-150 shrink-0 bg-slate-100">
-              <img 
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150" 
-                alt="Representative Avatar" 
-                className="w-full h-full object-cover" 
-              />
+          <h4 className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Ward Administration Directory</h4>
+          
+          <div className="space-y-3.5 divide-y divide-slate-100 dark:divide-neutral-800">
+            {/* Councillor */}
+            <div className="pt-0 flex items-start gap-3">
+              <span className="text-lg mt-0.5">👤</span>
+              <div className="space-y-0.5 leading-tight text-[9px] font-semibold text-slate-500 dark:text-neutral-400">
+                <h5 className="text-[10px] font-black text-slate-800 dark:text-white">Mrs. R. Selvi (Councillor - Ward 12)</h5>
+                <p>📞 +91 98401 22233</p>
+                <p>✉ councillor.w12@avadicity.gov.in</p>
+                <p>📍 Office: Bazaar Street Ward Office, Avadi</p>
+              </div>
             </div>
-            <div className="space-y-0.5 leading-tight">
-              <h5 className="text-[11px] font-extrabold">Mr. S. Mohan</h5>
-              <p className="text-[9px] text-slate-405 dark:text-neutral-500 font-semibold">Ward 12 - Avadi</p>
-              <p className="text-[9px] text-slate-500 dark:text-neutral-450 font-bold mt-1.5 flex items-center gap-1">
-                <span>📞</span> +91 87654 32100
-              </p>
-              <p className="text-[9px] text-slate-500 dark:text-neutral-450 font-bold flex items-center gap-1">
-                <span>✉</span> ward12.avadi@gmail.com
-              </p>
+
+            {/* MLA */}
+            <div className="pt-3 flex items-start gap-3">
+              <span className="text-lg mt-0.5">🏛️</span>
+              <div className="space-y-0.5 leading-tight text-[9px] font-semibold text-slate-500 dark:text-neutral-400">
+                <h5 className="text-[10px] font-black text-slate-800 dark:text-white">Mr. S. M. Nasar (Avadi MLA)</h5>
+                <p>📞 +91 98402 33344</p>
+                <p>📍 Office: MLA Liaison Office, Avadi High Road</p>
+              </div>
+            </div>
+
+            {/* Corporation office */}
+            <div className="pt-3 flex items-start gap-3">
+              <span className="text-lg mt-0.5">🏢</span>
+              <div className="space-y-0.5 leading-tight text-[9px] font-semibold text-slate-500 dark:text-neutral-400">
+                <h5 className="text-[10px] font-black text-slate-800 dark:text-white">Avadi Municipal Corporation</h5>
+                <p>📞 Helpdesk: 1800 425 6112 / 044-26340224</p>
+                <p>📍 Address: NM Road, Avadi, Chennai - 600054</p>
+              </div>
+            </div>
+
+            {/* E-Sevai */}
+            <div className="pt-3 flex items-start gap-3">
+              <span className="text-lg mt-0.5">💻</span>
+              <div className="space-y-0.5 leading-tight text-[9px] font-semibold text-slate-500 dark:text-neutral-400">
+                <h5 className="text-[10px] font-black text-slate-800 dark:text-white">E-Sevai Maiyam (E-Service)</h5>
+                <p>🕒 Timings: Mon-Sat: 9:30 AM - 5:30 PM</p>
+                <p>📍 Location: Sector 2 Corporation Complex, Avadi</p>
+              </div>
             </div>
           </div>
         </div>
@@ -312,27 +336,75 @@ export const MyReportedScreen: React.FC = () => {
   const { theme } = useApp();
   const [activeTab, setActiveTab] = useState<'my' | 'public'>('my');
 
+  const myComplaints = [
+    {
+      id: "AVD12-2025-0012",
+      category: "Street Light Broken",
+      landmark: "Near Avadi School Main Gate",
+      date: "May 20, 2025",
+      status: "In Progress",
+      address: "Sector 7, Ward 12, Avadi",
+      icon: "💡"
+    },
+    {
+      id: "AVD12-2025-0008",
+      category: "Sewage Overflow",
+      landmark: "Bazaar Street Market Junction",
+      date: "May 12, 2025",
+      status: "Resolved",
+      address: "Bazaar Street, Ward 12, Avadi",
+      icon: "🚰"
+    }
+  ];
+
+  const publicComplaints = [
+    {
+      id: "AVD04-2025-0015",
+      category: "Road Damage / Potholes",
+      landmark: "Railway Station Road Roadbed",
+      date: "May 21, 2025",
+      status: "Under Review",
+      address: "Station Road, Ward 4, Avadi",
+      icon: "🕳️"
+    },
+    {
+      id: "AVD12-2025-0014",
+      category: "Garbage Accumulation",
+      landmark: "Lake Eco-Park Entrance Left side",
+      date: "May 19, 2025",
+      status: "In Progress",
+      address: "Eco-Park Road, Ward 12, Avadi",
+      icon: "🗑️"
+    },
+    {
+      id: "AVD13-2025-0005",
+      category: "Water Logging in Streets",
+      landmark: "Green Park 2nd Cross Street Corner",
+      date: "May 15, 2025",
+      status: "Resolved",
+      address: "Green Park Avenue, Ward 13, Avadi",
+      icon: "💧"
+    }
+  ];
+
+  const currentList = activeTab === 'my' ? myComplaints : publicComplaints;
+
   return (
     <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scrollable Container */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
+      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
-        <div className="flex justify-between items-center h-8">
-          <button 
-            onClick={() => navigate('/civic')}
-            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">My Complaints</span>
-          <div className="w-6 h-6" /> {/* spacer */}
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/civic')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Complaints Registry</span>
         </div>
 
         {/* Tab Selector */}
         <div className="flex gap-2 text-[10px] font-bold border-b border-slate-100 dark:border-neutral-900 pb-2">
           <button 
+            type="button"
             onClick={() => setActiveTab('my')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'my'
@@ -343,6 +415,7 @@ export const MyReportedScreen: React.FC = () => {
             My Complaints
           </button>
           <button 
+            type="button"
             onClick={() => setActiveTab('public')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'public'
@@ -354,69 +427,69 @@ export const MyReportedScreen: React.FC = () => {
           </button>
         </div>
 
-        {/* Card */}
-        <div className={`p-4 rounded-card border shadow-2xs space-y-3.5 ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-        }`}>
-          {/* Card Header ID & Badge */}
-          <div className="flex justify-between items-center">
-            <span className="text-[10px] font-black text-slate-800 dark:text-white">AVD12-2025-0012</span>
-            <span className="px-2 py-0.5 text-[8px] font-black text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
-              In Progress
-            </span>
-          </div>
-
-          <div className="space-y-0.5 leading-tight">
-            <h5 className="text-[11px] font-extrabold text-slate-805 dark:text-white">Street Light</h5>
-            <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">Near Avadi School</p>
-          </div>
-
-          {/* Timeline points */}
-          <div className="relative border-l-2 border-slate-100 dark:border-neutral-800 pl-4.5 py-1 space-y-3.5 text-[9px] font-semibold text-slate-500 dark:text-neutral-400">
-            {/* May 20 */}
-            <div className="relative">
-              <span className="absolute -left-[23px] top-0.5 w-2 h-2 rounded-full bg-slate-300 border-2 border-white dark:border-neutral-900" />
-              <div className="flex items-center gap-1.5">
-                <span>📅</span>
-                <span>May 20, 2025</span>
+        {/* Listings */}
+        <div className="space-y-4">
+          {currentList.map((item) => (
+            <div
+              key={item.id}
+              className={`p-4 rounded-card border shadow-2xs space-y-3.5 text-left ${
+                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              {/* Card Header ID & Badge */}
+              <div className="flex justify-between items-center text-[10px] font-black">
+                <span className="text-slate-800 dark:text-white">{item.id}</span>
+                <span className={`px-2 py-0.5 text-[8px] font-black rounded-full ${
+                  item.status === 'Resolved' 
+                    ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30' 
+                    : item.status === 'In Progress'
+                    ? 'text-blue-600 bg-blue-50 dark:bg-blue-950/30'
+                    : 'text-amber-600 bg-amber-50 dark:bg-amber-950/30'
+                }`}>
+                  {item.status}
+                </span>
               </div>
-            </div>
 
-            {/* Address */}
-            <div className="relative">
-              <span className="absolute -left-[23px] top-0.5 w-2 h-2 rounded-full bg-slate-300 border-2 border-white dark:border-neutral-900" />
-              <div className="flex items-center gap-1.5">
-                <span>📍</span>
-                <span>Sector 7, Ward 12, Avadi</span>
+              <div className="space-y-0.5 leading-tight text-left">
+                <h5 className="text-[11px] font-extrabold text-slate-805 dark:text-white flex items-center gap-1.5">
+                  <span>{item.icon}</span> {item.category}
+                </h5>
+                <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{item.landmark}</p>
               </div>
-            </div>
 
-            {/* Under Review */}
-            <div className="relative">
-              <span className="absolute -left-[23px] top-0.5 w-2.5 h-2.5 rounded-full bg-[#4A3AFF] border-2 border-white dark:border-neutral-900" />
-              <div className="flex items-center gap-1.5 text-slate-705 dark:text-white">
-                <span>🔍</span>
-                <span>Under Review</span>
+              {/* Location & Date */}
+              <div className="text-[9px] font-semibold text-slate-500 dark:text-neutral-405 space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <span>📅</span>
+                  <span>Filed: {item.date}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span>📍</span>
+                  <span>{item.address}</span>
+                </div>
               </div>
-              <span className="text-[7.5px] text-slate-400 dark:text-neutral-500 block mt-0.5 ml-5">May 20, 2025, 11:00 AM</span>
-            </div>
 
-            {/* In Progress */}
-            <div className="relative">
-              <span className="absolute -left-[23px] top-0.5 w-2.5 h-2.5 rounded-full bg-[#4A3AFF] border-2 border-white dark:border-neutral-900" />
-              <div className="flex items-center gap-1.5 text-slate-705 dark:text-white">
-                <span>🔔</span>
-                <span>In Progress</span>
-              </div>
-              <span className="text-[7.5px] text-slate-400 dark:text-neutral-500 block mt-0.5 ml-5">May 21, 2025, 02:15 PM</span>
+              {/* View Details Button */}
+              <button 
+                onClick={() => navigate('/complaints/details')}
+                className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-205 dark:border-neutral-800 text-slate-600 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 transition text-center"
+              >
+                View Tracking Details
+              </button>
             </div>
-          </div>
-
-          {/* View Details Button */}
-          <button className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-205 dark:border-neutral-800 text-slate-600 hover:bg-slate-50 transition text-center">
-            View Details
-          </button>
+          ))}
         </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">📝</span><span>Report</span></button>
+        <button onClick={() => navigate('/explore')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🧭</span><span>Explore</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
       </div>
     </div>
   );
@@ -981,6 +1054,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
     </div>
   );
 };
+
 export const LocalServicesScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
@@ -1030,47 +1104,6 @@ export const LocalServicesScreen: React.FC = () => {
       image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=600'
     },
     {
-      name: 'Avadi KickOff Football Turf',
-      sub: 'Premium 5-a-side AstroTurf Grounds • Sector 3',
-      rating: '★ 4.7',
-      tag: 'places',
-      subtag: 'turf',
-      phone: '044-26340227',
-      icon: '⚽',
-      image: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'VR Quest Gaming Arena',
-      sub: 'Virtual Reality & Esports Arcade • Avadi Mall',
-      rating: '★ 4.9',
-      tag: 'places',
-      subtag: 'gaming',
-      phone: '044-26340228',
-      icon: '🎮',
-      image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Rakki Cinemas Avadi',
-      sub: 'Dolby Atmos Cinema Multiplex • Bazaar Rd',
-      rating: '★ 4.6',
-      tag: 'places',
-      subtag: 'theater',
-      phone: '044-26340229',
-      icon: '🎬',
-      image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Avadi Central Mall',
-      sub: 'Multiplex Cinema, Food Court & Retail • High Rd',
-      rating: '★ 4.4',
-      tag: 'places',
-      subtag: 'malls',
-      phone: '044-26340230',
-      icon: '🛍️',
-      image: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&q=80&w=600'
-    },
-    // Foods list
-    {
       name: 'Avadi Midnight Biryani Point',
       sub: 'Famous Spiced Chicken Biryani • 1.1 km',
       rating: '★ 4.8',
@@ -1081,16 +1114,6 @@ export const LocalServicesScreen: React.FC = () => {
       image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=600'
     },
     {
-      name: 'Sri Krishna Kulfi & Dessert Parlour',
-      sub: 'Traditional Kulfi & Malai Dessert • 300m',
-      rating: '★ 4.7',
-      tag: 'foods',
-      subtag: 'midnight',
-      phone: '044-26340232',
-      icon: '🍧',
-      image: 'https://images.unsplash.com/photo-1576506295286-5cda18df43e7?auto=format&fit=crop&q=80&w=600'
-    },
-    {
       name: 'Saravana Bhavan',
       sub: 'Pure Veg South Indian Meals • 400m',
       rating: '★ 4.5',
@@ -1099,36 +1122,6 @@ export const LocalServicesScreen: React.FC = () => {
       phone: '044-26340233',
       icon: '🍛',
       image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Lake View Biryani & Grill',
-      sub: 'Charcoal BBQ & Chicken Biryani • 1.5 km',
-      rating: '★ 4.6',
-      tag: 'foods',
-      subtag: 'non-veg',
-      phone: '044-26340234',
-      icon: '🍖',
-      image: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Bhai Biryani Stall',
-      sub: 'Mutton & Chicken Dum Biryani • 800m',
-      rating: '★ 4.9',
-      tag: 'foods',
-      subtag: 'top-rated',
-      phone: '044-26340235',
-      icon: '🍲',
-      image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Amma Veg Mess',
-      sub: 'Budget Friendly Veg Meals • 200m',
-      rating: '★ 4.2',
-      tag: 'foods',
-      subtag: 'nearby',
-      phone: '044-26340236',
-      icon: '🥗',
-      image: 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&q=80&w=600'
     }
   ];
 
@@ -1144,49 +1137,102 @@ export const LocalServicesScreen: React.FC = () => {
       theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
     }`}>
       {/* Scrollable Container */}
-      <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
-        {/* Header Search bar */}
-        <div className="flex items-center gap-2">
+      <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20 text-left animate-fade-in">
+        {/* Header Title */}
+        <div className="flex justify-between items-center h-8">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
-          <div className="flex-grow relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search places or foods..."
-              className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-855'
-              }`}
-            />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-405 text-xs">🔍</span>
+          <span className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Explore Avadi</span>
+          <div className="w-6 h-6" />
+        </div>
+
+        {/* Search and Category Input */}
+        <div className="relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search places, food, services..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-855'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-405 text-xs">🔍</span>
+        </div>
+
+        {/* Weather & Traffic Side-by-Side Widgets */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className={`p-3 rounded-card border text-[9.5px] leading-normal flex flex-col justify-between ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+          }`}>
+            <div className="flex justify-between items-center text-slate-400">
+              <span className="font-extrabold uppercase text-[8px]">Weather</span>
+              <span>🌤️</span>
+            </div>
+            <div className="mt-1 text-left">
+              <span className="text-xs font-black">31°C</span>
+              <p className="text-slate-500 font-bold mt-0.5">Partly Cloudy</p>
+            </div>
+          </div>
+
+          <div className={`p-3 rounded-card border text-[9.5px] leading-normal flex flex-col justify-between ${
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+          }`}>
+            <div className="flex justify-between items-center text-slate-400">
+              <span className="font-extrabold uppercase text-[8px]">Traffic Status</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            </div>
+            <div className="mt-1 text-left">
+              <span className="text-xs font-black text-emerald-500">Smooth Flow</span>
+              <p className="text-slate-500 font-bold mt-0.5">Moderate near Station</p>
+            </div>
           </div>
         </div>
 
-        {/* Unified Category Tabs */}
-        <div className="flex gap-2 text-[10px] font-bold overflow-x-auto pb-1">
+        {/* Quick Actions Grid */}
+        <div className="space-y-2">
+          <h5 className="text-[9px] font-black uppercase text-slate-405 tracking-wider">Quick Actions</h5>
+          <div className="grid grid-cols-4 gap-2 text-center text-[8px] font-bold">
+            <button onClick={() => navigate('/civic')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-blue-500">📋</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Complaints</span>
+            </button>
+            <button onClick={() => navigate('/sos')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-red-500">🚨</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">SOS</span>
+            </button>
+            <button onClick={() => navigate('/community-feed')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-purple-500">👥</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Feed</span>
+            </button>
+            <button onClick={() => navigate('/services')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-855' : 'bg-white border-slate-150'
+            }`}>
+              <span className="text-base text-indigo-500">🤝</span>
+              <span className="text-slate-705 dark:text-neutral-350 font-black">Services</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Sights and Food category pills */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
           {[
-            { id: 'all', name: 'All' },
-            { id: 'places', name: 'Sights & Places' },
+            { id: 'all', name: 'All Sights' },
+            { id: 'places', name: 'Sights & Parks' },
             { id: 'foods', name: 'Foods & Restaurants' },
-            { id: 'midnight', name: 'Midnight Foods 🌙' },
-            { id: 'veg', name: 'Veg 🌱' },
-            { id: 'non-veg', name: 'Non-Veg 🍗' },
-            { id: 'top-rated', name: 'Top Rated ⭐' },
-            { id: 'nearby', name: 'Nearby 📍' },
             { id: 'parks', name: 'Parks' },
             { id: 'temples', name: 'Temples' },
-            { id: 'it-hub', name: 'IT Hub' },
-            { id: 'education', name: 'Education' },
-            { id: 'turf', name: 'Turf' },
-            { id: 'gaming', name: 'Gaming Center' },
-            { id: 'theater', name: 'Theater' },
-            { id: 'malls', name: 'Malls' }
+            { id: 'it-hub', name: 'IT Hubs' }
           ].map((tab) => (
             <button
               key={tab.id}
-              type="button"
               onClick={() => setActiveTag(tab.id)}
-              className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider transition shrink-0 ${
+              className={`px-3 py-1.5 rounded-full border uppercase tracking-wider transition shrink-0 ${
                 activeTag === tab.id
                   ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
                   : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
@@ -1197,60 +1243,87 @@ export const LocalServicesScreen: React.FC = () => {
           ))}
         </div>
 
-        {/* Grid cards list */}
+        {/* Content list */}
         <div className="space-y-4">
-          {filteredItems.length === 0 ? (
-            <div className="p-8 text-center text-xs text-slate-400 font-bold">No results found matching filters.</div>
-          ) : (
-            filteredItems.map((place, i) => (
-              <div
-                key={i}
-                className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                  theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
-                }`}
-              >
-                {/* Image banner */}
-                <div className="aspect-video w-full relative">
-                  <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+          {filteredItems.map((place, idx) => (
+            <div
+              key={idx}
+              className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              }`}
+            >
+              <div className="aspect-video w-full relative">
+                <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+              </div>
+
+              <div className="p-4 space-y-3.5 text-left">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-xs font-black text-slate-808 dark:text-white flex items-center gap-1.5">
+                      <span>{place.icon}</span> {place.name}
+                    </h4>
+                    <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 mt-1 font-bold">{place.sub}</p>
+                  </div>
+                  <span className="text-[10px] font-black text-amber-500 shrink-0">{place.rating}</span>
                 </div>
 
-                {/* Body */}
-                <div className="p-4 space-y-3.5 text-left">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="text-xs font-extrabold text-slate-800 dark:text-white flex items-center gap-1.5">
-                        <span>{place.icon}</span> {place.name}
-                      </h4>
-                      <p className="text-[9px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">{place.sub}</p>
-                    </div>
-                    <span className="text-[10px] font-black text-amber-500 shrink-0">{place.rating}</span>
-                  </div>
-
-                  {/* Bottom Row Icons */}
-                  <div className="flex justify-around items-center border-t border-slate-100 dark:border-neutral-800/60 pt-3">
-                    <button 
-                      type="button"
-                      onClick={() => setDialConfirmContact(place)}
-                      className="text-slate-400 hover:text-[#4A3AFF] transition text-[10px] font-bold"
-                    >
-                      📞 Call
-                    </button>
-                    <span className="text-slate-200">|</span>
-                    <span className="text-[9px] uppercase tracking-wider font-extrabold text-slate-400 bg-slate-50 dark:bg-neutral-950 px-2 py-0.5 rounded border border-slate-100 dark:border-neutral-900">
-                      {place.tag === 'places' ? 'Sight' : 'Food'}
-                    </span>
-                  </div>
+                <div className="flex justify-around items-center border-t border-slate-100 dark:border-neutral-800/60 pt-3">
+                  <button 
+                    type="button"
+                    onClick={() => setDialConfirmContact(place)}
+                    className="text-slate-500 hover:text-[#4A3AFF] transition text-[10px] font-bold"
+                  >
+                    📞 Call Provider
+                  </button>
+                  <span className="text-slate-200">|</span>
+                  <button
+                    onClick={() => navigate('/explore-food')}
+                    className="text-slate-500 hover:text-[#4A3AFF] transition text-[10px] font-bold"
+                  >
+                    Explore Food
+                  </button>
                 </div>
               </div>
-            ))
-          )}
+            </div>
+          ))}
         </div>
+
+        {/* E-Sevai Center Special Highlight Section */}
+        <div className={`p-4 rounded-card border space-y-2.5 ${
+          theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+        }`}>
+          <div className="flex items-center gap-2">
+            <span className="text-xl">🏢</span>
+            <div className="leading-tight">
+              <h5 className="text-[11px] font-black">Avadi E-Sevai Citizen Center</h5>
+              <p className="text-[8px] text-slate-400 uppercase font-black">Government Digital Services</p>
+            </div>
+          </div>
+          <p className="text-[9px] text-slate-550 dark:text-neutral-400 leading-relaxed">
+            Apply for birth/death certificates, community certificates, voter registrations, utility payments, and Aadhaar card updates.
+          </p>
+          <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-neutral-900 border text-[8px] text-slate-500 leading-snug space-y-1 font-bold">
+            <p>📍 Location: Municipal Corporation Office Complex, Avadi</p>
+            <p>🕒 Timings: Monday - Saturday: 9:30 AM - 5:30 PM</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">📝</span><span>Report</span></button>
+        <button onClick={() => navigate('/explore')} className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🧭</span><span>Explore</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👤</span><span>Profile</span></button>
       </div>
 
       {/* In-UI Dial Confirmation Overlay */}
       {dialConfirmContact && (
-        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6">
-          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl text-center space-y-4 ${
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
             theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-2xl block">{dialConfirmContact.icon}</span>
@@ -1262,7 +1335,7 @@ export const LocalServicesScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDialConfirmContact(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-800"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-555"
               >
                 Cancel
               </button>
@@ -1272,7 +1345,7 @@ export const LocalServicesScreen: React.FC = () => {
                   window.location.href = `tel:${dialConfirmContact.phone.replace(/[-\s]+/g, '')}`;
                   setDialConfirmContact(null);
                 }}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full bg-emerald-500 text-white hover:bg-emerald-600"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full bg-emerald-500 text-white"
               >
                 Call
               </button>
@@ -1289,6 +1362,7 @@ export const RentalsPageScreen: React.FC = () => {
   const { theme } = useApp();
   const [selectedRental, setSelectedRental] = useState<any | null>(null);
   const [dialConfirmContact, setDialConfirmContact] = useState<{name: string, phone: string, icon: string} | null>(null);
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState<any | null>(null);
 
   const listings = [
     {
@@ -1442,19 +1516,19 @@ export const RentalsPageScreen: React.FC = () => {
               {/* Normal Call */}
               <button
                 onClick={() => setDialConfirmContact({ name: selectedRental.title, phone: selectedRental.phone, icon: '📞' })}
-                className="flex-1 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[10px] uppercase rounded-btn flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition"
+                className="flex-1 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[9px] uppercase rounded-btn flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition"
               >
-                <span>📞</span> Normal Call
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.27 11.9 11.9 0 0 0 3.74.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.9 11.9 0 0 0 .6 3.74 1 1 0 0 1-.26 1.02z"/></svg>
+                Normal Call
               </button>
 
               {/* WhatsApp Call */}
               <button
-                onClick={() => {
-                  alert(`Opening WhatsApp chat with property manager at ${selectedRental.phone} to inquire about: ${selectedRental.title}`);
-                }}
-                className="flex-1 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-[10px] uppercase rounded-btn flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition"
+                onClick={() => setShowWhatsAppModal(selectedRental)}
+                className="flex-1 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-[9px] uppercase rounded-btn flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition"
               >
-                <span>💬</span> WhatsApp Call
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.004 2C6.51 2 2.014 6.5 2.014 12c0 2.14.675 4.135 1.824 5.797L2.03 22l4.385-1.15A9.92 9.92 0 0 0 12.004 22c5.495 0 9.991-4.5 9.991-10s-4.496-10-9.991-10zm0 18.293a8.23 8.23 0 0 1-4.148-1.12l-.3-.178-2.61.685.698-2.54-.197-.314A8.25 8.25 0 0 1 3.73 12c0-4.57 3.714-8.293 8.274-8.293 4.56 0 8.274 3.723 8.274 8.293 0 4.57-3.714 8.293-8.274 8.293z"/></svg>
+                WhatsApp Call
               </button>
             </div>
           </div>
@@ -1489,6 +1563,43 @@ export const RentalsPageScreen: React.FC = () => {
                 className="flex-1 py-2 text-[10px] font-bold rounded-full bg-emerald-500 text-white animate-pulse"
               >
                 Call
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showWhatsAppModal && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center animate-fade-in">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-3xl block">💬</span>
+            <h4 className="text-xs font-black uppercase tracking-wider text-[#25D366]">Send WhatsApp Message</h4>
+            <div className="space-y-2 text-left bg-slate-50 dark:bg-neutral-900 p-3 rounded-lg border border-slate-100 dark:border-neutral-800">
+              <span className="text-[8px] text-slate-400 uppercase font-black">Message Template</span>
+              <p className="text-[9.5px] text-slate-650 dark:text-neutral-300 font-semibold leading-relaxed">
+                "Hello, I am interested in your listing '{showWhatsAppModal.title}' for {showWhatsAppModal.price} on Avadi Connect. Is it still available?"
+              </p>
+            </div>
+            <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-bold leading-normal">
+              You will be redirected to WhatsApp to chat with the property manager at {showWhatsAppModal.phone}.
+            </p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowWhatsAppModal(null)}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-505"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowWhatsAppModal(null);
+                }}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full bg-[#25D366] text-white hover:bg-[#20ba59]"
+              >
+                Send
               </button>
             </div>
           </div>
@@ -1571,26 +1682,34 @@ export const JobsPageScreen: React.FC = () => {
             <div 
               key={job.id}
               onClick={() => navigate('/jobs/detail', { state: { job } })}
-              className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center cursor-pointer active:scale-99 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              className={`p-3.5 rounded-card border-l-4 shadow-3xs flex justify-between items-center cursor-pointer active:scale-99 transition ${
+                job.id === 1 ? 'border-l-[#4A3AFF]' : job.id === 2 ? 'border-l-[#25D366]' : 'border-l-[#8B5CF6]'
+              } ${
+                theme === 'dark' ? 'bg-[#181818] border-y-neutral-850 border-r-neutral-850' : 'bg-white border-y-slate-150 border-r-slate-150'
               }`}
             >
               <div className="flex gap-3 items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-xs shrink-0 bg-[#4A3AFF]`}>
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-white text-xs shrink-0 bg-slate-100 dark:bg-neutral-800`}>
                   {job.icon}
                 </div>
-                <div className="space-y-0.5 leading-tight text-left">
-                  <div className="flex items-center gap-1.5">
-                    <h4 className="text-[11px] font-extrabold">{job.role}</h4>
+                <div className="space-y-1 text-left leading-tight">
+                  <h4 className="text-[11px] font-black">{job.role}</h4>
+                  <p className="text-[8.5px] text-slate-450 dark:text-neutral-500 font-bold">{job.company}</p>
+                  
+                  {/* Pills row */}
+                  <div className="flex gap-1.5 flex-wrap">
+                    <span className="px-1.5 py-0.5 text-[7px] font-black text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 rounded-md">
+                      {job.salary}
+                    </span>
+                    <span className="px-1.5 py-0.5 text-[7px] font-black text-[#4A3AFF] bg-blue-50 dark:bg-blue-950/20 rounded-md">
+                      {job.type}
+                    </span>
                   </div>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{job.company}</p>
-                  <p className="text-[8.5px] text-emerald-600 font-bold">{job.salary}</p>
-                  <p className="text-[8px] text-slate-400 font-bold">{job.location} - {job.type}</p>
                 </div>
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); navigate('/jobs/detail', { state: { job } }); }} 
-                className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg transition"
+                className="px-3.5 py-1.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white text-[9px] font-black rounded-lg transition shrink-0"
               >
                 Apply
               </button>
@@ -1644,7 +1763,7 @@ export const JobsDetailScreen: React.FC = () => {
 
   const handleApplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (fullName.trim() && email.trim() && degree.trim() && gradYear.trim()) {
+    if (fullName.trim() && email.trim()) {
       setShowApplyModal(false);
       setShowSuccessModal(true);
     }
@@ -1740,30 +1859,33 @@ export const JobsDetailScreen: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Degree / Major</label>
-                  <input 
-                    type="text" 
-                    required
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Education / Degree</label>
+                  <select 
                     value={degree}
                     onChange={(e) => setDegree(e.target.value)}
-                    placeholder="e.g. B.E. CSE"
                     className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
                       theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-850'
                     }`}
-                  />
+                  >
+                    <option value="No Formal Degree">No Formal Degree</option>
+                    <option value="10th Pass">10th Pass</option>
+                    <option value="12th Pass">12th Pass</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="Undergrad (B.A/B.Sc/B.E)">Undergrad Degree</option>
+                    <option value="Postgrad (M.A/M.Sc/M.E)">Postgrad Degree</option>
+                  </select>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Passing Year</label>
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Passing Year (Optional)</label>
                   <input 
                     type="number" 
                     min="2000"
                     max="2030"
-                    required
                     value={gradYear}
                     onChange={(e) => setGradYear(e.target.value)}
                     placeholder="e.g. 2024"
                     className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
-                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-850'
+                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
                     }`}
                   />
                 </div>
@@ -2533,7 +2655,6 @@ export const RentalsPageScreenVariant: React.FC = () => {
                   <h4 className="text-[11px] font-extrabold">{list.title}</h4>
                   <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.location}</p>
                   <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.details}</p>
-                  <p className="text-[9.5px] font-black text-[#4A3AFF] mt-1">{list.price}</p>
                 </div>
               </div>
 
@@ -2552,13 +2673,11 @@ export const RentalsPageScreenVariant: React.FC = () => {
   );
 };
 
-// ==========================================
-// 30. GOVERNMENT SCHEMES SCREEN
-// ==========================================
 export const GovernmentSchemesScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
   const [appliedScheme, setAppliedScheme] = useState<string | null>(null);
+  const [simulatedPortalScheme, setSimulatedPortalScheme] = useState<any | null>(null);
 
   const schemes = [
     {
@@ -2611,7 +2730,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/home')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-405 hover:text-slate-655"><ChevronLeft size={20} /></button>
           <div className="flex-grow text-center font-black text-xs pr-6">Government Schemes</div>
         </div>
 
@@ -2637,7 +2756,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
               </div>
               <button 
                 type="button"
-                onClick={() => setAppliedScheme(scheme.title)}
+                onClick={() => setSimulatedPortalScheme(scheme)}
                 className="w-full py-2 bg-[#4A3AFF] text-white hover:bg-slate-900 text-[9px] font-black uppercase tracking-wider rounded-btn transition text-center"
               >
                 {scheme.action}
@@ -2655,7 +2774,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
           }`}>
             <span className="text-3xl block animate-bounce">📋</span>
             <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Submit Successfully</h4>
-            <p className="text-[10px] text-slate-505 dark:text-neutral-400 font-semibold leading-relaxed">
+            <p className="text-[10px] text-slate-555 dark:text-neutral-400 font-semibold leading-relaxed">
               Your application for <span className="font-bold">{appliedScheme}</span> has been initiated. Detailed verification forms will be sent to your registered address.
             </p>
             <button
@@ -2663,6 +2782,90 @@ export const GovernmentSchemesScreen: React.FC = () => {
               className="w-full py-2.5 bg-[#4A3AFF] text-white font-bold rounded-full text-xs uppercase"
             >
               OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Simulated Government Portal Overlay */}
+      {simulatedPortalScheme && (
+        <div className="absolute inset-0 z-50 bg-[#F4F4F9] text-slate-800 flex flex-col h-full animate-fade-in text-left">
+          {/* Mock Browser Header */}
+          <div className="bg-slate-205 p-2.5 flex items-center gap-2 border-b border-slate-300 text-slate-600 shrink-0">
+            <button 
+              type="button" 
+              onClick={() => setSimulatedPortalScheme(null)}
+              className="text-xs font-black p-1 hover:text-slate-900"
+            >
+              ✕ Close
+            </button>
+            <div className="flex-grow bg-white rounded-full px-3 py-1 flex items-center justify-between text-[8px] font-semibold border border-slate-300">
+              <span className="flex items-center gap-1">🔒 <span className="text-slate-400">tn.gov.in</span>/schemes/apply</span>
+              <span>🔄</span>
+            </div>
+          </div>
+
+          {/* Portal Content */}
+          <div className="flex-grow overflow-y-auto p-4 space-y-4">
+            {/* Govt Header Logo */}
+            <div className="flex items-center gap-2 border-b border-amber-500/20 pb-3">
+              <div className="w-10 h-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-black text-xs">
+                TN
+              </div>
+              <div className="leading-tight text-left">
+                <h3 className="text-[10px] font-black uppercase text-amber-800">Government of Tamil Nadu</h3>
+                <p className="text-[7.5px] text-slate-500 font-extrabold uppercase">Department of Social Welfare</p>
+              </div>
+            </div>
+
+            {/* Scheme Title */}
+            <div className="space-y-1">
+              <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[8px] font-black rounded-full uppercase">Welfare Program</span>
+              <h2 className="text-xs font-black text-slate-850">{simulatedPortalScheme.title}</h2>
+              <p className="text-[8px] text-slate-405 font-bold uppercase">{simulatedPortalScheme.sub}</p>
+            </div>
+
+            {/* General Instructions */}
+            <div className="space-y-2 text-[9px] text-slate-600 leading-relaxed font-semibold">
+              <p>
+                Welcome to the unified online application desk for state-sponsored social benefits. Please verify that your credentials match your digital identity profile before proceeding.
+              </p>
+              
+              <div className="bg-white p-3 rounded-lg border border-slate-200 space-y-2">
+                <span className="text-[8px] uppercase tracking-wider font-black text-slate-400">Required Documents for Upload</span>
+                <ul className="list-disc pl-4 space-y-1 text-[8.5px]">
+                  <li>Aadhaar Card copy (UIDAI)</li>
+                  <li>Avadi residency certificate proof</li>
+                  <li>Income and assets declaration certificate</li>
+                  <li>Bank passbook details for direct transfer (DBT)</li>
+                </ul>
+              </div>
+
+              <p className="text-[8.5px] text-amber-705 bg-amber-50 p-2.5 rounded-lg border border-amber-200 font-bold">
+                ⚠️ Note: The submission will automatically verify your residency ward details with Avadi Municipal Corporation database.
+              </p>
+            </div>
+          </div>
+
+          {/* Action Footer */}
+          <div className="p-3 bg-white border-t border-slate-200 flex gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => setSimulatedPortalScheme(null)}
+              className="flex-1 py-2.5 text-[9px] font-black uppercase rounded-btn border border-slate-300 text-slate-500 text-center"
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const schemeName = simulatedPortalScheme.title;
+                setSimulatedPortalScheme(null);
+                setAppliedScheme(schemeName); // Triggers success modal
+              }}
+              className="flex-1 py-2.5 bg-amber-600 hover:bg-amber-750 text-white text-[9px] font-black uppercase rounded-btn text-center"
+            >
+              Proceed & Apply
             </button>
           </div>
         </div>
