@@ -1,4 +1,9 @@
 export const ROUTES = {
+  ONBOARDING_CIVIC: '/onboarding/civic',
+  ONBOARDING_SAFETY: '/onboarding/safety',
+  WARD_SELECTION: '/ward-selection',
+  LOCATION_PERMISSION: '/location-permission',
+  CHOOSE_APPEARANCE: '/choose-appearance',
   HOME: '/home',
   SEARCH: '/search',
   NOTIFICATIONS: '/notifications',

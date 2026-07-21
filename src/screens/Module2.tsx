@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { ChevronLeft, Search, Plus, X } from 'lucide-react';
@@ -11,7 +11,6 @@ export const CommunityPostCreateScreen: React.FC = () => {
   const { theme } = useApp();
   const [content, setContent] = useState('');
   const [postTo, setPostTo] = useState<'feed' | 'all'>('feed');
-  const [selectedPreset, setSelectedPreset] = useState<string | null>('light');
 
   const handlePublish = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +33,7 @@ export const CommunityPostCreateScreen: React.FC = () => {
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Create Post</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Create Post</span>
           <button 
             onClick={() => navigate('/community-feed')}
             className="p-1 rounded-full text-slate-400 hover:text-primary transition"
@@ -100,10 +99,10 @@ export const CommunityPostCreateScreen: React.FC = () => {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's on your mind?"
                 maxLength={300}
-                rows={3.5}
+                rows={4}
                 className={`w-full p-3.5 pb-6 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary resize-none ${
                   theme === 'dark' 
-                    ? 'bg-neutral-900 border-neutral-805 text-white' 
+                    ? 'bg-neutral-900 border-neutral-800 text-white' 
                     : 'bg-white border-slate-200 text-slate-800'
                 }`}
                 required
@@ -119,7 +118,7 @@ export const CommunityPostCreateScreen: React.FC = () => {
             <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Attach Photos (Max 3)</label>
             <div className="flex gap-2.5">
               {/* Photo 1 (selected) */}
-              <div className="w-16 h-16 rounded-xl border border-slate-100 dark:border-neutral-900 overflow-hidden relative shadow-3xs flex items-center justify-center bg-slate-100 dark:bg-neutral-955">
+              <div className="w-16 h-16 rounded-xl border border-slate-100 dark:border-neutral-900 overflow-hidden relative shadow-3xs flex items-center justify-center bg-slate-100 dark:bg-neutral-900">
                 <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=600" alt="Card Preview" className="w-full h-full object-cover" />
                 <button className="absolute top-1 right-1 w-4 h-4 bg-black/60 rounded-full text-white flex items-center justify-center text-[7px] font-extrabold hover:bg-black">✕</button>
               </div>
@@ -146,7 +145,7 @@ export const CommunityPostCreateScreen: React.FC = () => {
           <div className="space-y-1">
             <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Add Tags</label>
             <div className={`p-3 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-405'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-400'
             }`}>
               <span>Select tags</span>
               <span className="text-[10px] opacity-70">▼</span>
@@ -190,13 +189,13 @@ export const CivicHubScreen: React.FC = () => {
           >
             <ChevronLeft size={20} />
           </button>
-          <h2 className="text-md font-black">Cremplaints</h2>
+          <h2 className="text-md font-black">Complaints</h2>
           <button className="p-1 text-slate-400"><Search size={18} /></button>
         </div>
 
         {/* Your Complaints section & tracker */}
         <div className={`p-4 rounded-card border ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-100 shadow-3xs'
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-100 shadow-3xs'
         }`}>
           <span className="text-[9px] font-black tracking-wide text-slate-800 dark:text-white uppercase">Your Complaints</span>
           <div className="flex justify-between items-center mt-3 text-[8.5px] font-black text-slate-505 dark:text-neutral-400">
@@ -215,7 +214,7 @@ export const CivicHubScreen: React.FC = () => {
           <button 
             onClick={() => navigate('/my-reports', { state: { activeTab: 'my' } })}
             className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition duration-200 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}
           >
             <span className="text-xl">🟢</span>
@@ -228,7 +227,7 @@ export const CivicHubScreen: React.FC = () => {
           <button 
             onClick={() => navigate('/my-reports', { state: { activeTab: 'public' } })}
             className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition duration-200 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}
           >
             <span className="text-xl">🔴</span>
@@ -241,7 +240,7 @@ export const CivicHubScreen: React.FC = () => {
           <button 
             onClick={() => navigate('/alerts')}
             className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition duration-200 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
             }`}
           >
             <span className="text-xl">🟢</span>
@@ -254,7 +253,7 @@ export const CivicHubScreen: React.FC = () => {
           <button 
             onClick={() => navigate('/services')}
             className={`p-4 rounded-card border shadow-3xs flex flex-col justify-between text-left h-24 transition duration-200 ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
             }`}
           >
             <span className="text-xl">🟠</span>
@@ -267,7 +266,7 @@ export const CivicHubScreen: React.FC = () => {
 
         {/* Ward Administration */}
         <div className={`p-4 rounded-card border shadow-2xs space-y-3.5 ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-805'
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
         }`}>
           <h4 className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Ward Administration Directory</h4>
           
@@ -398,8 +397,8 @@ export const MyReportedScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/civic')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Complaints Registry</span>
+          <button onClick={() => navigate('/civic')} className="p-1 text-slate-400 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">Complaints Registry</span>
         </div>
 
         {/* Tab Selector */}
@@ -409,7 +408,7 @@ export const MyReportedScreen: React.FC = () => {
             onClick={() => setActiveTab('my')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'my'
-                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
                 : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
@@ -420,7 +419,7 @@ export const MyReportedScreen: React.FC = () => {
             onClick={() => setActiveTab('public')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'public'
-                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
                 : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
@@ -434,7 +433,7 @@ export const MyReportedScreen: React.FC = () => {
             <div
               key={item.id}
               className={`p-4 rounded-card border shadow-2xs space-y-3.5 text-left ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Card Header ID & Badge */}
@@ -452,14 +451,14 @@ export const MyReportedScreen: React.FC = () => {
               </div>
 
               <div className="space-y-0.5 leading-tight text-left">
-                <h5 className="text-[11px] font-extrabold text-slate-805 dark:text-white flex items-center gap-1.5">
+                <h5 className="text-[11px] font-extrabold text-slate-800 dark:text-white flex items-center gap-1.5">
                   <span>{item.icon}</span> {item.category}
                 </h5>
-                <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{item.landmark}</p>
+                <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{item.landmark}</p>
               </div>
 
               {/* Location & Date */}
-              <div className="text-[9px] font-semibold text-slate-500 dark:text-neutral-405 space-y-1">
+              <div className="text-[9px] font-semibold text-slate-500 dark:text-neutral-400 space-y-1">
                 <div className="flex items-center gap-1.5">
                   <span>📅</span>
                   <span>Filed: {item.date}</span>
@@ -473,7 +472,7 @@ export const MyReportedScreen: React.FC = () => {
               {/* View Details Button */}
               <button 
                 onClick={() => navigate('/complaints/details')}
-                className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-205 dark:border-neutral-800 text-slate-600 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 transition text-center"
+                className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 transition text-center"
               >
                 View Tracking Details
               </button>
@@ -484,7 +483,7 @@ export const MyReportedScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -536,7 +535,7 @@ export const EmergencySOSScreen: React.FC = () => {
             className={`w-32 h-32 rounded-full border-[8px] flex flex-col items-center justify-center text-white active:scale-95 transition shadow-lg relative ${
               sosActive 
                 ? 'bg-red-600 border-red-200 dark:border-red-900 animate-pulse' 
-                : 'bg-red-500 border-red-100 dark:border-red-955'
+                : 'bg-red-500 border-red-100 dark:border-red-900'
             }`}
           >
             <span className="text-xl font-black tracking-wider">{sosActive ? 'ACTIVE' : 'SOS'}</span>
@@ -561,7 +560,7 @@ export const EmergencySOSScreen: React.FC = () => {
             <div 
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -614,7 +613,7 @@ export const MyReportedScreenAlt: React.FC = () => {
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">My Complaints</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">My Complaints</span>
           <div className="w-6 h-6" />
         </div>
 
@@ -624,7 +623,7 @@ export const MyReportedScreenAlt: React.FC = () => {
             onClick={() => setActiveTab('my')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'my'
-                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
                 : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
@@ -634,7 +633,7 @@ export const MyReportedScreenAlt: React.FC = () => {
             onClick={() => setActiveTab('public')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'public'
-                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
                 : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
@@ -644,18 +643,18 @@ export const MyReportedScreenAlt: React.FC = () => {
 
         {/* Card */}
         <div className={`p-4 rounded-card border shadow-2xs space-y-3.5 ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
         }`}>
           {/* Card Header ID & Badge */}
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-black text-slate-800 dark:text-white">AVD24-300501-0024</span>
-            <span className="px-2 py-0.5 text-[8px] font-black text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 rounded-full">
+            <span className="px-2 py-0.5 text-[8px] font-black text-blue-600 bg-blue-50 dark:bg-blue-950/30 rounded-full">
               In Progress
             </span>
           </div>
 
           <div className="space-y-0.5 leading-tight">
-            <h5 className="text-[11px] font-extrabold text-slate-850 dark:text-white">Street Light</h5>
+            <h5 className="text-[11px] font-extrabold text-slate-800 dark:text-white">Street Light</h5>
             <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">Ward 5, Avadi West</p>
           </div>
 
@@ -693,7 +692,7 @@ export const MyReportedScreenAlt: React.FC = () => {
           </div>
 
           {/* View Details Button */}
-          <button className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-205 dark:border-neutral-800 text-slate-600 hover:bg-slate-50 transition text-center">
+          <button className="w-full py-2.5 text-[10px] font-bold rounded-btn border border-slate-200 dark:border-neutral-800 text-slate-600 hover:bg-slate-50 transition text-center">
             View Details
           </button>
         </div>
@@ -793,7 +792,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
         <div className="h-8 flex items-center">
           <button 
             onClick={() => navigate('/home')}
-            className="p-1 rounded-full text-slate-405 hover:text-primary transition"
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
           >
             <ChevronLeft size={20} />
           </button>
@@ -820,7 +819,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
               type="button"
               onClick={() => setDialConfirmContact(contact)}
               className={`p-4.5 rounded-card border shadow-3xs flex flex-col items-center text-center justify-center gap-2 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 hover:bg-neutral-800' : 'bg-white border-slate-150 hover:bg-slate-55'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 hover:bg-neutral-800' : 'bg-white border-slate-150 hover:bg-slate-55'
               }`}
             >
               <span className="text-2xl">{contact.icon}</span>
@@ -843,7 +842,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
               <div 
                 key={req.id} 
                 className={`p-3.5 rounded-card border flex justify-between items-center ${
-                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150 shadow-3xs'
                 }`}
               >
                 <div className="space-y-1 text-left">
@@ -881,11 +880,11 @@ export const EmergencySOSScreenAlt: React.FC = () => {
       {showBloodModal && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-left">
           <div className={`w-full max-w-sm p-6 rounded-card border shadow-2xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <div className="flex justify-between items-center border-b pb-3 border-slate-100 dark:border-neutral-800">
               <h3 className="text-xs font-black uppercase tracking-wider">Blood Request Form</h3>
-              <button type="button" onClick={() => setShowBloodModal(false)} className="text-slate-405 hover:text-slate-600"><X size={18} /></button>
+              <button type="button" onClick={() => setShowBloodModal(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
             </div>
             <form onSubmit={handleBloodSubmit} className="space-y-3">
               <div>
@@ -897,7 +896,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
                   onChange={(e) => setPatientName(e.target.value)}
                   placeholder="e.g. Anand Kumar" 
                   className={`w-full p-2.5 text-xs rounded-btn border focus:outline-none mt-1 ${
-                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-850'
+                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 />
               </div>
@@ -908,7 +907,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
                     value={bloodGroup}
                     onChange={(e) => setBloodGroup(e.target.value)}
                     className={`w-full p-2.5 text-xs rounded-btn border focus:outline-none mt-1 ${
-                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
+                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                     }`}
                   >
                     {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].map(g => (
@@ -926,7 +925,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
                     value={unitsRequired}
                     onChange={(e) => setUnitsRequired(e.target.value)}
                     className={`w-full p-2.5 text-xs rounded-btn border focus:outline-none mt-1 ${
-                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
+                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                     }`}
                   />
                 </div>
@@ -940,7 +939,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
                   onChange={(e) => setHospitalName(e.target.value)}
                   placeholder="e.g. Avadi Govt Hospital" 
                   className={`w-full p-2.5 text-xs rounded-btn border focus:outline-none mt-1 ${
-                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
+                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 />
               </div>
@@ -953,7 +952,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
                   onChange={(e) => setContactPhone(e.target.value)}
                   placeholder="e.g. 9876543210" 
                   className={`w-full p-2.5 text-xs rounded-btn border focus:outline-none mt-1 ${
-                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
+                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 />
               </div>
@@ -981,7 +980,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
       {dialConfirmContact && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl text-center space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-2xl block">{dialConfirmContact.icon}</span>
             <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
@@ -992,7 +991,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDialConfirmContact(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-205 dark:border-neutral-850 text-slate-505 hover:bg-slate-55 dark:hover:bg-neutral-800"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-505 hover:bg-slate-55 dark:hover:bg-neutral-800"
               >
                 Cancel
               </button>
@@ -1015,7 +1014,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
       {showSOSAlert && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-3xl block animate-bounce">🚨</span>
             <h4 className="text-xs font-black uppercase tracking-wider text-red-500">SOS Alert Dispatched</h4>
@@ -1036,7 +1035,7 @@ export const EmergencySOSScreenAlt: React.FC = () => {
       {showBloodSuccess && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-3xl block">🩸</span>
             <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Request Submitted</h4>
@@ -1142,8 +1141,8 @@ export const LocalServicesScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20 text-left animate-fade-in">
         {/* Header Title */}
         <div className="flex justify-between items-center h-8">
-          <button onClick={() => navigate('/home')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Explore Avadi</span>
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <span className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">Explore Avadi</span>
           <div className="w-6 h-6" />
         </div>
 
@@ -1155,16 +1154,16 @@ export const LocalServicesScreen: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search places, food, services..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-855'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-405 text-xs">🔍</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
         </div>
 
         {/* Weather & Traffic Side-by-Side Widgets */}
         <div className="grid grid-cols-2 gap-3">
           <div className={`p-3 rounded-card border text-[9.5px] leading-normal flex flex-col justify-between ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150 shadow-3xs'
           }`}>
             <div className="flex justify-between items-center text-slate-400">
               <span className="font-extrabold uppercase text-[8px]">Weather</span>
@@ -1177,7 +1176,7 @@ export const LocalServicesScreen: React.FC = () => {
           </div>
 
           <div className={`p-3 rounded-card border text-[9.5px] leading-normal flex flex-col justify-between ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150 shadow-3xs'
           }`}>
             <div className="flex justify-between items-center text-slate-400">
               <span className="font-extrabold uppercase text-[8px]">Traffic Status</span>
@@ -1192,52 +1191,52 @@ export const LocalServicesScreen: React.FC = () => {
 
         {/* Quick Actions Grid */}
         <div className="space-y-2">
-          <h5 className="text-[9px] font-black uppercase text-slate-405 tracking-wider">Avadi Directory Hub</h5>
+          <h5 className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Avadi Directory Hub</h5>
           <div className="grid grid-cols-4 gap-2 text-center text-[8px] font-bold">
             <button onClick={() => navigate('/civic')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-blue-500">📋</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Complaints</span>
             </button>
             <button onClick={() => navigate('/sos')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-red-500">🚨</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">SOS</span>
             </button>
             <button onClick={() => navigate('/explore-places')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-emerald-500">🌳</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Explore Places</span>
             </button>
             <button onClick={() => navigate('/explore-food')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-amber-500">🍲</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Explore Food</span>
             </button>
             <button onClick={() => navigate('/services')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-indigo-500">🤝</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Local Services</span>
             </button>
             <button onClick={() => navigate('/jobs-rentals')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-orange-500">🏢</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Jobs & Rentals</span>
             </button>
-            <button onClick={() => navigate('/government-schemes')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+            <button onClick={() => navigate('/schemes')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-teal-500">📜</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Gov Schemes</span>
             </button>
             <button onClick={() => setShowTransportModal(true)} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-rose-500">🚌</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">Transport Hub</span>
@@ -1275,7 +1274,7 @@ export const LocalServicesScreen: React.FC = () => {
             <div
               key={idx}
               className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="aspect-video w-full relative">
@@ -1288,7 +1287,7 @@ export const LocalServicesScreen: React.FC = () => {
                     <h4 className="text-xs font-black text-slate-808 dark:text-white flex items-center gap-1.5">
                       <span>{place.icon}</span> {place.name}
                     </h4>
-                    <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 mt-1 font-bold">{place.sub}</p>
+                    <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">{place.sub}</p>
                   </div>
                   <span className="text-[10px] font-black text-amber-500 shrink-0">{place.rating}</span>
                 </div>
@@ -1316,7 +1315,7 @@ export const LocalServicesScreen: React.FC = () => {
 
         {/* E-Sevai Center Special Highlight Section */}
         <div className={`p-4 rounded-card border space-y-2.5 ${
-          theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150 shadow-3xs'
+          theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150 shadow-3xs'
         }`}>
           <div className="flex items-center gap-2">
             <span className="text-xl">🏢</span>
@@ -1361,7 +1360,7 @@ export const LocalServicesScreen: React.FC = () => {
       {dialConfirmContact && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-2xl block">{dialConfirmContact.icon}</span>
             <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
@@ -1372,7 +1371,7 @@ export const LocalServicesScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDialConfirmContact(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-555"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-555"
               >
                 Cancel
               </button>
@@ -1394,7 +1393,7 @@ export const LocalServicesScreen: React.FC = () => {
       {showTransportModal && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 animate-fade-in text-left">
           <div className={`w-full max-w-xs p-5 rounded-card border shadow-2xl flex flex-col justify-between max-h-[85%] ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <div className="space-y-4 overflow-y-auto">
               <div className="flex justify-between items-center border-b pb-3 border-slate-100 dark:border-neutral-800">
@@ -1402,18 +1401,18 @@ export const LocalServicesScreen: React.FC = () => {
                   <span className="text-lg">🚌</span>
                   <h3 className="text-xs font-black uppercase tracking-wider">Avadi Transport Hub</h3>
                 </div>
-                <button type="button" onClick={() => setShowTransportModal(false)} className="text-slate-405 hover:text-slate-655 font-bold">✕</button>
+                <button type="button" onClick={() => setShowTransportModal(false)} className="text-slate-400 hover:text-slate-600 font-bold">✕</button>
               </div>
 
               {/* Train Timetable */}
               <div className="space-y-2">
                 <span className="text-[8px] uppercase tracking-wider font-black text-blue-500">Train Schedules (Local & Fast)</span>
-                <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-lg border border-slate-100 dark:border-neutral-850 space-y-1.5 text-[8.5px] leading-tight">
-                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-lg border border-slate-100 dark:border-neutral-800 space-y-1.5 text-[8.5px] leading-tight">
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-800">
                     <span className="font-bold">Chennai Central ➔ Avadi</span>
                     <span className="font-extrabold text-[#4A3AFF]">08:15 AM (Fast)</span>
                   </div>
-                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-800">
                     <span className="font-bold">Chennai Central ➔ Avadi</span>
                     <span className="font-extrabold text-[#4A3AFF]">09:30 AM (Local)</span>
                   </div>
@@ -1421,7 +1420,7 @@ export const LocalServicesScreen: React.FC = () => {
                     <span className="font-bold">Avadi ➔ Chennai Central</span>
                     <span className="font-extrabold text-emerald-500">07:30 AM (Local)</span>
                   </div>
-                  <div className="flex justify-between items-center py-1 border-t border-dashed border-slate-200 dark:border-neutral-805">
+                  <div className="flex justify-between items-center py-1 border-t border-dashed border-slate-200 dark:border-neutral-800">
                     <span className="font-bold">Avadi ➔ Chennai Central</span>
                     <span className="font-extrabold text-emerald-500">08:45 AM (Fast)</span>
                   </div>
@@ -1431,12 +1430,12 @@ export const LocalServicesScreen: React.FC = () => {
               {/* Bus Timetable */}
               <div className="space-y-2">
                 <span className="text-[8px] uppercase tracking-wider font-black text-amber-500">MTC Bus Routes</span>
-                <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-lg border border-slate-100 dark:border-neutral-850 space-y-1.5 text-[8.5px] leading-tight">
-                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-lg border border-slate-100 dark:border-neutral-800 space-y-1.5 text-[8.5px] leading-tight">
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-800">
                     <span className="font-bold">70G: Avadi ➔ CMBT (Koyambedu)</span>
                     <span className="text-slate-400 font-bold">Every 15 mins</span>
                   </div>
-                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-805">
+                  <div className="flex justify-between items-center py-1 border-b border-dashed border-slate-200 dark:border-neutral-800">
                     <span className="font-bold">71E: Avadi ➔ Broadway</span>
                     <span className="text-slate-400 font-bold">Every 20 mins</span>
                   </div>
@@ -1513,13 +1512,13 @@ export const RentalsPageScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header Search */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400 hover:text-slate-655"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400 hover:text-slate-600"><ChevronLeft size={20} /></button>
           <div className="flex-1 relative">
             <input
               type="text"
               placeholder="Search rentals..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-855 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -1533,7 +1532,7 @@ export const RentalsPageScreen: React.FC = () => {
               key={list.id}
               onClick={() => setSelectedRental(list)}
               className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between cursor-pointer active:scale-99 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3 items-center">
@@ -1544,8 +1543,8 @@ export const RentalsPageScreen: React.FC = () => {
                 {/* Text Details */}
                 <div className="space-y-0.5 leading-tight text-left">
                   <h4 className="text-[11px] font-extrabold">{list.title}</h4>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.location}</p>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.details}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{list.location}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{list.details}</p>
                   <p className="text-[9.5px] font-black text-[#4A3AFF] mt-1">{list.price}</p>
                 </div>
               </div>
@@ -1563,7 +1562,7 @@ export const RentalsPageScreen: React.FC = () => {
           }`}>
             {/* Header */}
             <div className="p-5 flex justify-between items-center border-b border-slate-100 dark:border-neutral-900">
-              <h3 className="text-xs font-black uppercase tracking-wider text-slate-405 dark:text-neutral-500">Rental Details</h3>
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Rental Details</h3>
               <button 
                 onClick={() => setSelectedRental(null)}
                 className="w-7 h-7 rounded-full bg-slate-100 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-600 dark:text-white"
@@ -1595,17 +1594,17 @@ export const RentalsPageScreen: React.FC = () => {
                 theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-slate-50/50 border-slate-150'
               }`}>
                 <div className="space-y-0.5 leading-snug">
-                  <span className="text-[8px] font-black uppercase text-slate-405">Location Area</span>
+                  <span className="text-[8px] font-black uppercase text-slate-400">Location Area</span>
                   <p className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">📍 {selectedRental.location}</p>
                 </div>
 
                 <div className="space-y-0.5 leading-snug">
-                  <span className="text-[8px] font-black uppercase text-slate-405">Landmark Reference</span>
+                  <span className="text-[8px] font-black uppercase text-slate-400">Landmark Reference</span>
                   <p className="text-[10.5px] font-extrabold text-slate-800 dark:text-white">🏢 {selectedRental.landmark}</p>
                 </div>
 
                 <div className="space-y-0.5 leading-snug">
-                  <span className="text-[8px] font-black uppercase text-slate-405">Address Details</span>
+                  <span className="text-[8px] font-black uppercase text-slate-400">Address Details</span>
                   <p className="text-[10.5px] font-extrabold text-slate-700 dark:text-slate-300">{selectedRental.address}</p>
                 </div>
               </div>
@@ -1644,7 +1643,7 @@ export const RentalsPageScreen: React.FC = () => {
       {dialConfirmContact && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-2xl block">{dialConfirmContact.icon}</span>
             <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
@@ -1655,7 +1654,7 @@ export const RentalsPageScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDialConfirmContact(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-850 text-slate-505"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-505"
               >
                 Cancel
               </button>
@@ -1676,7 +1675,7 @@ export const RentalsPageScreen: React.FC = () => {
       {showWhatsAppModal && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center animate-fade-in">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-3xl block">💬</span>
             <h4 className="text-xs font-black uppercase tracking-wider text-[#25D366]">Send WhatsApp Message</h4>
@@ -1686,14 +1685,14 @@ export const RentalsPageScreen: React.FC = () => {
                 "Hello, I am interested in your listing '{showWhatsAppModal.title}' for {showWhatsAppModal.price} on Avadi Connect. Is it still available?"
               </p>
             </div>
-            <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-bold leading-normal">
+            <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-bold leading-normal">
               You will be redirected to WhatsApp to chat with the property manager at {showWhatsAppModal.phone}.
             </p>
             <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => setShowWhatsAppModal(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-505"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-505"
               >
                 Cancel
               </button>
@@ -1768,13 +1767,13 @@ export const JobsPageScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header Search */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-405"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/jobs-rentals')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
           <div className="flex-grow relative">
             <input
               type="text"
               placeholder="Search Jobs..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -1882,32 +1881,32 @@ export const JobsDetailScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="h-8 flex items-center gap-2">
-          <button onClick={() => navigate('/jobs')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/jobs')} className="p-1 text-slate-400 hover:text-slate-650"><ChevronLeft size={20} /></button>
           <span className="text-xs font-black">Job Details</span>
         </div>
 
         {/* Company Header Card */}
         <div className={`p-4.5 rounded-card border shadow-3xs flex gap-3.5 items-center ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
         }`}>
           <div className="w-12 h-12 rounded-full bg-[#4A3AFF] text-white flex items-center justify-center font-black text-sm shrink-0">
             {job.icon}
           </div>
           <div className="space-y-0.5 text-left leading-tight">
-            <h4 className="text-[12px] font-black text-slate-805 dark:text-white">{job.role}</h4>
+            <h4 className="text-[12px] font-black text-slate-800 dark:text-white">{job.role}</h4>
             <p className="text-[9px] text-slate-450 dark:text-neutral-500 font-bold">{job.company} • {job.location}</p>
           </div>
         </div>
 
         {/* Job Parameters Card */}
         <div className={`p-4.5 rounded-card border shadow-3xs space-y-3.5 ${
-          theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+          theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
         }`}>
           {details.map((detail, idx) => (
             <div key={idx} className="flex gap-3 text-left leading-snug">
               <span className="text-sm shrink-0">{detail.icon}</span>
               <div>
-                <p className="text-[8px] font-black uppercase tracking-wider text-slate-405">{detail.label}</p>
+                <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">{detail.label}</p>
                 <p className="text-[10px] font-extrabold text-slate-800 dark:text-white mt-0.5">{detail.value}</p>
               </div>
             </div>
@@ -1933,11 +1932,11 @@ export const JobsDetailScreen: React.FC = () => {
           }`}>
             <div className="flex justify-between items-center border-b pb-3 border-slate-100 dark:border-neutral-800">
               <h3 className="text-xs font-black uppercase tracking-wider">Apply Form</h3>
-              <button type="button" onClick={() => setShowApplyModal(false)} className="text-slate-405 hover:text-slate-650"><X size={18} /></button>
+              <button type="button" onClick={() => setShowApplyModal(false)} className="text-slate-400 hover:text-slate-650"><X size={18} /></button>
             </div>
             <form onSubmit={handleApplySubmit} className="space-y-3">
               <div>
-                <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Full Name</label>
+                <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Full Name</label>
                 <input 
                   type="text" 
                   required
@@ -1945,12 +1944,12 @@ export const JobsDetailScreen: React.FC = () => {
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Karthik Balan"
                   className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
-                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-850'
+                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 />
               </div>
               <div>
-                <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Email Address</label>
+                <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Email Address</label>
                 <input 
                   type="email" 
                   required
@@ -1958,18 +1957,18 @@ export const JobsDetailScreen: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="e.g. karthik.balan@avadi.gov.in"
                   className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
-                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
+                    theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Education / Degree</label>
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Education / Degree</label>
                   <select 
                     value={degree}
                     onChange={(e) => setDegree(e.target.value)}
                     className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
-                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-850'
+                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                     }`}
                   >
                     <option value="No Formal Degree">No Formal Degree</option>
@@ -1981,7 +1980,7 @@ export const JobsDetailScreen: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Passing Year (Optional)</label>
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Passing Year (Optional)</label>
                   <input 
                     type="number" 
                     min="2000"
@@ -1990,13 +1989,13 @@ export const JobsDetailScreen: React.FC = () => {
                     onChange={(e) => setGradYear(e.target.value)}
                     placeholder="e.g. 2024"
                     className={`w-full p-2.5 mt-1 text-xs rounded-btn border focus:outline-none ${
-                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-855'
+                      theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                     }`}
                   />
                 </div>
               </div>
               <div>
-                <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Upload Resume (.pdf, .doc)</label>
+                <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Upload Resume (.pdf, .doc)</label>
                 <div className="relative mt-1">
                   <div 
                     onClick={() => setFileName('Karthik_Balan_Resume.pdf')}
@@ -2032,7 +2031,7 @@ export const JobsDetailScreen: React.FC = () => {
       {showSuccessModal && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-2xl text-center space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-3xl block">✅</span>
             <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Applied Successfully</h4>
@@ -2144,7 +2143,7 @@ export const ThemeToggleScreen: React.FC = () => {
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Theme</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Theme</span>
         </div>
 
         {/* Grid theme options */}
@@ -2212,11 +2211,11 @@ export const LanguageSelectionScreen: React.FC = () => {
         <div className="h-8 flex items-center gap-2">
           <button 
             onClick={() => navigate('/home')}
-            className="p-1 rounded-full text-slate-405 hover:text-primary transition"
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-855 dark:text-white">Choose Language</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Choose Language</span>
         </div>
 
         {/* Radio Option cards */}
@@ -2228,7 +2227,7 @@ export const LanguageSelectionScreen: React.FC = () => {
               className={`w-full p-4 rounded-xl border flex items-center justify-between transition shadow-3xs ${
                 selectedLang === option.code
                   ? 'border-[#4A3AFF] bg-indigo-50/10'
-                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-neutral-305' : 'bg-slate-50 border-slate-200 text-slate-700'
+                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-neutral-305' : 'bg-slate-50 border-slate-200 text-slate-700'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -2301,7 +2300,7 @@ export const EmergencySOSScreenVariant3: React.FC = () => {
             <div 
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -2383,7 +2382,7 @@ export const ExploreFoodScreen: React.FC = () => {
             type="text"
             placeholder="Search food..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -2412,7 +2411,7 @@ export const ExploreFoodScreen: React.FC = () => {
             <div
               key={i}
               className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Image banner */}
@@ -2425,7 +2424,7 @@ export const ExploreFoodScreen: React.FC = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-xs font-extrabold">{food.name}</h4>
-                    <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 font-bold">{food.sub}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-500 mt-0.5 font-bold">{food.sub}</p>
                     <p className="text-[8.5px] text-emerald-600 font-bold mt-1">{food.time}</p>
                   </div>
                   <span className="text-[10px] font-black text-amber-500">{food.rating}</span>
@@ -2530,7 +2529,7 @@ export const LocalServicesScreenVariant: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header Search bar */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/home')} className="p-1 text-slate-405"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
           <div className="flex-grow text-center font-black text-xs pr-4">Local Services</div>
         </div>
 
@@ -2539,10 +2538,10 @@ export const LocalServicesScreenVariant: React.FC = () => {
             type="text"
             placeholder="Search utility services..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-850'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-405 text-xs">🔍</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
         </div>
 
         {/* List of service providers */}
@@ -2551,7 +2550,7 @@ export const LocalServicesScreenVariant: React.FC = () => {
             <div
               key={i}
               className={`p-4 rounded-card border shadow-3xs flex flex-col gap-3 ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3.5 items-start">
@@ -2588,7 +2587,7 @@ export const LocalServicesScreenVariant: React.FC = () => {
       {dialConfirmContact && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl text-center space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-2xl block">{dialConfirmContact.icon}</span>
             <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
@@ -2599,7 +2598,7 @@ export const LocalServicesScreenVariant: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDialConfirmContact(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-505 hover:bg-slate-50 dark:hover:bg-neutral-800"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-505 hover:bg-slate-50 dark:hover:bg-neutral-800"
               >
                 Cancel
               </button>
@@ -2632,12 +2631,12 @@ export const RentalsJobsHomeScreenVariant: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-6 text-left">
         {/* Header */}
         <div className="h-8 flex items-center">
-          <button onClick={() => navigate('/home')} className="p-1 text-slate-405"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
         </div>
 
         {/* Title */}
         <div className="text-center space-y-1">
-          <h2 className="text-md font-black text-slate-805 dark:text-white">Rentals & Jobs</h2>
+          <h2 className="text-md font-black text-slate-800 dark:text-white">Rentals & Jobs</h2>
           <p className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">Find what you need</p>
         </div>
 
@@ -2718,7 +2717,7 @@ export const RentalsPageScreenVariant: React.FC = () => {
             type="text"
             placeholder="Search rentals..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -2732,8 +2731,8 @@ export const RentalsPageScreenVariant: React.FC = () => {
               onClick={() => setActiveCategory(tag)}
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 activeCategory === tag
-                  ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-2xs'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+                  ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-2xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
               }`}
             >
               {tag === 'all' ? 'All' : tag === 'pg' ? 'PG' : tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -2747,7 +2746,7 @@ export const RentalsPageScreenVariant: React.FC = () => {
             <div
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3 items-center">
@@ -2758,8 +2757,8 @@ export const RentalsPageScreenVariant: React.FC = () => {
                 {/* Text Details */}
                 <div className="space-y-0.5 leading-tight">
                   <h4 className="text-[11px] font-extrabold">{list.title}</h4>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.location}</p>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{list.details}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{list.location}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{list.details}</p>
                 </div>
               </div>
 
@@ -2835,7 +2834,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/home')} className="p-1 text-slate-405 hover:text-slate-655"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/home')} className="p-1 text-slate-400 hover:text-slate-600"><ChevronLeft size={20} /></button>
           <div className="flex-grow text-center font-black text-xs pr-6">Government Schemes</div>
         </div>
 
@@ -2845,14 +2844,14 @@ export const GovernmentSchemesScreen: React.FC = () => {
             <div 
               key={idx}
               className={`p-4 rounded-card border shadow-3xs space-y-3 text-left ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3 items-start">
                 <span className="text-xl shrink-0 mt-0.5">{scheme.icon}</span>
                 <div>
                   <h4 className="text-[11.5px] font-black text-[#4A3AFF]">{scheme.title}</h4>
-                  <p className="text-[8px] text-slate-405 dark:text-neutral-500 font-extrabold uppercase mt-0.5">{scheme.sub}</p>
+                  <p className="text-[8px] text-slate-400 dark:text-neutral-500 font-extrabold uppercase mt-0.5">{scheme.sub}</p>
                 </div>
               </div>
               <p className="text-[9.5px] font-semibold text-slate-600 dark:text-neutral-400 leading-normal">{scheme.desc}</p>
@@ -2875,7 +2874,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
       {appliedScheme && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center animate-fade-in">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-2xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-3xl block animate-bounce">📋</span>
             <h4 className="text-xs font-black uppercase tracking-wider text-emerald-500">Submit Successfully</h4>
@@ -2896,7 +2895,7 @@ export const GovernmentSchemesScreen: React.FC = () => {
       {simulatedPortalScheme && (
         <div className="absolute inset-0 z-50 bg-[#F4F4F9] text-slate-800 flex flex-col h-full animate-fade-in text-left">
           {/* Mock Browser Header */}
-          <div className="bg-slate-205 p-2.5 flex items-center gap-2 border-b border-slate-300 text-slate-600 shrink-0">
+          <div className="bg-slate-200 p-2.5 flex items-center gap-2 border-b border-slate-300 text-slate-600 shrink-0">
             <button 
               type="button" 
               onClick={() => setSimulatedPortalScheme(null)}
@@ -2926,8 +2925,8 @@ export const GovernmentSchemesScreen: React.FC = () => {
             {/* Scheme Title */}
             <div className="space-y-1">
               <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[8px] font-black rounded-full uppercase">Welfare Program</span>
-              <h2 className="text-xs font-black text-slate-850">{simulatedPortalScheme.title}</h2>
-              <p className="text-[8px] text-slate-405 font-bold uppercase">{simulatedPortalScheme.sub}</p>
+              <h2 className="text-xs font-black text-slate-800">{simulatedPortalScheme.title}</h2>
+              <p className="text-[8px] text-slate-400 font-bold uppercase">{simulatedPortalScheme.sub}</p>
             </div>
 
             {/* General Instructions */}
@@ -3053,7 +3052,7 @@ export const ExplorePlacesScreen: React.FC = () => {
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Explore Places</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">Explore Places</span>
         </div>
 
         {/* Search Input */}
@@ -3064,10 +3063,10 @@ export const ExplorePlacesScreen: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search sights, parks, temples..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-805'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-405 text-xs">🔍</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
         </div>
 
         {/* Category pills */}
@@ -3104,7 +3103,7 @@ export const ExplorePlacesScreen: React.FC = () => {
               <div
                 key={idx}
                 className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
                 }`}
               >
                 <div className="aspect-video w-full relative bg-slate-100 dark:bg-neutral-950">
@@ -3165,7 +3164,7 @@ export const ExplorePlacesScreen: React.FC = () => {
       {dialConfirmContact && (
         <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
           <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
           }`}>
             <span className="text-2xl block">{dialConfirmContact.icon}</span>
             <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
@@ -3176,7 +3175,7 @@ export const ExplorePlacesScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDialConfirmContact(null)}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-500"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-500"
               >
                 Cancel
               </button>
@@ -3224,7 +3223,7 @@ export const SettingsScreen: React.FC = () => {
         {/* Header */}
         <div className="h-8 flex items-center gap-2">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Settings</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Settings</span>
         </div>
 
         {/* Menu list */}
@@ -3240,7 +3239,7 @@ export const SettingsScreen: React.FC = () => {
                 }
               }}
               className={`p-3.5 rounded-card border flex justify-between items-center cursor-pointer active:bg-slate-50 dark:active:bg-neutral-800 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-100'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-100'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -3282,7 +3281,7 @@ export const NotificationsScreen: React.FC = () => {
         {/* Header */}
         <div className="h-8 flex items-center gap-2">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Notifications</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Notifications</span>
         </div>
 
         {/* List */}
@@ -3291,14 +3290,14 @@ export const NotificationsScreen: React.FC = () => {
             <div
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-start gap-3.5 ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3 items-start">
                 <span className="text-sm mt-0.5">{notif.icon}</span>
                 <div className="space-y-0.5 leading-tight">
                   <h4 className="text-[11px] font-extrabold">{notif.type}</h4>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{notif.desc}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{notif.desc}</p>
                 </div>
               </div>
               <span className="text-[8px] text-slate-400 font-bold shrink-0">{notif.time}</span>
@@ -3338,7 +3337,7 @@ export const MyReportsScreen: React.FC = () => {
         {/* Header */}
         <div className="flex justify-between items-center h-8">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">My Reports</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">My Reports</span>
           <div className="w-6 h-6" />
         </div>
 
@@ -3348,7 +3347,7 @@ export const MyReportsScreen: React.FC = () => {
             onClick={() => setActiveTab('public')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'public'
-                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
                 : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
@@ -3358,7 +3357,7 @@ export const MyReportsScreen: React.FC = () => {
             onClick={() => setActiveTab('private')}
             className={`px-4 py-2 rounded-full border uppercase tracking-wider transition ${
               activeTab === 'private'
-                ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
                 : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
             }`}
           >
@@ -3373,7 +3372,7 @@ export const MyReportsScreen: React.FC = () => {
               key={i}
               onClick={() => navigate('/complaints/details')}
               className={`p-3.5 rounded-card border shadow-3xs flex gap-3.5 items-center justify-between cursor-pointer ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3 items-center">
@@ -3384,8 +3383,8 @@ export const MyReportsScreen: React.FC = () => {
                 {/* Details */}
                 <div className="space-y-0.5 leading-tight">
                   <h4 className="text-[11px] font-extrabold">{rep.title}</h4>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-bold">{rep.id}</p>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-500 font-semibold">{rep.date}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-bold">{rep.id}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 font-semibold">{rep.date}</p>
                 </div>
               </div>
               <span className={`px-2 py-0.5 text-[8px] font-black rounded-full ${rep.statusColor}`}>{rep.status}</span>
@@ -3418,13 +3417,13 @@ export const ReportDetailsScreen: React.FC = () => {
         {/* Header */}
         <div className="flex justify-between items-center h-8">
           <button onClick={() => navigate('/my-reports')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Street Light Issue</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Street Light Issue</span>
           <div className="w-6 h-6" />
         </div>
 
         {/* Main Card */}
         <div className={`p-4.5 rounded-card border shadow-3xs space-y-4 ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
         }`}>
           {/* Header ID and Badge */}
           <div className="flex justify-between items-center">
@@ -3433,7 +3432,7 @@ export const ReportDetailsScreen: React.FC = () => {
           </div>
 
           <div className="space-y-0.5 leading-tight">
-            <h4 className="text-[11.5px] font-extrabold text-slate-850 dark:text-white">Street Light Issue</h4>
+            <h4 className="text-[11.5px] font-extrabold text-slate-800 dark:text-white">Street Light Issue</h4>
             <p className="text-[8.5px] text-slate-400 font-semibold">Ward 12B, 7th Street, Avadi</p>
             <p className="text-[8.5px] text-slate-400 font-semibold">May 12, 2025</p>
           </div>
@@ -3514,7 +3513,7 @@ export const EmergencyContactsScreenVariant2: React.FC = () => {
         {/* Header */}
         <div className="h-8 flex items-center gap-2">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Emergency Contacts</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Emergency Contacts</span>
         </div>
 
         {/* List */}
@@ -3523,7 +3522,7 @@ export const EmergencyContactsScreenVariant2: React.FC = () => {
             <div 
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -3554,7 +3553,7 @@ export const CommunityFeedScreenVariant1: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex justify-between items-center h-8">
-          <span className="text-xs font-black text-slate-850 dark:text-white">Community Feed</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Community Feed</span>
           <span className="text-slate-400">🔍</span>
         </div>
 
@@ -3566,7 +3565,7 @@ export const CommunityFeedScreenVariant1: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 idx === 0
                   ? 'bg-emerald-600 text-white border-emerald-650'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500 border-slate-150'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150'
               }`}
             >
               {tag}
@@ -3578,7 +3577,7 @@ export const CommunityFeedScreenVariant1: React.FC = () => {
         <div className="space-y-4">
           {/* Card 1 */}
           <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div className="flex gap-2.5 items-center">
               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">RK</div>
@@ -3601,7 +3600,7 @@ export const CommunityFeedScreenVariant1: React.FC = () => {
 
           {/* Card 2 */}
           <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div className="flex gap-2.5 items-center">
               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">R</div>
@@ -3627,7 +3626,7 @@ export const CommunityFeedScreenVariant1: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -3655,7 +3654,7 @@ export const HomeDashboardScreenVariant1: React.FC = () => {
         {/* Header profile container */}
         <div className="flex justify-between items-center h-8">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-105 border">
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-100 border">
               <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover" />
             </div>
             <div>
@@ -3733,7 +3732,7 @@ export const HomeDashboardScreenVariant1: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -3760,7 +3759,7 @@ export const CommunityFeedScreenVariant2: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex justify-between items-center h-8">
-          <span className="text-xs font-black text-slate-850 dark:text-white">Community Feed</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Community Feed</span>
           <span className="text-slate-400">🔍</span>
         </div>
 
@@ -3772,7 +3771,7 @@ export const CommunityFeedScreenVariant2: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 idx === 0
                   ? 'bg-emerald-600 text-white border-emerald-650'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500'
               }`}
             >
               {tag}
@@ -3784,7 +3783,7 @@ export const CommunityFeedScreenVariant2: React.FC = () => {
         <div className="space-y-4">
           {/* Card 1 */}
           <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div className="flex gap-2.5 items-center">
               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">SB</div>
@@ -3807,7 +3806,7 @@ export const CommunityFeedScreenVariant2: React.FC = () => {
 
           {/* Card 2 */}
           <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div className="flex gap-2.5 items-center">
               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">A</div>
@@ -3837,7 +3836,7 @@ export const CommunityFeedScreenVariant2: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -3872,7 +3871,7 @@ export const LocalServicesScreenVariant3: React.FC = () => {
         {/* Header Search bar */}
         <div className="flex items-center justify-between h-8">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Local Services</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Local Services</span>
           <span className="text-slate-400">🔍</span>
         </div>
 
@@ -3881,7 +3880,7 @@ export const LocalServicesScreenVariant3: React.FC = () => {
             type="text"
             placeholder="Search services..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -3893,11 +3892,11 @@ export const LocalServicesScreenVariant3: React.FC = () => {
             <div
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3.5 items-center">
-                <div className="w-10 h-10 rounded-full bg-slate-105 flex items-center justify-center font-black text-[#4A3AFF] text-xs shrink-0">W</div>
+                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-[#4A3AFF] text-xs shrink-0">W</div>
                 <div className="space-y-0.5 leading-tight">
                   <h4 className="text-[11px] font-extrabold">{serv.name}</h4>
                   <p className="text-[8.5px] text-slate-400 font-semibold">{serv.role}</p>
@@ -3916,7 +3915,7 @@ export const LocalServicesScreenVariant3: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -3966,7 +3965,7 @@ export const MerchantsPageScreen: React.FC = () => {
         {/* Header Search */}
         <div className="flex items-center justify-between h-8">
           <button onClick={() => navigate('/home')} className="p-1 text-slate-400"><ChevronLeft size={20} /></button>
-          <span className="text-xs font-black text-slate-850 dark:text-white">Merchants</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Merchants</span>
           <span className="text-slate-400">🔍</span>
         </div>
 
@@ -3975,7 +3974,7 @@ export const MerchantsPageScreen: React.FC = () => {
             type="text"
             placeholder="Search merchants..."
             className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -3990,7 +3989,7 @@ export const MerchantsPageScreen: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 activeTag === tag
                   ? 'bg-emerald-600 text-white border-emerald-650'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
               }`}
             >
               {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -4004,7 +4003,7 @@ export const MerchantsPageScreen: React.FC = () => {
             <div
               key={i}
               className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Image banner */}
@@ -4017,7 +4016,7 @@ export const MerchantsPageScreen: React.FC = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-xs font-extrabold">{merch.name}</h4>
-                    <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 font-bold">{merch.sub}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-500 mt-0.5 font-bold">{merch.sub}</p>
                   </div>
                   <span className="text-[10px] font-black text-amber-500">{merch.rating}</span>
                 </div>
@@ -4029,13 +4028,13 @@ export const MerchantsPageScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
         <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
         <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
-        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-405 font-bold"><span className="text-md">👤</span><span>Profile</span></button>
+        <button onClick={() => navigate('/settings')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400 font-bold"><span className="text-md">👤</span><span>Profile</span></button>
       </div>
     </div>
   );
@@ -4076,7 +4075,7 @@ export const SearchResultsScreen: React.FC = () => {
               type="text"
               placeholder="Search places..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -4092,7 +4091,7 @@ export const SearchResultsScreen: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 idx === 0
                   ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
               }`}
             >
               {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -4106,7 +4105,7 @@ export const SearchResultsScreen: React.FC = () => {
             <div
               key={i}
               className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Image banner */}
@@ -4120,7 +4119,7 @@ export const SearchResultsScreen: React.FC = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-xs font-extrabold">{place.name}</h4>
-                    <p className="text-[9px] text-slate-405 dark:text-neutral-500 mt-0.5 font-bold">{place.sub}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-500 mt-0.5 font-bold">{place.sub}</p>
                   </div>
                   <span className="text-[10px] font-black text-amber-500">{place.rating}</span>
                 </div>
@@ -4132,7 +4131,7 @@ export const SearchResultsScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -4179,7 +4178,7 @@ export const CategoryFilterScreen: React.FC = () => {
               type="text"
               placeholder="Search places..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -4194,8 +4193,8 @@ export const CategoryFilterScreen: React.FC = () => {
               key={idx}
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 idx === 1
-                  ? 'bg-blue-50 dark:bg-blue-955/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+                  ? 'bg-blue-50 dark:bg-blue-900/20 text-[#4A3AFF] border-[#4A3AFF] shadow-3xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
               }`}
             >
               {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -4209,7 +4208,7 @@ export const CategoryFilterScreen: React.FC = () => {
             <div
               key={i}
               className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Image banner */}
@@ -4223,7 +4222,7 @@ export const CategoryFilterScreen: React.FC = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-xs font-extrabold">{place.name}</h4>
-                    <p className="text-[9px] text-slate-405 dark:text-neutral-505 mt-0.5 font-bold">{place.sub}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-505 mt-0.5 font-bold">{place.sub}</p>
                   </div>
                   <span className="text-[10px] font-black text-amber-500">{place.rating}</span>
                 </div>
@@ -4235,9 +4234,9 @@ export const CategoryFilterScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
-        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-405"><span className="text-md">🏠</span><span>Home</span></button>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
         <button onClick={() => navigate('/sos')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🚨</span><span>SOS</span></button>
         <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">👥</span><span>Feed</span></button>
@@ -4282,7 +4281,7 @@ export const CityFilterScreen: React.FC = () => {
               type="text"
               placeholder="Search places..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -4292,7 +4291,7 @@ export const CityFilterScreen: React.FC = () => {
 
         {/* Dropdown Location Selector */}
         <div className={`p-3.5 rounded-xl border flex justify-between items-center text-[10.5px] font-extrabold shadow-3xs cursor-pointer ${
-          theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-150 text-slate-800'
+          theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-150 text-slate-800'
         }`}>
           <div className="flex items-center gap-2.5">
             <span>📍</span>
@@ -4307,7 +4306,7 @@ export const CityFilterScreen: React.FC = () => {
             <div
               key={i}
               className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Image banner */}
@@ -4321,7 +4320,7 @@ export const CityFilterScreen: React.FC = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-xs font-extrabold">{place.name}</h4>
-                    <p className="text-[9px] text-slate-405 dark:text-neutral-505 mt-0.5 font-bold">{place.sub}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-neutral-505 mt-0.5 font-bold">{place.sub}</p>
                   </div>
                   <span className="text-[10px] font-black text-amber-500">{place.rating}</span>
                 </div>
@@ -4333,7 +4332,7 @@ export const CityFilterScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450"><span className="text-md">🏠</span><span>Home</span></button>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -4372,7 +4371,7 @@ export const ListViewToggleScreen: React.FC = () => {
               type="text"
               placeholder="Search places..."
               className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -4388,7 +4387,7 @@ export const ListViewToggleScreen: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 idx === 0
                   ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
               }`}
             >
               {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -4408,7 +4407,7 @@ export const ListViewToggleScreen: React.FC = () => {
             <div
               key={i}
               className={`p-3.5 rounded-card border shadow-3xs flex justify-between items-center gap-3.5 ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="flex gap-3 items-center">
@@ -4419,7 +4418,7 @@ export const ListViewToggleScreen: React.FC = () => {
                 {/* Info */}
                 <div className="space-y-0.5 leading-tight text-left">
                   <h4 className="text-[11px] font-extrabold">{item.name}</h4>
-                  <p className="text-[8.5px] text-slate-405 dark:text-neutral-505 font-semibold">{item.sub}</p>
+                  <p className="text-[8.5px] text-slate-400 dark:text-neutral-505 font-semibold">{item.sub}</p>
                   <p className="text-[9px] font-black text-amber-500 mt-0.5">{item.rating}</p>
                 </div>
               </div>
@@ -4433,7 +4432,7 @@ export const ListViewToggleScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450"><span className="text-md">🏠</span><span>Home</span></button>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -4467,7 +4466,7 @@ export const MapViewScreen: React.FC = () => {
                 type="text"
                 placeholder="Search places..."
                 className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border shadow-md focus:outline-none ${
-                  theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+                  theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                 }`}
               />
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
@@ -4483,7 +4482,7 @@ export const MapViewScreen: React.FC = () => {
                 className={`px-3.5 py-1.5 rounded-full border shadow-md uppercase tracking-wider shrink-0 transition ${
                   idx === 0
                     ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white'
-                    : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150'
+                    : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-505 border-slate-150'
                 }`}
               >
                 {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -4543,7 +4542,7 @@ export const MapViewScreen: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-450"><span className="text-md">🏠</span><span>Home</span></button>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -4570,7 +4569,7 @@ export const CommunityFeedScreenVariant3: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-4 pb-20 text-left">
         {/* Header */}
         <div className="flex justify-between items-center h-8">
-          <span className="text-xs font-black text-slate-850 dark:text-white">Community Feed</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white">Community Feed</span>
           <span className="text-slate-400">🔍</span>
         </div>
 
@@ -4582,7 +4581,7 @@ export const CommunityFeedScreenVariant3: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full border uppercase tracking-wider shrink-0 transition ${
                 idx === 0
                   ? 'bg-emerald-600 text-white border-emerald-650'
-                  : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-505 border-slate-150'
               }`}
             >
               {tag}
@@ -4594,7 +4593,7 @@ export const CommunityFeedScreenVariant3: React.FC = () => {
         <div className="space-y-4">
           {/* Card 1 */}
           <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div className="flex gap-2.5 items-center">
               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">RK</div>
@@ -4617,7 +4616,7 @@ export const CommunityFeedScreenVariant3: React.FC = () => {
 
           {/* Card 2 */}
           <div className={`p-4 rounded-card border shadow-3xs space-y-3 ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div className="flex gap-2.5 items-center">
               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">R</div>
@@ -4647,7 +4646,7 @@ export const CommunityFeedScreenVariant3: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button onClick={() => navigate('/home')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -4675,7 +4674,7 @@ export const HomeDashboardScreenVariant2: React.FC = () => {
         {/* Header profile container */}
         <div className="flex justify-between items-center h-8">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-105 border">
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-100 border">
               <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover" />
             </div>
             <div>
@@ -4753,7 +4752,7 @@ export const HomeDashboardScreenVariant2: React.FC = () => {
 
       {/* Mock Tab bar */}
       <div className={`absolute bottom-0 left-0 w-full h-14 border-t flex justify-around items-center px-2 z-20 ${
-        theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-100'
+        theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-100'
       }`}>
         <button className="flex flex-col items-center gap-1 text-[8.5px] text-indigo-500 font-bold"><span className="text-md">🏠</span><span>Home</span></button>
         <button onClick={() => navigate('/services')} className="flex flex-col items-center gap-1 text-[8.5px] text-slate-400"><span className="text-md">🛠️</span><span>Services</span></button>
@@ -4801,7 +4800,7 @@ export const ProfileScreen: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-5 space-y-6 pb-20 text-left">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <button onClick={() => navigate('/settings')} className="p-1 text-slate-405 hover:text-slate-650"><ChevronLeft size={20} /></button>
+          <button onClick={() => navigate('/settings')} className="p-1 text-slate-400 hover:text-slate-650"><ChevronLeft size={20} /></button>
           <div className="flex-grow text-center font-black text-xs pr-6">Profile Settings</div>
         </div>
 
@@ -4815,17 +4814,17 @@ export const ProfileScreen: React.FC = () => {
           </div>
           <div>
             <h3 className="text-xs font-black uppercase tracking-wider">{name}</h3>
-            <p className="text-[9px] text-slate-405 dark:text-neutral-500 font-bold">{email}</p>
+            <p className="text-[9px] text-slate-400 dark:text-neutral-500 font-bold">{email}</p>
           </div>
         </div>
 
         {/* Profile details form */}
         <form onSubmit={handleSave} className="space-y-4">
           <div className={`p-5 rounded-card border shadow-3xs space-y-4 ${
-            theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+            theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
           }`}>
             <div>
-              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Full Name</label>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Full Name</label>
               <input 
                 type="text" 
                 value={name}
@@ -4837,7 +4836,7 @@ export const ProfileScreen: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Phone Number</label>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Phone Number</label>
               <input 
                 type="text" 
                 value={phone}
@@ -4849,7 +4848,7 @@ export const ProfileScreen: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Email Address</label>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Email Address</label>
               <input 
                 type="email" 
                 value={email}
@@ -4861,7 +4860,7 @@ export const ProfileScreen: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Selected Ward</label>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Selected Ward</label>
               <input 
                 type="text" 
                 value={ward}
@@ -4873,7 +4872,7 @@ export const ProfileScreen: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[9px] font-black uppercase tracking-wider text-slate-405">Home Address</label>
+              <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Home Address</label>
               <textarea 
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}

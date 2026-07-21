@@ -1,33 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { HeroCarousel } from '../components/HeroCarousel';
 import { 
-  ArrowRight, 
   ChevronLeft, 
-  Search, 
-  Check,
-  Eye,
-  EyeOff,
   Bell,
-  FileText,
-  Shield,
-  Compass,
-  AlertTriangle,
-  Moon,
-  Sun,
-  Heart as HeartIcon,
-  MessageSquare,
-  Share2,
-  Bookmark,
-  Plus,
-  MapPin,
-  X,
-  Droplet,
-  Users,
-  Home,
-  Settings,
-  LogOut,
   Menu
 } from 'lucide-react';
 
@@ -69,8 +45,8 @@ export const WelcomeScreen: React.FC = () => {
     { name: 'Emergency Services', icon: '🛡️', color: 'bg-orange-50 dark:bg-orange-950/20 text-orange-500', path: '/emergency-contacts' },
     { name: 'Local Services', icon: '🤝', color: 'bg-indigo-50 dark:bg-indigo-950/20 text-indigo-500', path: '/services' },
     { name: 'Rentals & Jobs', icon: '🏢', color: 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-500', path: '/jobs-rentals' },
-    { name: 'Rentals & Jobs', icon: '📅', color: 'bg-blue-50 dark:bg-blue-950/20 text-blue-500', path: '/jobs-rentals' },
-    { name: 'Report Issues', icon: '📢', color: 'bg-blue-50 dark:bg-blue-950/20 text-blue-500', path: '/complaints/camera' }
+    { name: 'Govt Schemes', icon: '📜', color: 'bg-blue-50 dark:bg-blue-950/20 text-blue-500', path: '/schemes' },
+    { name: 'Report Issues', icon: '📢', color: 'bg-rose-50 dark:bg-rose-950/20 text-rose-500', path: '/complaints/camera' }
   ];
 
   return (
@@ -98,7 +74,7 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Hero section */}
       <div className="text-center my-6 space-y-2 flex flex-col items-center">
-        <h2 className="text-md font-black text-slate-805 dark:text-white leading-snug px-2">
+        <h2 className="text-md font-black text-slate-800 dark:text-white leading-snug px-2">
           One App, Many Services, Stronger Community, Better Avadi.
         </h2>
         <p className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold max-w-[280px]">
@@ -109,7 +85,7 @@ export const WelcomeScreen: React.FC = () => {
       {/* Get Started Button */}
       <div className="mb-6">
         <button 
-          onClick={() => navigate('/registration')}
+          onClick={() => navigate('/onboarding/civic')}
           className="w-full py-3 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-full text-xs shadow-md transition duration-200"
         >
           Get Started
@@ -127,7 +103,7 @@ export const WelcomeScreen: React.FC = () => {
               key={i}
               className={`flex flex-col items-center justify-center p-2 rounded-2xl border h-16 ${
                 theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-850 text-white' 
+                  ? 'bg-neutral-900 border-neutral-800 text-white' 
                   : 'bg-white border-slate-100 text-slate-700 shadow-3xs'
               }`}
             >
@@ -187,7 +163,7 @@ export const RegistrationScreen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-855 dark:text-white">Create Your Account</span>
+        <span className="text-xs font-black text-slate-800 dark:text-white">Create Your Account</span>
       </div>
 
       {/* Form Content */}
@@ -202,7 +178,7 @@ export const RegistrationScreen: React.FC = () => {
             placeholder="Enter your full name"
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
               theme === 'dark' 
-                ? 'bg-neutral-900 border-neutral-805 text-white' 
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
                 : 'bg-white border-slate-200 text-slate-800'
             }`}
           />
@@ -220,7 +196,7 @@ export const RegistrationScreen: React.FC = () => {
               placeholder="DD / MM / YYYY"
               className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] cursor-pointer ${
                 theme === 'dark' 
-                  ? 'bg-neutral-900 border-neutral-805 text-white' 
+                  ? 'bg-neutral-900 border-neutral-800 text-white' 
                   : 'bg-white border-slate-200 text-slate-800'
               }`}
             />
@@ -234,7 +210,7 @@ export const RegistrationScreen: React.FC = () => {
           <div 
             onClick={() => setBloodGroupOpen(!bloodGroupOpen)}
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           >
             <span>{selectedBloodGroup || "Select Blood Group"}</span>
@@ -242,7 +218,7 @@ export const RegistrationScreen: React.FC = () => {
           </div>
           {bloodGroupOpen && (
             <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}>
               {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((bg) => (
                 <div 
@@ -251,7 +227,7 @@ export const RegistrationScreen: React.FC = () => {
                     setSelectedBloodGroup(bg);
                     setBloodGroupOpen(false);
                   }}
-                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-100 dark:border-neutral-800"
                 >
                   {bg}
                 </div>
@@ -422,6 +398,37 @@ export const ContactInfoScreen: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useApp();
   const [contactInfo, setContactInfo] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const isValidEmail = (val: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+  const isValidPhone = (val: string) =>
+    /^[6-9]\d{9}$/.test(val.trim());
+
+  const validate = () => {
+    const trimmed = contactInfo.trim();
+    if (!trimmed) {
+      setError('Please enter your email address or mobile number.');
+      return false;
+    }
+    if (!isValidEmail(trimmed) && !isValidPhone(trimmed)) {
+      setError('Enter a valid email (e.g. name@example.com) or 10-digit mobile number.');
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
+  const handleNext = () => {
+    if (!validate()) return;
+    setLoading(true);
+    // Simulate OTP dispatch (dummy flow)
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/otp', { state: { contactInfo: contactInfo.trim() } });
+    }, 800);
+  };
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
@@ -435,7 +442,7 @@ export const ContactInfoScreen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-855 dark:text-white">Contact Information</span>
+        <span className="text-xs font-black text-slate-800 dark:text-white">Contact Information</span>
       </div>
 
       {/* Form Content */}
@@ -446,16 +453,29 @@ export const ContactInfoScreen: React.FC = () => {
           <input
             type="text"
             value={contactInfo}
-            onChange={(e) => setContactInfo(e.target.value)}
+            onChange={(e) => {
+              setContactInfo(e.target.value);
+              if (error) setError(null);
+            }}
+            onBlur={validate}
             placeholder="Enter email address or mobile number"
-            className={`w-full p-4 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] ${
+            className={`w-full p-4 text-xs font-semibold rounded-btn border focus:outline-none transition ${
+              error
+                ? 'border-red-400 focus:border-red-500'
+                : 'border-slate-200 dark:border-neutral-800 focus:border-[#4A3AFF]'
+            } ${
               theme === 'dark' 
-                ? 'bg-neutral-900 border-neutral-805 text-white' 
-                : 'bg-white border-slate-200 text-slate-800'
+                ? 'bg-neutral-900 text-white' 
+                : 'bg-white text-slate-800'
             }`}
           />
+          {error && (
+            <p className="text-[9.5px] text-red-500 font-bold mt-1 flex items-center gap-1">
+              <span>⚠</span> {error}
+            </p>
+          )}
           <p className="text-[9.5px] text-slate-400 dark:text-neutral-500 font-semibold leading-relaxed mt-2 text-left">
-            Provide your email address or 10-digit mobile number. We will send a 6-digit verification code to this contact details to secure your account.
+            Provide your email address or 10-digit mobile number. We will send a 6-digit verification code to secure your account.
           </p>
         </div>
 
@@ -469,7 +489,7 @@ export const ContactInfoScreen: React.FC = () => {
             • <b>One-Time Passcode</b>: Standard security validation using a 6-digit OTP will be dispatched immediately.
           </p>
           <p className="text-[9.5px] text-slate-500 dark:text-neutral-400 font-bold leading-relaxed">
-            • <b>Local Announcements</b>: Important ward advisories and emergency public notifications will be sent directly to your registered details.
+            • <b>Local Announcements</b>: Important ward advisories and emergency notifications will be sent to your registered details.
           </p>
         </div>
       </div>
@@ -487,10 +507,23 @@ export const ContactInfoScreen: React.FC = () => {
           Back
         </button>
         <button
-          onClick={() => navigate('/otp', { state: { contactInfo } })}
-          className="flex-1 py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
+          onClick={handleNext}
+          disabled={!contactInfo.trim() || loading}
+          className={`flex-1 py-3.5 font-bold rounded-btn text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 transition ${
+            !contactInfo.trim() || loading
+              ? 'bg-slate-300 dark:bg-neutral-700 text-white/60 cursor-not-allowed'
+              : 'bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white'
+          }`}
         >
-          Next
+          {loading ? (
+            <>
+              <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+              </svg>
+              Sending OTP...
+            </>
+          ) : 'Next'}
         </button>
       </div>
     </div>
@@ -528,7 +561,7 @@ export const AddressWardScreen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-805 dark:text-white">Address & Ward</span>
+        <span className="text-xs font-black text-slate-800 dark:text-white">Address & Ward</span>
       </div>
 
       {/* Form Content */}
@@ -543,7 +576,7 @@ export const AddressWardScreen: React.FC = () => {
               setCommunityOpen(false);
             }}
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           >
             <span>{selectedWard || "Select Ward"}</span>
@@ -551,7 +584,7 @@ export const AddressWardScreen: React.FC = () => {
           </div>
           {wardOpen && (
             <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}>
               {wards.map((w) => (
                 <div 
@@ -560,7 +593,7 @@ export const AddressWardScreen: React.FC = () => {
                     setSelectedWard(w);
                     setWardOpen(false);
                   }}
-                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-100 dark:border-neutral-800"
                 >
                   {w}
                 </div>
@@ -579,7 +612,7 @@ export const AddressWardScreen: React.FC = () => {
               setCommunityOpen(false);
             }}
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           >
             <span>{selectedStreet || "Select Street"}</span>
@@ -587,7 +620,7 @@ export const AddressWardScreen: React.FC = () => {
           </div>
           {streetOpen && (
             <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}>
               {['Poonamallee High Rd', 'Gandhi St', 'Railway Station Rd', 'Market St', 'Kamaraj Nagar 5th Street (Ward 48)', 'TNHB Phase III Main Road (Ward 48)', 'Periyar Nagar Main Road (Ward 48)', 'P&T Colony 2nd Cross Street (Ward 48)', 'CTH Road (Chennai-Tiruvallur High Road)', 'Sannidhi Street'].map((s) => (
                 <div 
@@ -596,7 +629,7 @@ export const AddressWardScreen: React.FC = () => {
                     setSelectedStreet(s);
                     setStreetOpen(false);
                   }}
-                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-100 dark:border-neutral-800"
                 >
                   {s}
                 </div>
@@ -615,7 +648,7 @@ export const AddressWardScreen: React.FC = () => {
               setStreetOpen(false);
             }}
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-855'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}
           >
             <span>{selectedCommunity || "Auto selected"}</span>
@@ -623,7 +656,7 @@ export const AddressWardScreen: React.FC = () => {
           </div>
           {communityOpen && (
             <div className={`absolute left-0 right-0 z-50 mt-1 max-h-40 overflow-y-auto rounded-btn border shadow-lg ${
-              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-205 text-slate-800'
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
             }`}>
               {['Avadi Municipality', 'Paruthipattu (Ward 48)', 'Kovilpathu', 'Thirumullaivoyal', 'Avadi Housing Board Community (Ward 48)'].map((c) => (
                 <div 
@@ -632,7 +665,7 @@ export const AddressWardScreen: React.FC = () => {
                     setSelectedCommunity(c);
                     setCommunityOpen(false);
                   }}
-                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-105 dark:border-neutral-800"
+                  className="p-2.5 text-xs font-semibold hover:bg-[#4A3AFF]/10 cursor-pointer border-b last:border-0 border-slate-100 dark:border-neutral-800"
                 >
                   {c}
                 </div>
@@ -647,7 +680,7 @@ export const AddressWardScreen: React.FC = () => {
           className={`p-4 rounded-btn border cursor-pointer flex flex-col gap-1 text-left transition-all ${
             locationAllowed
               ? 'bg-[#E8F5E9]/65 dark:bg-emerald-950/20 border-emerald-500/25'
-              : 'bg-slate-100 dark:bg-neutral-900 border-slate-205 dark:border-neutral-800'
+              : 'bg-slate-100 dark:bg-neutral-900 border-slate-200 dark:border-neutral-800'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -683,7 +716,7 @@ export const AddressWardScreen: React.FC = () => {
                   setSelectedCommunity(null);
                   setShowLocationDialog(false);
                 }}
-                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-800"
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-800"
               >
                 Deny
               </button>
@@ -732,12 +765,15 @@ export const AddressWardScreen: React.FC = () => {
 export const OTPScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const contactInfo = location.state?.contactInfo || 'your email or mobile number';
+  const contactInfo = location.state?.contactInfo || 'your registered contact';
   const { theme, language } = useApp();
   const [timer, setTimer] = useState(45);
-  const [otp, setOtp] = useState<string[]>(['5', '2', '8', '1', '6', '3']);
+  const [otp, setOtp] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  // Demo OTP hint – in production this would be server-generated
+  const DEMO_OTP = '528163';
 
   useEffect(() => {
     if (timer > 0) {
@@ -771,10 +807,31 @@ export const OTPScreen: React.FC = () => {
       );
       return;
     }
+    const entered = otp.join('');
+    if (entered !== DEMO_OTP) {
+      setError(
+        language === 'en'
+          ? `Incorrect OTP. For demo, use: ${DEMO_OTP}`
+          : `தவறான OTP. டெமோவிற்கு பயன்படுத்தவும்: ${DEMO_OTP}`
+      );
+      return;
+    }
+    setError(null);
     setVerifying(true);
     setTimeout(() => {
       setVerifying(false);
-      navigate('/register/address');
+      navigate('/location-permission');
+    }, 800);
+  };
+
+  const handleResend = () => {
+    if (timer > 0 || resendLoading) return;
+    setResendLoading(true);
+    setOtp([]);
+    setError(null);
+    setTimeout(() => {
+      setTimer(45);
+      setResendLoading(false);
     }, 800);
   };
 
@@ -792,7 +849,11 @@ export const OTPScreen: React.FC = () => {
         }
       } else if (e.key === 'Enter') {
         if (otp.length === 6) {
-          handleVerify();
+          setVerifying(true);
+          setTimeout(() => {
+            setVerifying(false);
+            navigate('/location-permission');
+          }, 800);
         } else {
           setError(
             language === 'en' 
@@ -804,7 +865,7 @@ export const OTPScreen: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [otp, language, handleVerify]);
+  }, [otp, language, navigate]);
 
   return (
     <div className={`flex-grow flex flex-col justify-between p-6 select-none h-full ${
@@ -829,10 +890,15 @@ export const OTPScreen: React.FC = () => {
 
       {/* Main Text */}
       <div className="mt-2 text-center">
-        <h2 className="text-lg font-black text-slate-800 dark:text-white">Verify Your Number</h2>
+        <h2 className="text-lg font-black text-slate-800 dark:text-white">Verify Your Contact</h2>
         <p className="text-xs text-slate-400 dark:text-neutral-500 mt-1 max-w-xs mx-auto leading-relaxed font-semibold">
-          Sent to {contactInfo}
+          OTP sent to <span className="text-[#4A3AFF] font-black">{contactInfo}</span>
         </p>
+        {/* Demo OTP hint */}
+        <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-full">
+          <span className="text-[9px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wide">Demo OTP:</span>
+          <span className="text-[11px] font-black text-amber-700 dark:text-amber-300 tracking-widest">{DEMO_OTP}</span>
+        </div>
       </div>
 
       {/* OTP Blocks */}
@@ -860,10 +926,18 @@ export const OTPScreen: React.FC = () => {
       <div className="text-center h-8 flex flex-col justify-center">
         {error ? (
           <span className="text-red-500 text-[10px] font-bold animate-pulse">{error}</span>
-        ) : (
+        ) : timer > 0 ? (
           <span className="text-xs font-semibold text-slate-400 dark:text-neutral-500">
-            Resend OTP in <span className="text-slate-400 dark:text-neutral-500 font-bold">00:{timer < 10 ? `0${timer}` : timer}</span>
+            Resend OTP in <span className="text-slate-600 dark:text-neutral-300 font-black">00:{timer < 10 ? `0${timer}` : timer}</span>
           </span>
+        ) : (
+          <button
+            onClick={handleResend}
+            disabled={resendLoading}
+            className="text-xs font-black text-[#4A3AFF] underline underline-offset-2 hover:text-[#3b2ecc] transition disabled:opacity-50"
+          >
+            {resendLoading ? 'Resending...' : 'Resend OTP'}
+          </button>
         )}
       </div>
 
@@ -881,7 +955,7 @@ export const OTPScreen: React.FC = () => {
           {verifying ? (
             <span>Verifying...</span>
           ) : (
-            <span>Verify & Continue</span>
+            <span>Verify OTP</span>
           )}
         </button>
       </div>
@@ -1000,7 +1074,7 @@ export const HomeDashboardScreen: React.FC = () => {
             </button>
             <div className="flex items-center gap-1.5">
               <img 
-                src="/assets/images/logo-icon.png?v=5" 
+                src="/assets/images/logo.png" 
                 alt="Avadi Connect Logo" 
                 className="h-7 w-auto object-contain"
               />
@@ -1015,7 +1089,7 @@ export const HomeDashboardScreen: React.FC = () => {
               onClick={() => navigate('/alerts')}
               className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 transition"
             >
-              <span className="text-sm">🔔</span>
+              <Bell size={20} className="text-slate-600 dark:text-white" />
             </button>
             <div 
               onClick={() => navigate('/settings')}
@@ -1033,7 +1107,7 @@ export const HomeDashboardScreen: React.FC = () => {
         {/* Greeting & Weather Card */}
         <div className={`p-4 rounded-card border shadow-3xs text-left relative overflow-hidden ${
           theme === 'dark' 
-            ? 'bg-neutral-900/60 border-neutral-850 text-white' 
+            ? 'bg-neutral-900/60 border-neutral-800 text-white' 
             : 'bg-white border-slate-150 text-slate-800'
         }`}>
           <div className="flex justify-between items-center">
@@ -1041,7 +1115,7 @@ export const HomeDashboardScreen: React.FC = () => {
               <h4 className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">
                 {language === 'en' ? 'Welcome Back' : 'நல்வரவு'}
               </h4>
-              <h2 className="text-xs font-black leading-tight text-slate-850 dark:text-white">
+              <h2 className="text-xs font-black leading-tight text-slate-800 dark:text-white">
                 {language === 'en' ? 'Hello, Karthik 👋' : 'வணக்கம், கார்த்திக் 👋'}
               </h2>
               <div className="text-[9.5px] text-slate-500 dark:text-neutral-400 font-bold flex items-center gap-1.5 mt-0.5">
@@ -1053,7 +1127,7 @@ export const HomeDashboardScreen: React.FC = () => {
             {/* Weather Block inside Card */}
             <div className="text-right flex flex-col items-end">
               <span className="text-xl animate-pulse">⛅</span>
-              <span className="text-[10px] font-black text-slate-850 dark:text-white mt-0.5">32°C</span>
+              <span className="text-[10px] font-black text-slate-800 dark:text-white mt-0.5">32°C</span>
               <span className="text-[8px] text-slate-400 dark:text-neutral-500 font-extrabold uppercase tracking-wider">Cloudy</span>
             </div>
           </div>
@@ -1065,7 +1139,7 @@ export const HomeDashboardScreen: React.FC = () => {
             <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Explore Avadi</h4>
           </div>
           <div 
-            onClick={() => navigate('/services')}
+            onClick={() => navigate('/explore-places')}
             className="rounded-card overflow-hidden border aspect-[16/7] relative shadow-soft cursor-pointer group active:scale-98 transition-all"
           >
             <img 
@@ -1125,8 +1199,9 @@ export const HomeDashboardScreen: React.FC = () => {
             {/* Emergency SOS */}
             <button 
               onClick={() => navigate('/sos')}
+              aria-label="SOS"
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="w-7 h-7 rounded-full bg-red-50 dark:bg-red-950/20 flex items-center justify-center text-red-650 text-xs font-black">
@@ -1139,7 +1214,7 @@ export const HomeDashboardScreen: React.FC = () => {
             <button 
               onClick={() => navigate('/explore-places')}
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="w-7 h-7 rounded-full bg-teal-50 dark:bg-teal-950/20 flex items-center justify-center text-teal-650 text-xs">
@@ -1152,10 +1227,10 @@ export const HomeDashboardScreen: React.FC = () => {
             <button 
               onClick={() => navigate('/explore-food')}
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
-              <div className="w-7 h-7 rounded-full bg-amber-50 dark:bg-amber-955/20 flex items-center justify-center text-amber-650 text-xs">
+              <div className="w-7 h-7 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-650 text-xs">
                 🍲
               </div>
               <span className="text-[7.5px] font-bold text-center leading-tight">Explore Foods</span>
@@ -1165,7 +1240,7 @@ export const HomeDashboardScreen: React.FC = () => {
             <button 
               onClick={() => navigate('/services')}
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="w-7 h-7 rounded-full bg-indigo-50 dark:bg-indigo-950/20 flex items-center justify-center text-indigo-650 text-xs">
@@ -1178,10 +1253,10 @@ export const HomeDashboardScreen: React.FC = () => {
             <button 
               onClick={() => navigate('/jobs-rentals')}
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
-              <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-955/20 flex items-center justify-center text-emerald-650 text-xs">
+              <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-650 text-xs">
                 🏢
               </div>
               <span className="text-[7.5px] font-bold text-center leading-tight">Jobs & Rentals</span>
@@ -1191,7 +1266,7 @@ export const HomeDashboardScreen: React.FC = () => {
             <button 
               onClick={() => navigate('/schemes')}
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
-                theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <div className="w-7 h-7 rounded-full bg-indigo-50 dark:bg-indigo-950/20 flex items-center justify-center text-indigo-650 text-xs">
@@ -1218,7 +1293,7 @@ export const HomeDashboardScreen: React.FC = () => {
                   setVideoProgress(35);
                 }}
                 className={`w-44 flex-shrink-0 p-2.5 rounded-card border shadow-3xs cursor-pointer active:scale-[0.98] transition-all flex flex-col justify-between ${
-                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
                 }`}
               >
                 <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-slate-100 dark:bg-neutral-800">
@@ -1251,8 +1326,8 @@ export const HomeDashboardScreen: React.FC = () => {
                   onClick={() => setTravelTab(tab as any)}
                   className={`px-2.5 py-1 rounded-full border uppercase tracking-wider transition ${
                     travelTab === tab
-                      ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-850 border-slate-800 dark:border-white'
-                      : 'bg-white dark:bg-neutral-900 text-slate-405 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
+                      ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white'
+                      : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-505 border-slate-150 dark:border-neutral-800'
                   }`}
                 >
                   {tab === 'train' ? 'Trains' : 'Buses'}
@@ -1263,7 +1338,7 @@ export const HomeDashboardScreen: React.FC = () => {
 
           {travelTab === 'train' && (
             <div className={`p-4 rounded-card border shadow-2xs space-y-2 text-xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <div className="flex justify-between border-b pb-1.5 border-slate-100 dark:border-neutral-800">
                 <span className="font-black text-[9.5px] text-[#4A3AFF] uppercase tracking-wide">Route Name / Type</span>
@@ -1277,7 +1352,7 @@ export const HomeDashboardScreen: React.FC = () => {
                 { r: 'Tiruvallur ➔ Avadi (Return Local) 🚆', t: '04:30 PM | 05:00 PM' }
               ].map((row, idx) => (
                 <div key={idx} className="flex justify-between font-bold text-[10.5px] py-1 border-b last:border-0 border-slate-50/50 dark:border-neutral-900/50">
-                  <span className="text-slate-700 dark:text-slate-355">{row.r}</span>
+                  <span className="text-slate-700 dark:text-slate-300">{row.r}</span>
                   <span className="text-blue-500 font-extrabold shrink-0 pl-2">{row.t}</span>
                 </div>
               ))}
@@ -1286,7 +1361,7 @@ export const HomeDashboardScreen: React.FC = () => {
 
           {travelTab === 'bus' && (
             <div className={`p-4 rounded-card border shadow-2xs space-y-2 text-xs ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <div className="flex justify-between border-b pb-1.5 border-slate-100 dark:border-neutral-800">
                 <span className="font-black text-[9.5px] text-emerald-650 uppercase tracking-wide">Bus Route No.</span>
@@ -1300,7 +1375,7 @@ export const HomeDashboardScreen: React.FC = () => {
                 { r: 'Route 206 (Avadi Terminus)', f: 'Every 30 mins ➔ Tambaram' }
               ].map((row, idx) => (
                 <div key={idx} className="flex justify-between font-bold text-[10.5px] py-1 border-b last:border-0 border-slate-50/50 dark:border-neutral-900/50">
-                  <span className="text-slate-700 dark:text-slate-355">{row.r}</span>
+                  <span className="text-slate-700 dark:text-slate-300">{row.r}</span>
                   <span className="text-emerald-500 font-extrabold shrink-0 pl-2">{row.f}</span>
                 </div>
               ))}
@@ -1313,7 +1388,7 @@ export const HomeDashboardScreen: React.FC = () => {
           <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-neutral-500">Quick Info About Avadi</h4>
           <div className="grid grid-cols-2 gap-3">
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Defense Hub 🎖️</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
@@ -1322,7 +1397,7 @@ export const HomeDashboardScreen: React.FC = () => {
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Tidel IT Park 💻</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
@@ -1331,7 +1406,7 @@ export const HomeDashboardScreen: React.FC = () => {
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Eco Park 🌳</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
@@ -1340,7 +1415,7 @@ export const HomeDashboardScreen: React.FC = () => {
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Administration 🏢</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
@@ -1349,7 +1424,7 @@ export const HomeDashboardScreen: React.FC = () => {
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Lake Ecology 💧</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
@@ -1358,7 +1433,7 @@ export const HomeDashboardScreen: React.FC = () => {
             </div>
 
             <div className={`p-3 rounded-card border shadow-3xs flex flex-col justify-between h-20 ${
-              theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+              theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
             }`}>
               <span className="text-[9.5px] font-extrabold text-[#4A3AFF] uppercase">Ancient Temples 🛕</span>
               <p className="text-[8.5px] font-bold text-slate-500 dark:text-neutral-400 leading-tight">
@@ -1508,7 +1583,7 @@ export const CommunityFeedScreen: React.FC = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search posts or authors..."
                 className={`w-full p-2.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-primary ${
-                  theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-slate-205 text-slate-800'
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
                 }`}
                 autoFocus
               />
@@ -1592,7 +1667,7 @@ export const CommunityFeedScreen: React.FC = () => {
               key={post.id}
               onClick={() => {}}
               className={`p-4 rounded-card border shadow-2xs flex flex-col gap-3 cursor-pointer ${
-                theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               {/* Profile info header */}
@@ -1682,7 +1757,7 @@ export const CommunityFeedScreen: React.FC = () => {
             <div className="space-y-4">
               <div className="flex justify-between items-center border-b pb-3 border-slate-100 dark:border-neutral-800">
                 <h3 className="text-xs font-black uppercase tracking-wider">Alerts & Notifications</h3>
-                <button type="button" onClick={() => setShowNotifications(false)} className="text-slate-405 hover:text-slate-655 font-bold">✕ Close</button>
+                <button type="button" onClick={() => setShowNotifications(false)} className="text-slate-400 hover:text-slate-600 font-bold">✕ Close</button>
               </div>
 
               <div className="space-y-3.5 divide-y divide-slate-100 dark:divide-neutral-800">
@@ -1755,7 +1830,7 @@ export const ReportIssueStep1Screen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-855 dark:text-white">Report Complaint</span>
+        <span className="text-xs font-black text-slate-800 dark:text-white">Report Complaint</span>
       </div>
 
       {/* Title */}
@@ -1774,7 +1849,7 @@ export const ReportIssueStep1Screen: React.FC = () => {
               className={`p-4.5 rounded-card border shadow-3xs flex flex-col items-center justify-center gap-2.5 h-24 active:scale-95 transition ${
                 selectedCategory === cat.id
                   ? 'border-[#4A3AFF] bg-[#4A3AFF]/5'
-                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
+                  : theme === 'dark' ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-slate-150'
               }`}
             >
               <span className={`text-xl ${cat.color || ''}`}>{cat.icon}</span>
@@ -1819,7 +1894,7 @@ export const ReportIssueStep2Screen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-855 dark:text-white">Report Complaint</span>
+        <span className="text-xs font-black text-slate-800 dark:text-white">Report Complaint</span>
       </div>
 
       {/* Title */}
@@ -1837,10 +1912,10 @@ export const ReportIssueStep2Screen: React.FC = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe the problem in detail..."
-            rows={3.5}
+            rows={4}
             className={`w-full p-3.5 text-xs font-semibold rounded-btn border focus:outline-none focus:border-[#4A3AFF] resize-none ${
               theme === 'dark' 
-                ? 'bg-neutral-900 border-neutral-805 text-white' 
+                ? 'bg-neutral-900 border-neutral-800 text-white' 
                 : 'bg-white border-slate-200 text-slate-800'
             }`}
             required
@@ -1851,13 +1926,13 @@ export const ReportIssueStep2Screen: React.FC = () => {
         <div className="space-y-1.5">
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Upload Photos (Max 3)</label>
           <div className="flex gap-2.5">
-            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-955">
+            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-900">
               <span className="text-sm">📷</span>
             </button>
-            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-955">
+            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-900">
               <span className="text-sm">📷</span>
             </button>
-            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-955">
+            <button type="button" className="w-12 h-12 rounded-xl border border-dashed border-slate-300 dark:border-neutral-800 flex items-center justify-center text-slate-400 hover:border-[#4A3AFF] transition bg-white dark:bg-neutral-900">
               <span className="text-sm">📷</span>
             </button>
           </div>
@@ -1867,7 +1942,7 @@ export const ReportIssueStep2Screen: React.FC = () => {
         <div className="space-y-1">
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Area/ Tag</label>
           <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-405'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-400'
           }`}>
             <span>Select Tag</span>
             <span className="text-[10px] opacity-70">▼</span>
@@ -1878,7 +1953,7 @@ export const ReportIssueStep2Screen: React.FC = () => {
         <div className="space-y-1">
           <label className="text-[9px] font-black uppercase tracking-wide text-slate-400 dark:text-neutral-500">Ward</label>
           <div className={`w-full p-3.5 text-xs font-semibold rounded-btn border flex justify-between items-center cursor-pointer ${
-            theme === 'dark' ? 'bg-neutral-900 border-neutral-805 text-white' : 'bg-white border-slate-200 text-slate-805'
+            theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800'
           }`}>
             <span>Ward 12</span>
             <span className="text-[10px] opacity-70">▼</span>
@@ -1928,7 +2003,7 @@ export const IssueSubmittedScreen: React.FC = () => {
         {/* Complaint ID */}
         <div className="py-2.5 px-6 border border-slate-100 dark:border-neutral-800 rounded-xl bg-slate-50 dark:bg-neutral-900 text-center">
           <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wide">Complaint ID</span>
-          <span className="text-xs font-black text-slate-805 dark:text-white mt-1 block">AVD12-2025-0192</span>
+          <span className="text-xs font-black text-slate-800 dark:text-white mt-1 block">AVD12-2025-0192</span>
         </div>
 
         <p className="text-[9px] text-slate-400 dark:text-neutral-500 font-medium text-center">
@@ -1971,7 +2046,7 @@ export const AlertsScreen: React.FC = () => {
       case 'medium':
         return 'text-amber-600 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50';
       default:
-        return 'text-blue-600 bg-blue-50 dark:bg-blue-955/30 border-blue-200 dark:border-blue-900/50';
+        return 'text-blue-600 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-900/50';
     }
   };
 
@@ -1989,7 +2064,7 @@ export const AlertsScreen: React.FC = () => {
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-xs font-black text-slate-850 dark:text-white font-sans">
+          <span className="text-xs font-black text-slate-800 dark:text-white font-sans">
             {language === 'en' ? 'Local Alerts' : 'உள்ளூர் எச்சரிக்கைகள்'}
           </span>
           <div className="w-6 h-6" /> {/* spacer */}
@@ -2004,7 +2079,7 @@ export const AlertsScreen: React.FC = () => {
                 key={alert.id}
                 onClick={() => setExpandedAlertId(isExpanded ? null : alert.id)}
                 className={`p-4 rounded-card border shadow-3xs transition-all duration-200 cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-800' : 'bg-white border-slate-150'
                 }`}
               >
                 <div className="flex justify-between items-start gap-3">
@@ -2096,13 +2171,13 @@ export const ThemeSelectionScreen: React.FC = () => {
         >
           <ChevronLeft size={20} />
         </button>
-        <span className="text-xs font-black text-slate-805 dark:text-white">Choose App Theme</span>
+        <span className="text-xs font-black text-slate-800 dark:text-white">Choose App Theme</span>
       </div>
 
       {/* Theme Choice Cards */}
       <div className="flex-grow flex flex-col justify-center space-y-6 my-6">
         <div className="text-center space-y-2 mb-4">
-          <h2 className="text-md font-black text-slate-805 dark:text-white uppercase tracking-wider">Choose Theme</h2>
+          <h2 className="text-md font-black text-slate-800 dark:text-white uppercase tracking-wider">Choose Theme</h2>
           <p className="text-[10px] text-slate-400 dark:text-neutral-500 font-semibold">
             Select your preferred display theme for Avadi Connect.
           </p>
@@ -2115,7 +2190,7 @@ export const ThemeSelectionScreen: React.FC = () => {
             className={`flex-1 p-5 rounded-btn border text-center flex flex-col items-center justify-center cursor-pointer transition-all active:scale-98 ${
               selectedTheme === 'light'
                 ? 'border-[#4A3AFF] bg-[#4A3AFF]/5 dark:bg-[#4A3AFF]/10 ring-1 ring-[#4A3AFF]/30'
-                : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-3xs'
+                : theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-3xs'
             }`}
           >
             <span className="text-2xl mb-2">☀️</span>
@@ -2129,7 +2204,7 @@ export const ThemeSelectionScreen: React.FC = () => {
             className={`flex-1 p-5 rounded-btn border text-center flex flex-col items-center justify-center cursor-pointer transition-all active:scale-98 ${
               selectedTheme === 'dark'
                 ? 'border-[#4A3AFF] bg-[#4A3AFF]/5 dark:bg-[#4A3AFF]/10 ring-1 ring-[#4A3AFF]/30'
-                : theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-3xs'
+                : theme === 'dark' ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-3xs'
             }`}
           >
             <span className="text-2xl mb-2">🌙</span>

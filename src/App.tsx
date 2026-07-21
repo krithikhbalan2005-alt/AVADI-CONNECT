@@ -26,7 +26,6 @@ import {
   CommunityPostCreateScreen,
   CivicHubScreen,
   MyReportedScreen,
-  EmergencySOSScreen,
   MyReportedScreenAlt,
   EmergencySOSScreenAlt,
   LocalServicesScreen,
@@ -64,6 +63,14 @@ import {
   ProfileScreen
 } from './screens/Module2';
 
+import {
+  OnboardingCivicScreen,
+  OnboardingSafetyScreen,
+  WardSelectionScreen,
+  LocationPermissionScreen,
+  ChooseAppearanceScreen
+} from './screens/Module3';
+
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
 
@@ -94,6 +101,66 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <WelcomeScreen />
+          </motion.div>
+        } />
+
+        <Route path="/onboarding/civic" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <OnboardingCivicScreen />
+          </motion.div>
+        } />
+
+        <Route path="/onboarding/safety" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <OnboardingSafetyScreen />
+          </motion.div>
+        } />
+
+        <Route path="/ward-selection" element={
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <WardSelectionScreen />
+          </motion.div>
+        } />
+
+        <Route path="/location-permission" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <LocationPermissionScreen />
+          </motion.div>
+        } />
+
+        <Route path="/choose-appearance" element={
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ChooseAppearanceScreen />
           </motion.div>
         } />
 

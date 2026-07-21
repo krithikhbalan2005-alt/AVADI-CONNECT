@@ -76,7 +76,8 @@ export const HeroCarousel: React.FC = () => {
   const [isInteracting, setIsInteracting] = useState(false);
   const lastInteractionTimeRef = useRef<number>(0);
 
-  // Preload first banner image on component mount
+  // Preload first banner image on component mount only
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const link = document.createElement('link');
     link.rel = 'preload';
@@ -86,7 +87,7 @@ export const HeroCarousel: React.FC = () => {
     return () => {
       document.head.removeChild(link);
     };
-  }, []);
+  }, []); // intentional: runs once on mount to preload first image
 
   // Monitor tab visibility
   useEffect(() => {
