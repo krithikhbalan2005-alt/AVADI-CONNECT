@@ -717,7 +717,7 @@ export const AddressWardScreen: React.FC = () => {
           Back
         </button>
         <button
-          onClick={() => navigate('/home')}
+          onClick={() => navigate('/register/theme')}
           className="flex-1 py-3.5 bg-[#4A3AFF] hover:bg-[#3b2ecc] text-white font-bold rounded-btn text-xs uppercase tracking-wider text-center"
         >
           Next
@@ -1137,7 +1137,7 @@ export const HomeDashboardScreen: React.FC = () => {
 
             {/* Explore Places */}
             <button 
-              onClick={() => navigate('/explore')}
+              onClick={() => navigate('/explore-places')}
               className={`p-2.5 rounded-card border shadow-3xs flex flex-col items-center gap-1.5 active:scale-95 transition ${
                 theme === 'dark' ? 'bg-neutral-900 border-neutral-850' : 'bg-white border-slate-150'
               }`}

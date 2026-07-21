@@ -59,6 +59,7 @@ import {
   CommunityFeedScreenVariant3,
   HomeDashboardScreenVariant2,
   CommunityFeedScreenVariant4,
+  ExplorePlacesScreen,
   GovernmentSchemesScreen,
   ProfileScreen
 } from './screens/Module2';
@@ -332,6 +333,18 @@ const AnimatedRoutes: React.FC = () => {
             className="w-full h-full flex flex-col flex-1"
           >
             <LocalServicesScreen />
+          </motion.div>
+        } />
+
+        <Route path="/explore-places" element={
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full flex flex-col flex-1"
+          >
+            <ExplorePlacesScreen />
           </motion.div>
         } />
 

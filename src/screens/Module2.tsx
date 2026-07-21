@@ -1206,7 +1206,7 @@ export const LocalServicesScreen: React.FC = () => {
               <span className="text-base text-red-500">🚨</span>
               <span className="text-slate-705 dark:text-neutral-350 font-black">SOS</span>
             </button>
-            <button onClick={() => setActiveTag('places')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
+            <button onClick={() => navigate('/explore-places')} className={`p-2.5 border rounded-xl flex flex-col items-center gap-1.5 shadow-3xs ${
               theme === 'dark' ? 'bg-[#181818] border-neutral-855' : 'bg-white border-slate-150'
             }`}>
               <span className="text-base text-emerald-500">🌳</span>
@@ -2972,6 +2972,225 @@ export const GovernmentSchemesScreen: React.FC = () => {
             >
               Proceed & Apply
             </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ==========================================
+// EXPLORE PLACES SCREEN
+// ==========================================
+export const ExplorePlacesScreen: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  const [activeTag, setActiveTag] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [dialConfirmContact, setDialConfirmContact] = useState<{name: string; phone: string; icon: string} | null>(null);
+
+  const places = [
+    {
+      name: 'Paruthipattu Lake Eco-Park',
+      sub: 'Eco-Park, Boating Lake & Walking Tracks • Ward 12',
+      rating: '★ 4.9',
+      tag: 'places',
+      subtag: 'parks',
+      phone: '044-26343916',
+      icon: '🌳',
+      image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      name: 'Avadi Sri Karumari Amman Temple',
+      sub: 'Famous Hindu Temple & Historic Landmark • Ward 4',
+      rating: '★ 4.8',
+      tag: 'places',
+      subtag: 'temples',
+      phone: '044-26340221',
+      icon: '🛕',
+      image: 'https://images.unsplash.com/photo-1544084944-15269ec7b5a0?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      name: 'Pattabiram Tidel IT Park',
+      sub: 'Modern IT Hub & Business Center • Pattabiram',
+      rating: '★ 4.5',
+      tag: 'places',
+      subtag: 'it-hub',
+      phone: '044-26340222',
+      icon: '💻',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      name: 'Vel Tech University Campus',
+      sub: 'Renowned Engineering University & R&D Hub • Avadi',
+      rating: '★ 4.6',
+      tag: 'places',
+      subtag: 'education',
+      phone: '180030706900',
+      icon: '🎓',
+      image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=600'
+    }
+  ];
+
+  const filteredItems = places.filter(item => {
+    const matchesTag = activeTag === 'all' || item.subtag === activeTag;
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          item.sub.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTag && matchesSearch;
+  });
+
+  return (
+    <div className={`flex-grow flex flex-col justify-between select-none h-full relative ${
+      theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-slate-50 text-slate-800'
+    }`}>
+      {/* Scrollable Container */}
+      <div className="flex-grow overflow-y-auto p-5 space-y-5 pb-20 text-left animate-fade-in">
+        {/* Header Title */}
+        <div className="flex items-center gap-2 h-8">
+          <button 
+            onClick={() => navigate('/explore')}
+            className="p-1 rounded-full text-slate-400 hover:text-primary transition"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <span className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Explore Places</span>
+        </div>
+
+        {/* Search Input */}
+        <div className="relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search sights, parks, temples..."
+            className={`w-full p-2.5 pl-8 text-xs font-semibold rounded-btn border focus:outline-none ${
+              theme === 'dark' ? 'bg-neutral-900 border-neutral-850 text-white' : 'bg-white border-slate-200 text-slate-805'
+            }`}
+          />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-405 text-xs">🔍</span>
+        </div>
+
+        {/* Category pills */}
+        <div className="flex gap-2 text-[9px] font-bold overflow-x-auto pb-1">
+          {[
+            { id: 'all', name: 'All Sights' },
+            { id: 'parks', name: 'Sights & Parks' },
+            { id: 'temples', name: 'Temples' },
+            { id: 'it-hub', name: 'IT Hubs' },
+            { id: 'education', name: 'Education' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTag(tab.id)}
+              className={`px-3 py-1.5 rounded-full border uppercase tracking-wider transition shrink-0 ${
+                activeTag === tab.id
+                  ? 'bg-slate-800 dark:bg-white text-white dark:text-slate-800 border-slate-800 dark:border-white shadow-2xs'
+                  : 'bg-white dark:bg-neutral-900 text-slate-400 dark:text-neutral-500 border-slate-150 dark:border-neutral-800'
+              }`}
+            >
+              {tab.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Content list */}
+        <div className="space-y-4">
+          {filteredItems.length === 0 ? (
+            <div className="p-8 text-center text-xs text-slate-400 font-bold border border-dashed rounded-xl mt-4">
+              No places found matching search.
+            </div>
+          ) : (
+            filteredItems.map((place, idx) => (
+              <div
+                key={idx}
+                className={`rounded-card overflow-hidden border shadow-3xs flex flex-col ${
+                  theme === 'dark' ? 'bg-[#181818] border-neutral-850' : 'bg-white border-slate-150'
+                }`}
+              >
+                <div className="aspect-video w-full relative bg-slate-100 dark:bg-neutral-950">
+                  <img src={place.image} alt={place.name} className="w-full h-full object-cover" />
+                </div>
+
+                <div className="p-4 space-y-3.5 text-left">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="text-xs font-black text-slate-800 dark:text-white flex items-center gap-1.5">
+                        <span>{place.icon}</span> {place.name}
+                      </h4>
+                      <p className="text-[8.5px] text-slate-400 dark:text-neutral-500 mt-1 font-bold">{place.sub}</p>
+                    </div>
+                    <span className="text-[10px] font-black text-amber-500 shrink-0">{place.rating}</span>
+                  </div>
+
+                  <div className="border-t border-slate-100 dark:border-neutral-800/60 pt-3 flex justify-between items-center">
+                    <button 
+                      type="button"
+                      onClick={() => setDialConfirmContact(place)}
+                      className="text-slate-500 hover:text-[#4A3AFF] transition text-[10px] font-bold"
+                    >
+                      📞 Contact Info
+                    </button>
+                    <span className="text-[8.5px] text-indigo-500 font-extrabold uppercase">Avadi Landmark</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Mock Tab bar */}
+      <div className={`absolute bottom-0 left-0 w-full h-16 border-t flex justify-around items-center px-2 z-20 ${
+        theme === 'dark' ? 'bg-[#121212]/95 border-neutral-800 text-white backdrop-blur-md' : 'bg-white/95 border-slate-150 text-slate-700 backdrop-blur-md'
+      }`}>
+        <button onClick={() => navigate('/home')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">🏠</span>
+          <span className="text-[9px] font-bold mt-1">Home</span>
+        </button>
+        <button onClick={() => navigate('/civic')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">📄</span>
+          <span className="text-[9px] font-bold mt-1">Complaints</span>
+        </button>
+        <button onClick={() => navigate('/explore')} className="flex flex-col items-center justify-center flex-1 text-[#4A3AFF]">
+          <span className="text-md bg-[#4A3AFF]/10 px-4 py-0.5 rounded-full">🧭</span>
+          <span className="text-[9px] font-bold mt-1">Explore</span>
+        </button>
+        <button onClick={() => navigate('/community-feed')} className="flex flex-col items-center justify-center flex-1 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-md">👥</span>
+          <span className="text-[9px] font-bold mt-1">Feed</span>
+        </button>
+      </div>
+
+      {/* Dial Confirmation Overlay */}
+      {dialConfirmContact && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6 text-center">
+          <div className={`w-full max-w-xs p-6 rounded-card border shadow-xl space-y-4 ${
+            theme === 'dark' ? 'bg-[#181818] border-neutral-855 text-white' : 'bg-white border-slate-150 text-slate-800'
+          }`}>
+            <span className="text-2xl block">{dialConfirmContact.icon}</span>
+            <h4 className="text-xs font-black uppercase tracking-wider">Confirm Dial</h4>
+            <p className="text-[10px] text-slate-500 dark:text-neutral-400 font-semibold leading-relaxed">
+              Are you sure you want to dial {dialConfirmContact.name} ({dialConfirmContact.phone})?
+            </p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setDialConfirmContact(null)}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full border border-slate-200 dark:border-neutral-855 text-slate-500"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = `tel:${dialConfirmContact.phone.replace(/[-\s]+/g, '')}`;
+                  setDialConfirmContact(null);
+                }}
+                className="flex-1 py-2 text-[10px] font-bold rounded-full bg-emerald-500 text-white"
+              >
+                Call
+              </button>
+            </div>
           </div>
         </div>
       )}
